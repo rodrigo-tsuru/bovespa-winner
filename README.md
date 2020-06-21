@@ -1,23 +1,22 @@
 # Bovespa Winner
 
-Este é um Sistema em Python que aplica as técnicas dos maiores investidores de ações.
-Essas técnicas são aplicadas no Mercado Brasileiro de ações (Bovespa B3)
+Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações.
 
-Depois da estratégia desejada ser aplicada, é construído um sistema de rankeamento onde mostra das "melhores ações" para as "piores ações" considerando a estratégia escolhida.
+Ao escolher a estratégia, é construído um sistema de rankeamento onde mostra das *melhores ações* para as *piores ações* considerando a estratégia escolhida.
 
 Os dados são capturados principalmente do site fundamentus (https://www.fundamentus.com.br/resultado.php) e também de diversas APIs disponíveis de forma gratuita.
 
-No momento, foi aplicado estratégias dos seguintes investidores:
-1. Benjamin Graham
-2. Joel Greenblatt
-3. Décio Bazin
+No momento, foi aplicado estratégias dos seguintes grandes investidores:
+1. **Benjamin Graham**
+2. **Joel Greenblatt**
+3. **Décio Bazin**
 
 
 # Como usar
 
-Basta rodar um desses comandos, dependendo da estratégia que deseja-se aplicar.
+Basta rodar um destes comandos, dependendo da estratégia que deseja-se aplicar.
 
-Ao final de cada comando, é mostrado no terminal a tabela resultante e salvo no Ctrl+C o resultado no formato Markdown.
+Ao final de cada comando, é mostrado no terminal a tabela resultante e salvo no seu Ctrl+C a tabela resultante no formato Markdown.
 Para melhor visualizar o resultado, basta colar o resultado em algum editor de Markdown, como o site https://dillinger.io/
 
 ```py
@@ -39,11 +38,11 @@ python3 greenblatt.py "{ 'formula': 'ROIC' }" # Aplica ROIC e EV/EBIT
 
 ## Benjamin Graham
 
-* Arquivo: graham.py
+* Arquivo: `graham.py`
 
 Aplica-se ensinamentos de Benjamin Graham em todas as ações da bovespa, produzindo um ranking com base na análise fundamentalista dos dados de todas as empresas.
 
-Para a análise, são utilizados ensinamentos do livro "O Investidor Inteligente" de Benjamin Graham
+Para a análise, são utilizados ensinamentos do livro "*O Investidor Inteligente*" de **Benjamin Graham**
 Também é calcula o Valor Intrínseco (Preço Justo) definido por Benjamin Graham para cada ação.
 
 Benjamin Graham foi o mentor dos melhores investidores do mundo, como o grandíssimo Warren Buffet, além do Irving Kahn e Walter Schloss.
@@ -65,38 +64,40 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
 - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 
-Livro: https://www.amazon.com/Intelligent-Investor-Definitive-Investing-Essentials/dp/0060555661
-Breve Explicação: https://www.bluechipinvest.com.br/educacional-det/benjamin-graham/7
+* Livro: https://www.amazon.com/Intelligent-Investor-Definitive-Investing-Essentials/dp/0060555661
+* Breve Explicação: https://www.bluechipinvest.com.br/educacional-det/benjamin-graham/7
 
 
 ## Joel Greenblatt
 
-* Arquivo: greenblatt.py
+* Arquivo: `greenblatt.py`
 
 Aplica-se ensinamentos de Joel Greenblatt em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
 
-Em sua fórmula mágica, Greenblatt utiliza os seguintes indicadores: ROE (indicador de Qualidade) e o P/L (indicador de Preço).
-Através desses 2 indicadores ele monta dois rankings, um com as empresas de maior ROE (mais rentáveis) e outro com as ações de menor P/L (maior custo-benefício).
+Para a análise, são utilizados ensinamentos do livro "*The little book that beats the Market*" de **Joel Greenblatt**
+
+Em sua fórmula mágica, Greenblatt utiliza os seguintes indicadores: **ROE** (*indicador de Qualidade*) e o **P/L** (*indicador de Preço*).
+Através desses 2 indicadores ele monta dois rankings, um com as empresas de maior **ROE** (mais rentáveis) e outro com as ações de menor **P/L** (maior custo-benefício).
 Feito os 2 rankings, é somado a posição de cada ação nos rankings.
 As empresas de menor soma são aquelas escolhidas para montar a carteira pois seriam as ações mais baratas e mais rentáveis ao mesmo tempo.
 
-Uma outra abordagem dessa fórmula é utilizar os indicadores: ROIC (indicador de Qualidade) EV/EBIT (indicador de Preço).
-É seguido então a mesma estratégia de usar ROE+P/L, mas substituindo ROE por ROIC e P/L por EV/EBIT.
+Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indicador de Qualidade*) **EV/EBIT** (*indicador de Preço*).
+É seguido então a mesma estratégia de usar **ROE**+**P/L**, mas substituindo **ROE** por **ROIC** e **P/L** por **EV/EBIT**.
 
 - [x] 1. maior ROE e menor P/L
 - [x] 2. maior ROIC e menor EV/EBIT
 
-Livro: https://www.amazon.com/Little-Book-That-Beats-Market/dp/0471733067
-Breve Explicação: https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
+* Livro: https://www.amazon.com/Little-Book-That-Beats-Market/dp/0471733067
+* Breve Explicação: https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
 
 
 ## Décio Bazin
 
-* Arquivo: bazin.py
+* Arquivo: `bazin.py`
 
 Aplica-se ensinamentos de Décio Bazin em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
 
-Décio Bazin é autor do livro: "Faça Fortuna Com Ações", que é tido como literatura indicada até mesmo por Luis Barsi, o maior investidor na bolsa brasileira de todos os tempos.
+Para a análise, são utilizados ensinamentos do livro "*Faça Fortuna Com Ações*" de **Décio Bazin**, que é tido como literatura indicada até mesmo por **Luis Barsi**, o maior investidor na bolsa brasileira de todos os tempos.
 
 No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
 
@@ -107,18 +108,20 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela 
 - [x] 5. Dívida Líquida/Patrimônio < 0.5 (50%)
 - [x] 6. 0 < Payout < 1
 
-Livro: https://www.amazon.com/Faca-Fortuna-com-Acoes-Antes/dp/8585454164
-Breve Explicação: https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/
+* Livro: https://www.amazon.com/Faca-Fortuna-com-Acoes-Antes/dp/8585454164
+* Breve Explicação: https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/
 
 
 
 ## Score
 
-* Arquivo: score.py
+* Arquivo: `score.py`
 
 Para compor esse Score, é aplicado um mix de estratégias.
 
-Além dos pontos defendidos por Benjamin Graham (Veja os 14 pontos da seção de Benjamin Graham), é também avaliado o ROIC, Margem Líquida, Endividamento, PSR, EV/EBITDA e Peg Ratio. Aplicando, assim, ensinamentos de Kenneth Fisher e de outros grandes investidores também.
+Além dos pontos defendidos por Benjamin Graham (Veja os 14 pontos da seção de Benjamin Graham), é também avaliado o ROIC, Margem Líquida, Endividamento, PSR, EV/EBITDA e Peg Ratio. Aplicando, assim, ensinamentos também de **Kenneth Fisher** por exemplo e de outros grandes investidores.
+
+No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada uma se adequou às características mostradas por **Benjamin Graham**. Também é avaliado 7 características adicionais, mostrada abaixo...
 
 - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) # https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
 - [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) # https://www.moneyshow.com/articles/tptp072513-46306/
