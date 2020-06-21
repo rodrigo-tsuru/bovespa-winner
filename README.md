@@ -50,18 +50,18 @@ Benjamin Graham foi o mentor dos melhores investidores do mundo, como o grandís
 No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Benjamin Graham.
 
 - [x] 1.  Sobrevivência: Sobreviveu nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-- [x] 2.  Estabilidade ds Lucros: Lucro > 0 nos últimos 10 anos. # https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-- [x] 3.  Crescimento dos Lucros: Lucros crescentes nos últimos 10 anos # https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-- [x] 4.  Crescimento dos Lucro Por Ação: LPA atual > 1.33 * LPA 10 anos atrás. (Calculado através da média dos 3 anos do começo e dos 3 anos do fim deste período) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-- [x] 5.  Estabilidade dos Dividendos: Dividendos pagos nos últimos 10 anos. # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-- [x] 6.  Preço Justo > 1.5 * Preço de Mercado. Neste caso, Preço Justo é a raíz_quadrada_de(22.5 * VPA * LPA) (Criado por Benjamin Graham) # https://www.sunoresearch.com.br/artigos/valor-intrinseco/?utm_source=PR&utm_medium=artigo&utm_campaign=investing_05122019
-- [x] 7.  P/L (Preço/Lucro) => Quanto menor, melhor (ideal, < 15 E >= 0) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-- [x] 8.  P/VP (Preço/Valor Patrimonial) => Quanto menor, melhor (ideal, < 1.5 E >= 0) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-- [x] 9.  Crescimento em 5 anos => Quanto maior, melhor (ideal, > 5%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-- [x] 10. ROE (Return On Equity) => Quanto maior, melhor (ideal, superior a 20%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-- [x] 11. Dividend Yield (Rendimento de Dividendo) => Quanto maior, melhor (ideal, > Taxa Selic (4.5%)) # https://foconomilhao.com/acoes-com-dividend-yield-maior-que-a-selic/
-- [x] 12. Liquidez Corrente => Quanto maior, melhor (ideal > 1.5) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-- [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+- [x] 2.  Estabilidade ds Lucros: Lucro > 0 nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
+- [x] 3.  Crescimento dos Lucros: Lucros crescentes nos últimos 10 anos https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
+- [x] 4.  Crescimento dos Lucro Por Ação: LPA atual > 1.33 * LPA 10 anos atrás. (Calculado através da média dos 3 anos do começo e dos 3 anos do fim deste período) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+- [x] 5.  Estabilidade dos Dividendos: Dividendos pagos nos últimos 10 anos. http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+- [x] 6.  Preço Justo > 1.5 * Preço de Mercado. Neste caso, Preço Justo é a raíz_quadrada_de(22.5 * VPA * LPA) (Criado por Benjamin Graham) https://www.sunoresearch.com.br/artigos/valor-intrinseco/?utm_source=PR&utm_medium=artigo&utm_campaign=investing_05122019
+- [x] 7.  P/L (Preço/Lucro) => Quanto menor, melhor (ideal, < 15 E >= 0) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+- [x] 8.  P/VP (Preço/Valor Patrimonial) => Quanto menor, melhor (ideal, < 1.5 E >= 0) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+- [x] 9.  Crescimento em 5 anos => Quanto maior, melhor (ideal, > 5%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+- [x] 10. ROE (Return On Equity) => Quanto maior, melhor (ideal, superior a 20%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+- [x] 11. Dividend Yield (Rendimento de Dividendo) => Quanto maior, melhor (ideal, > Taxa Selic (4.5%)) https://foconomilhao.com/acoes-com-dividend-yield-maior-que-a-selic/
+- [x] 12. Liquidez Corrente => Quanto maior, melhor (ideal > 1.5) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+- [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
 - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 
 * Livro: https://www.amazon.com/Intelligent-Investor-Definitive-Investing-Essentials/dp/0060555661
@@ -125,13 +125,13 @@ Além dos pontos defendidos por Benjamin Graham (Veja os 14 pontos da seção de
 
 No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada uma se adequou às características mostradas por **Benjamin Graham**. Também é avaliado 7 características adicionais, mostradas abaixo...
 
-- [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) # https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
-- [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) # https://www.moneyshow.com/articles/tptp072513-46306/
-- [x] 3. Margem Líquida => Quanto maior melhor (ideal, > 10%) # https://www.youtube.com/watch?v=7tB_ym4Cabc E https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-- [x] 4. Dívida Líquida/EBIT => Quanto menor melhor (ideal, <= 3) # https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-- [x] 5. Dívida Líquida/Patrimônio => Quanto menor, melhor (ideal < 50%) # https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-- [x] 6. EV/EBITDA (Enterprise Value / EBITDA) => Quanto menor melhor (ideal, < 10) # https://www.investopedia.com/ask/answers/072715/what-considered-healthy-evebitda.asp
-- [x] 7. Peg Ratio (P/L / CAGRLucros5Anos) => Quanto menor melhor (ideal <= 1) # https://bugg.com.br/2018/01/24/buggpedia-o-que-e-o-peg-ratio/
+- [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
+- [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) https://www.moneyshow.com/articles/tptp072513-46306/
+- [x] 3. Margem Líquida => Quanto maior melhor (ideal, > 10%) https://www.youtube.com/watch?v=7tB_ym4Cabc E https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+- [x] 4. Dívida Líquida/EBIT => Quanto menor melhor (ideal, <= 3) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+- [x] 5. Dívida Líquida/Patrimônio => Quanto menor, melhor (ideal < 50%) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+- [x] 6. EV/EBITDA (Enterprise Value / EBITDA) => Quanto menor melhor (ideal, < 10) https://www.investopedia.com/ask/answers/072715/what-considered-healthy-evebitda.asp
+- [x] 7. Peg Ratio (P/L / CAGRLucros5Anos) => Quanto menor melhor (ideal <= 1) https://bugg.com.br/2018/01/24/buggpedia-o-que-e-o-peg-ratio/
 
 
 
