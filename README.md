@@ -1,4 +1,4 @@
-# Bovespa Winner
+# Bovespa Winner 🥇
 
 Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações.
 
@@ -12,12 +12,12 @@ No momento, foi aplicado estratégias dos seguintes grandes investidores:
 3. **Décio Bazin**
 
 
-# Como usar
+# Como usar 🎯
 
 Basta rodar um destes comandos, dependendo da estratégia que deseja-se aplicar.
 
-Ao final de cada comando, é mostrado no terminal a tabela resultante e salvo no seu Ctrl+C a tabela resultante no formato Markdown.
-Para melhor visualizar o resultado, basta colar o resultado em algum editor de Markdown, como o site https://dillinger.io/
+Ao final de cada comando, é mostrado no terminal a tabela resultante e salvo no Ctrl+C.
+Para melhor visualizar o resultado, basta colar via Ctrl+V em algum editor de Markdown, como o site https://dillinger.io/
 
 ```py
 python3 graham.py
@@ -34,16 +34,16 @@ python3 greenblatt.py "{ 'formula': 'ROIC' }" # Aplica ROIC e EV/EBIT
 ```
 
 
-# Estratégias
+# Estratégias 📚
 
-## Benjamin Graham
+## Benjamin Graham 📈 
 
 * Arquivo: `graham.py`
 
 Aplica-se ensinamentos de Benjamin Graham em todas as ações da bovespa, produzindo um ranking com base na análise fundamentalista dos dados de todas as empresas.
 
 Para a análise, são utilizados ensinamentos do livro "*O Investidor Inteligente*" de **Benjamin Graham**
-Também é calcula o Valor Intrínseco (Preço Justo) definido por Benjamin Graham para cada ação.
+Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Benjamin Graham para cada ação.
 
 Benjamin Graham foi o mentor dos melhores investidores do mundo, como o grandíssimo Warren Buffet, além do Irving Kahn e Walter Schloss.
 
@@ -68,7 +68,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 * Breve Explicação: https://www.bluechipinvest.com.br/educacional-det/benjamin-graham/7
 
 
-## Joel Greenblatt
+## Joel Greenblatt 📈 
 
 * Arquivo: `greenblatt.py`
 
@@ -91,13 +91,15 @@ Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indica
 * Breve Explicação: https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
 
 
-## Décio Bazin
+## Décio Bazin 📈 
 
 * Arquivo: `bazin.py`
 
 Aplica-se ensinamentos de Décio Bazin em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
 
 Para a análise, são utilizados ensinamentos do livro "*Faça Fortuna Com Ações*" de **Décio Bazin**, que é tido como literatura indicada até mesmo por **Luis Barsi**, o maior investidor na bolsa brasileira de todos os tempos.
+
+Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio Bazin para cada ação.
 
 No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
 
@@ -113,15 +115,15 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela 
 
 
 
-## Score
+## Score 📈 
 
 * Arquivo: `score.py`
 
 Para compor esse Score, é aplicado um mix de estratégias.
 
-Além dos pontos defendidos por Benjamin Graham (Veja os 14 pontos da seção de Benjamin Graham), é também avaliado o ROIC, Margem Líquida, Endividamento, PSR, EV/EBITDA e Peg Ratio. Aplicando, assim, ensinamentos também de **Kenneth Fisher** por exemplo e de outros grandes investidores.
+Além dos pontos defendidos por Benjamin Graham (Veja os 14 pontos da seção de Benjamin Graham), é também avaliado o **ROIC**, **Margem Líquida**, **Endividamento**, **PSR**, **EV/EBITDA** e **Peg Ratio**. Aplicando, assim, ensinamentos também de **Kenneth Fisher** por exemplo e de outros grandes investidores.
 
-No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada uma se adequou às características mostradas por **Benjamin Graham**. Também é avaliado 7 características adicionais, mostrada abaixo...
+No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada uma se adequou às características mostradas por **Benjamin Graham**. Também é avaliado 7 características adicionais, mostradas abaixo...
 
 - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) # https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
 - [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) # https://www.moneyshow.com/articles/tptp072513-46306/
@@ -133,6 +135,6 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada u
 
 
 
-# Contato
+# Contato ✉️ 📞
 * victorcorcos@gmail.com
 * victor.costa@oxeanbits.com
