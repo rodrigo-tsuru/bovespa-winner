@@ -12,6 +12,17 @@
 # Ela representa a quantidade de filtros fundamentalistas que cada ação da bolsa de valores conseguiu ultrapassar.
 
 
+# Princípios utilizados:
+
+# - [x] 0. Todos os 14 Princípios de Graham (Ver graham.py)
+# - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
+# - [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) https://www.moneyshow.com/articles/tptp072513-46306/
+# - [x] 3. Margem Líquida => Quanto maior melhor (ideal, > 10%) https://www.youtube.com/watch?v=7tB_ym4Cabc E https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+# - [x] 4. Dívida Líquida/EBIT => Quanto menor melhor (ideal, <= 3) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+# - [x] 5. Dívida Líquida/Patrimônio => Quanto menor, melhor (ideal < 50%) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+# - [x] 6. EV/EBITDA (Enterprise Value / EBITDA) => Quanto menor melhor (ideal, < 10) https://www.investopedia.com/ask/answers/072715/what-considered-healthy-evebitda.asp
+# - [x] 7. Peg Ratio (P/L / CAGRLucros5Anos) => Quanto menor melhor (ideal <= 1) https://bugg.com.br/2018/01/24/buggpedia-o-que-e-o-peg-ratio/
+
 ########### Precisa Capturar ###########
 #### Outros ####
 # * ROA > 0.05. (https://www.disruptiveadvertising.com/marketing/roas-return-on-ad-spend/)
@@ -45,14 +56,6 @@ def improve_ratings(shares, year):
   improve_score(shares, year)
   improve_score_explanation(shares, year)
 
-# Avalia novos indicadores fundamentalistas (Extras, além dos avaliados por Benjamin Graham.)
-# - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) # https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
-# - [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) # https://www.moneyshow.com/articles/tptp072513-46306/
-# - [x] 3. Margem Líquida => Quanto maior melhor (ideal, > 10%) # https://www.youtube.com/watch?v=7tB_ym4Cabc E https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-# - [x] 4. Dívida Líquida/EBIT => Quanto menor melhor (ideal, <= 3) # https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-# - [x] 5. Dívida Líquida/Patrimônio => Quanto menor, melhor (ideal < 50%) # https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
-# - [x] 6. EV/EBITDA (Enterprise Value / EBITDA) => Quanto menor melhor (ideal, < 10) # https://www.investopedia.com/ask/answers/072715/what-considered-healthy-evebitda.asp
-# - [x] 7. Peg Ratio (P/L / CAGRLucros5Anos) => Quanto menor melhor (ideal <= 1) # https://bugg.com.br/2018/01/24/buggpedia-o-que-e-o-peg-ratio/
 def improve_score(shares, year):
   shares['Graham Score'] += (shares['ROIC'] > 0.1).astype(int)
   shares['Graham Score'] += (shares['PSR'] < 0.75).astype(int)

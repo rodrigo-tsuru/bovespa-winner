@@ -19,6 +19,12 @@
 # Cases de sucesso dessas fórmula...
 # https://investidoringles.com/2019/01/formula-magica-de-joel-greenblatt.html
 
+# Princípios utilizados:
+
+# - [x] 1. > ROE e < P/L
+# - [x] 2. > ROIC e < EV/EBIT
+# - [x] 3. Os dois anteriores
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
@@ -115,7 +121,7 @@ if __name__ == '__main__':
   if year == None:
     shares = bovespa.shares()
   else:
-    shares = fundamentus.get_data(year)
+    shares = fundamentus.shares(year)
 
   shares = setup(shares, formula, year)
 

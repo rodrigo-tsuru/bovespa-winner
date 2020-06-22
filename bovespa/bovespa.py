@@ -84,7 +84,7 @@ def shares(*args, **kwargs):
     'Liquidez Média Diária': 'liquidezMediaDiaria'
   }
   mapper.update(new_status)
-  shares = fundamentus.get_data()
+  shares = fundamentus.shares()
   shares = add_invest_columns(shares, new_status)
   for index in range(len(shares)):
     ticker = shares.index[index]

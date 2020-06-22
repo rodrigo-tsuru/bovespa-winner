@@ -20,6 +20,23 @@ import json
 import threading
 import time
 
+# Princípios utilizados:
+
+# - [x] 1.  Sobrevivência: Sobreviveu nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
+# - [x] 2.  Estabilidade ds Lucros: Lucro > 0 nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
+# - [x] 3.  Crescimento dos Lucros: Lucros crescentes nos últimos 10 anos https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
+# - [x] 4.  Crescimento dos Lucro Por Ação: LPA atual > 1.33 * LPA 10 anos atrás. (Calculado através da média dos 3 anos do começo e dos 3 anos do fim deste período) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+# - [x] 5.  Estabilidade dos Dividendos: Dividendos pagos nos últimos 10 anos. http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+# - [x] 6.  raíz_quadrada_de(22.5 * VPA * LPA) => Quanto maior, melhor. Ideal > 1.5 * Preço. https://www.sunoresearch.com.br/artigos/valor-intrinseco/?utm_source=PR&utm_medium=artigo&utm_campaign=investing_05122019
+# - [x] 7.  P/L (Preço/Lucro) => Quanto menor, melhor (ideal, < 15 E >= 0) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+# - [x] 8.  P/VP (Preço/Valor Patrimonial) => Quanto menor, melhor (ideal, < 1.5 E >= 0) http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
+# - [x] 9.  Crescimento em 5 anos => Quanto maior, melhor (ideal, > 5%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+# - [x] 10. ROE (Return On Equity) => Quanto maior, melhor (ideal, superior a 20%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+# - [x] 11. Dividend Yield (Rendimento de Dividendo) => Quanto maior, melhor (ideal, > Taxa Selic (4.5%)) https://foconomilhao.com/acoes-com-dividend-yield-maior-que-a-selic/
+# - [x] 12. Liquidez Corrente => Quanto maior, melhor (ideal > 1.5) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+# - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+# - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
+
 #### Graham ####
 # ===== Próximos =====
 # * Valor de Mercado maior que 2.000.000 . # Benjamin Graham # https://edisciplinas.usp.br/pluginfile.php/3821144/mod_resource/content/4/245.pdf
@@ -45,7 +62,7 @@ def populate_shares(sys):
   if year == None:
     shares = bovespa.shares()
   else:
-    shares = fundamentus.get_data(year)
+    shares = fundamentus.shares(year)
   
   shares = shares[shares['Cotação'] > 0]
   # shares = shares[shares['Liquidez 2 meses'] > 500]
@@ -176,21 +193,6 @@ def fill_fair_price(shares):
       shares['Preço Justo'][index] = 0
   shares['Preço Justo / Cotação'] = shares['Preço Justo'] / shares['Cotação'] # Ideal > 1. Quanto maior, melhor! Significa que a ação deveria estar valendo 1 vezes mais, 2 vezes mais, 3 vezes mais, etc.
 
-# Pontua as ações considerando a Análise de Graham
-# - [x] 1.  Sobrevivência: Sobreviveu nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-# - [x] 2.  Estabilidade ds Lucros: Lucro > 0 nos últimos 10 anos. # https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-# - [x] 3.  Crescimento dos Lucros: Lucros crescentes nos últimos 10 anos # https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
-# - [x] 4.  Crescimento dos Lucro Por Ação: LPA atual > 1.33 * LPA 10 anos atrás. (Calculado através da média dos 3 anos do começo e dos 3 anos do fim deste período) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-# - [x] 5.  Estabilidade dos Dividendos: Dividendos pagos nos últimos 10 anos. # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-# - [x] 6.  raíz_quadrada_de(22.5 * VPA * LPA) => Quanto maior, melhor. Ideal > 1.5 * Preço. # https://www.sunoresearch.com.br/artigos/valor-intrinseco/?utm_source=PR&utm_medium=artigo&utm_campaign=investing_05122019
-# - [x] 7.  P/L (Preço/Lucro) => Quanto menor, melhor (ideal, < 15 E >= 0) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-# - [x] 8.  P/VP (Preço/Valor Patrimonial) => Quanto menor, melhor (ideal, < 1.5 E >= 0) # http://seuguiadeinvestimentos.com.br/a-tecnica-de-investimento-de-benjamin-graham-ii/
-# - [x] 9.  Crescimento em 5 anos => Quanto maior, melhor (ideal, > 5%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-# - [x] 10. ROE (Return On Equity) => Quanto maior, melhor (ideal, superior a 20%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-# - [x] 11. Dividend Yield (Rendimento de Dividendo) => Quanto maior, melhor (ideal, > Taxa Selic (4.5%)) # https://foconomilhao.com/acoes-com-dividend-yield-maior-que-a-selic/
-# - [x] 12. Liquidez Corrente => Quanto maior, melhor (ideal > 1.5) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-# - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-# - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 def fill_score(shares):
   shares['Graham Score'] += (shares['Preço Justo / Cotação'] > Decimal(1.5)).astype(int)
   shares['Graham Score'] += ((shares['P/L'] < 15) & (shares['P/L'] >= 0)).astype(int)
