@@ -40,9 +40,10 @@ python3 greenblatt.py "{ 'formula': 'ROIC' }" # Aplica ROIC e EV/EBIT
 
 * Arquivo: `graham.py`
 
-Aplica-se ensinamentos de Benjamin Graham em todas as ações da bovespa, produzindo um ranking com base na análise fundamentalista dos dados de todas as empresas.
+Aplica-se ensinamentos de [Benjamin Graham](https://www.investopedia.com/articles/07/ben_graham.asp) em todas as ações da bovespa, produzindo um ranking com base na análise fundamentalista dos dados de todas as empresas.
 
-Para a análise, são utilizados ensinamentos do livro "*O Investidor Inteligente*" de **Benjamin Graham**
+Para a análise, são utilizados ensinamentos do livro "*O Investidor Inteligente*" de **Benjamin Graham**.
+
 Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Benjamin Graham para cada ação.
 
 Benjamin Graham foi o mentor dos melhores investidores do mundo, como o grandíssimo Warren Buffet, além do Irving Kahn e Walter Schloss.
@@ -72,7 +73,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 
 * Arquivo: `greenblatt.py`
 
-Aplica-se ensinamentos de Joel Greenblatt em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
+Aplica-se ensinamentos de [Joel Greenblatt](https://maisretorno.com/blog/termos/j/joel-greenblatt) em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
 
 Para a análise, são utilizados ensinamentos do livro "*The little book that beats the Market*" de **Joel Greenblatt**
 
@@ -95,7 +96,7 @@ Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indica
 
 * Arquivo: `bazin.py`
 
-Aplica-se ensinamentos de Décio Bazin em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
+Aplica-se ensinamentos de [Décio Bazin](https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/) em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
 
 Para a análise, são utilizados ensinamentos do livro "*Faça Fortuna Com Ações*" de **Décio Bazin**, que é tido como literatura indicada até mesmo por **Luis Barsi**, o maior investidor na bolsa brasileira de todos os tempos.
 
