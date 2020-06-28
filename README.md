@@ -6,10 +6,12 @@ Ao escolher a estratégia, é construído um sistema de rankeamento onde mostra 
 
 Os dados são capturados principalmente do site fundamentus (https://www.fundamentus.com.br/resultado.php) e também de diversas APIs disponíveis de forma gratuita.
 
-No momento, foi aplicado estratégias dos seguintes grandes investidores:
+No momento, estratégias dos seguintes grandes investidores podem ser aplicadas:
 1. **Benjamin Graham**
 2. **Joel Greenblatt**
 3. **Décio Bazin**
+4. **Joseph D. Piotroski**
+5. **Kenneth Fisher**
 
 
 # Como usar 🎯
@@ -19,18 +21,26 @@ Basta rodar um destes comandos, dependendo da estratégia que deseja-se aplicar.
 Ao final de cada comando, é mostrado no terminal a tabela resultante e salvo no Ctrl+C.
 Para melhor visualizar o resultado, basta colar via Ctrl+V em algum editor de Markdown, como o site https://dillinger.io/
 
-```py
+```rb
 python3 graham.py
 ```
 
-```py
-python3 bazin.py
-```
-
-```py
+```rb
 python3 greenblatt.py # Aplica tanto ROE e P/L quanto ROIC e EV/EBIT
 python3 greenblatt.py "{ 'formula': 'ROE' }" # Aplica ROE e P/L
 python3 greenblatt.py "{ 'formula': 'ROIC' }" # Aplica ROIC e EV/EBIT
+```
+
+```rb
+python3 bazin.py
+```
+
+```rb
+python3 piotroski.py
+```
+
+```rb
+python3 fisher.py
 ```
 
 

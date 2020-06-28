@@ -157,21 +157,6 @@ def add_ratings(shares):
   fill_score_explanation(shares)
   return fill_special_infos(shares)
 
-def fill_special_infos(shares):
-  for index in range(len(shares)):
-    ticker = shares.index[index]
-    shares['Graham Score'][index] += int(infos[ticker]['survivability'])
-    shares['10 Anos de Sobrevivencia'][index] = infos[ticker]['survivability']
-    shares['Graham Score'][index] += int(infos[ticker]['earnings_stability'])
-    shares['Lucros Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_stability']
-    shares['Graham Score'][index] += int(infos[ticker]['earnings_growth'])
-    shares['Lucros Crescentes nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_growth']
-    shares['Graham Score'][index] += int(infos[ticker]['lpa_growth'])
-    shares['LPA atual > 1.33 * LPA 10 anos atrás'][index] = infos[ticker]['lpa_growth']
-    shares['Graham Score'][index] += int(infos[ticker]['dividends_stability'])
-    shares['Dividendos Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['dividends_stability']
-  return shares
-
 # Inicializa os índices
 def add_graham_columns(shares):
   shares['Preço Justo'] = 0
@@ -215,6 +200,21 @@ def fill_score_explanation(shares):
   shares['Liquidez Corrente > 1.5'] = shares['Liquidez Corrente'] > 1.5
   shares['Dívida Bruta/Patrimônio < 0.5'] = shares['Dívida Bruta/Patrimônio'] < 0.5
   shares['Patrimônio Líquido > 2 Bilhões'] = shares['Patrimônio Líquido'] > 2000000000
+
+def fill_special_infos(shares):
+  for index in range(len(shares)):
+    ticker = shares.index[index]
+    shares['Graham Score'][index] += int(infos[ticker]['survivability'])
+    shares['10 Anos de Sobrevivencia'][index] = infos[ticker]['survivability']
+    shares['Graham Score'][index] += int(infos[ticker]['earnings_stability'])
+    shares['Lucros Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_stability']
+    shares['Graham Score'][index] += int(infos[ticker]['earnings_growth'])
+    shares['Lucros Crescentes nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_growth']
+    shares['Graham Score'][index] += int(infos[ticker]['lpa_growth'])
+    shares['LPA atual > 1.33 * LPA 10 anos atrás'][index] = infos[ticker]['lpa_growth']
+    shares['Graham Score'][index] += int(infos[ticker]['dividends_stability'])
+    shares['Dividendos Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['dividends_stability']
+  return shares
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
