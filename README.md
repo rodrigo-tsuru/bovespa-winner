@@ -115,6 +115,47 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela 
 * Breve Explicação: https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/
 
 
+## Joseph D. Piotroski 📈
+
+* Arquivo: `piotroski.py`
+
+Aplica-se ensinamentos de [Joseph D. Piotroski](https://meetinvest.com/stockscreener/joseph-piotroski/) em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
+
+Para a análise, são utilizados ensinamentos do paper "*Value Investing: The Use of Historical Financial Statement Information to Separate Winners from Losers*" de **Joseph D. Piotroski**.
+
+No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Piotroski.
+
+- [x] 1. ROA > 0 (Returno sobre o Ativo) https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 2. FCO > 0 (Fluxo de Caixa Operacional) https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 3. FCO > Lucro Líquido https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 4. ROA atual > ROA ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 5. Alavancagem atual < Alavancagem ano anterior. Medida por: Dívida Líquida / Patrimônio Líquido https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 6. Liquidez Corrente atual > Liquidez Corrente ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 7. Nro. Ações atual = Nro. Ações ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 8. Margem Bruta atual > Margem Bruta ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+- [x] 9. Giro Ativo atual > Giro Ativo ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+
+* Paper: https://www.researchgate.net/publication/228316791_Value_Investing_The_Use_of_Historical_Financial_Statement_Information_to_Separate_Winners_from_Losers
+
+
+## Kenneth Fisher 📈
+
+* Arquivo: `fisher.py`
+
+Aplica-se ensinamentos de [Kenneth Fisher](https://www.sunoresearch.com.br/tudo-sobre/kenneth-fisher/) em todas as ações da Bovespa, depois rankeia das ações que mais se adequaram para as que menos se adequaram.
+
+Kenneth Fisher é o filho de Philip Fisher, têm uma fortuna atual de 4 bilhões de dólares e é dono de um fundo de investimento (Fisher Investments). Com base nas suas ações públicas, estimate-se que o desempenho de Ken Fisher tenha superado o mercado de ações dos EUA em uma média de 4,2 potos percentuais por ano.
+
+No algoritmo, cada ação recebe uma nota que vai de 0 a 4, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Kenneth Fisher.
+
+- [x] 1. PSR < 3 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
+- [x] 2. PSR < 1 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
+- [x] 3. PSR < 0.75 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
+- [x] 4. Taxa de Rentabilidade alta: L/P > Selic http://investidoremvalor.com/filosofia-ken-fisher/
+
+* https://comoinvestir.thecap.com.br/quem-e-kenneth-fisher-o-jeito-ken-investir/
+* http://investidoremvalor.com/filosofia-ken-fisher/
+
 
 ## Score 📈 
 
