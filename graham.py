@@ -221,6 +221,10 @@ def reorder_columns(shares):
   columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'Preço Justo / Cotação']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
+# Enter on this URL before executing this code
+# https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999
+# https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4
+
 # python3 graham.py "{ 'year': 2015 }"
 if __name__ == '__main__':
   from waitingbar import WaitingBar
@@ -229,9 +233,9 @@ if __name__ == '__main__':
   shares = populate_shares(sys)
   
   shares.sort_values(by=['Graham Score', 'Cotação'], ascending=[False, True], inplace=True)
-
+  
   shares['Ranking'] = range(1, len(shares) + 1)
-
+  
   backtest.display_shares(shares, year)
   
   progress_bar.stop()
