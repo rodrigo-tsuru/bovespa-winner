@@ -114,12 +114,13 @@ Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio 
 
 No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
 
-- [x] 1. Preço Justo > 1.5 * Preço de Mercado. Neste caso, Preço Justo é o Dividend Yield * 16.67 (Criado por Décio Bazin)
-- [x] 2. Dividend Yield > 0.06 (6%)
-- [x] 3. Pagamento constante de dividendos nos últimos 5 anos
-- [x] 4. Pagamento crescente de dividendos nos últimos 5 anos
-- [x] 5. Dívida Líquida/Patrimônio < 0.5 (50%)
-- [x] 6. 0 < Payout < 1
+- [x] 1. Preço Justo > 1.5 * Preço. Preço Justo => Dividend Yield * 16.67 (Por: Décio Bazin)
+- [x] 2. Dívida Líquida/Patrimônio < 0.5 (50%)
+- [x] 3. Dividend Yield > 0.06 (6%)
+- [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
+- [x] 5. Pagamento constante de dividendos nos últimos 5 anos
+- [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
+- [x] 7. 0 < Payout < 1
 
 * Livro: https://www.amazon.com/Faca-Fortuna-com-Acoes-Antes/dp/8585454164
 * Breve Explicação: https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/

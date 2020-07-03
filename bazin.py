@@ -9,11 +9,12 @@
 # Princípios utilizados:
 
 # - [x] 1. Preço Justo > 1.5 * Preço. Preço Justo => Dividend Yield * 16.67 (Por: Décio Bazin)
-# - [x] 2. Dividend Yield > 0.06 (6%)
-# - [x] 3. Pagamento constante de dividendos nos últimos 5 anos
-# - [x] 4. Pagamento crescente de dividendos nos últimos 5 anos
-# - [x] 5. Dívida Líquida/Patrimônio < 0.5 (50%)
-# - [x] 6. 0 < Payout < 1
+# - [x] 2. Dívida Líquida/Patrimônio < 0.5 (50%)
+# - [x] 3. Dividend Yield > 0.06 (6%)
+# - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
+# - [x] 5. Pagamento constante de dividendos nos últimos 5 anos
+# - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
+# - [x] 7. 0 < Payout < 1
 
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
@@ -86,10 +87,12 @@ def fill_dividend_by_ticket(ticket, opener):
   # last_pls = [fundament['pl'] for fundament in suno_indicators] # Graham
 
   dividends[ticket] = {
+    'good_dividends': False,
     'constante': False,
     'crescente': False,
     'healthy_payout': False
   }
+  dividends[ticket]['good_dividends'] = (sum(last_dpas[:5]) / len(last_dpas[:5])) > 0.5
   dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
   dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
@@ -104,6 +107,7 @@ def add_graham_columns(shares):
   shares['Bazin Score'] = Decimal(0)
   shares['Preço Justo'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
   shares['Preço Justo / Cotação'] = shares['Preço Justo'] / shares['Cotação']
+  shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
   shares['Dividendos Crescentes Ultimos 5 Anos'] = False
   shares['Payout Saudavel nos Ultimos 5 Anos'] = False
@@ -122,6 +126,8 @@ def fill_score_explanation(shares):
 def fill_yield_history(shares):
   for index in range(len(shares)):
     ticker = shares.index[index]
+    shares['Bazin Score'][index] += int(dividends[ticker]['good_dividends'])
+    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = dividends[ticker]['good_dividends']
     shares['Bazin Score'][index] += int(dividends[ticker]['constante'])
     shares['Dividendos Constantes Ultimos 5 Anos'][index] = dividends[ticker]['constante']
     shares['Bazin Score'][index] += int(dividends[ticker]['crescente'])
