@@ -6,6 +6,13 @@
 # https://comoinvestir.thecap.com.br/quem-e-kenneth-fisher-o-jeito-ken-investir/
 # http://investidoremvalor.com/filosofia-ken-fisher/
 
+# Princípios utilizados:
+
+# - [x] 1. PSR < 3 => Aumenta 1 ponto
+# - [x] 2. PSR < 1 => Aumenta 1 ponto
+# - [x] 3. PSR < 0.75 => Aumenta 1 ponto
+# - [x] 4. Taxa de Rentabilidade alta: L/P > Selic
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
@@ -14,13 +21,6 @@ import bovespa
 import backtest
 
 from decimal import Decimal
-
-# Princípios utilizados:
-
-# - [x] 1. PSR < 3 => Aumenta 1 ponto
-# - [x] 2. PSR < 1 => Aumenta 1 ponto
-# - [x] 3. PSR < 0.75 => Aumenta 1 ponto
-# - [x] 4. Taxa de Rentabilidade alta: L/P > Selic
 
 def populate_shares(sys):
   year = None

@@ -5,6 +5,18 @@
 # No estudo original de Piotroski, ao longo de 20 anos (1976–1996), uma estratégia de investimento baseado nessa pontuação, com a compra de empresas com F-Score alto e a venda de empresas com F-Score baixo, gerou um retorno anual de 23%, bem superior à media do mercado.
 # Piotroski elaborou um Scopre chamado "Piotroski F-score" que varia de 0 a 9, quanto maior, por mais filtros as ações passaram
 
+# Princípios utilizados:
+
+# 1) ROA > 0 (ano corrente)
+# 2) FCO > 0 (ano corrente)
+# 3) FCO > Lucro Líquido (ano corrente)
+# 4) ROA atual > ROA ano anterior
+# 5) Alavancagem atual < ano passado (Dívida Líquida / Patrimônio Líquido)
+# 6) Liquidez Corrente atual > Liquidez Corrente ano anterior
+# 7) Nro. Ações atual = Nro. Ações ano anterior
+# 8) Margem Bruta atual > Margem Bruta ano anterior
+# 9) Giro Ativo atual > Giro Ativo ano anterior
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
@@ -23,18 +35,6 @@ import threading
 def print(thing):
   import pprint
   return pprint.PrettyPrinter(indent=4).pprint(thing)
-
-# Princípios utilizados:
-
-# 1) ROA > 0 (ano corrente)
-# 2) FCO > 0 (ano corrente)
-# 3) FCO > Lucro Líquido (ano corrente)
-# 4) ROA atual > ROA ano anterior
-# 5) Alavancagem atual < ano passado (Dívida Líquida / Patrimônio Líquido)
-# 6) Liquidez Corrente atual > Liquidez Corrente ano anterior
-# 7) Nro. Ações atual = Nro. Ações ano anterior
-# 8) Margem Bruta atual > Margem Bruta ano anterior
-# 9) Giro Ativo atual > Giro Ativo ano anterior
 
 def populate_shares(sys):
   year = None

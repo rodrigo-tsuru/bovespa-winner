@@ -15,7 +15,7 @@
 # Princípios utilizados:
 
 # - [x] 0. Todos os 14 Princípios de Graham (Ver graham.py)
-# - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 10%) https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
+# - [x] 1. ROIC (Return on Invested Capital) => Quanto maior, melhor (ideal, > 15%) https://www.youtube.com/watch?v=vXZkqDpFs0g https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
 # - [x] 2. PSR (Price Sales Ratio) => Quanto menor, melhor (ideal, < 0.75) https://www.moneyshow.com/articles/tptp072513-46306/
 # - [x] 3. Margem Líquida => Quanto maior melhor (ideal, > 10%) https://www.youtube.com/watch?v=7tB_ym4Cabc E https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 # - [x] 4. Dívida Líquida/EBIT => Quanto menor melhor (ideal, <= 3) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
@@ -57,7 +57,7 @@ def improve_ratings(shares, year):
   improve_score_explanation(shares, year)
 
 def improve_score(shares, year):
-  shares['Graham Score'] += (shares['ROIC'] > 0.1).astype(int)
+  shares['Graham Score'] += (shares['ROIC'] > 0.15).astype(int)
   shares['Graham Score'] += (shares['PSR'] < 0.75).astype(int)
   shares['Graham Score'] += (shares['Margem Líquida'] > 0.1).astype(int)
   if year == None or year >= 2020:
@@ -68,7 +68,7 @@ def improve_score(shares, year):
 
 # Mostra quais filtros a ação passou para pontuar seu Graham Score
 def improve_score_explanation(shares, year):
-  shares['ROIC > 10%'] = shares['ROIC'] > 0.1
+  shares['ROIC > 15%'] = shares['ROIC'] > 0.15
   shares['PSR < 0.75'] = shares['PSR'] < 0.75
   shares['Margem Líquida > 10%'] = shares['Margem Líquida'] > 0.1
   if year == None or year >= 2020:

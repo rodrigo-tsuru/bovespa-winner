@@ -1,25 +1,5 @@
 #!/usr/bin/env python3
 
-import sys, os
-sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
-
-import fundamentus
-import bovespa
-import backtest
-
-import pandas
-import numpy
-import re
-
-from math import sqrt
-from decimal import Decimal
-
-import http.cookiejar
-import urllib.request
-import json
-import threading
-import time
-
 # Princípios utilizados:
 
 # - [x] 1.  Sobrevivência: Sobreviveu nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
@@ -49,6 +29,26 @@ import time
 
 # Lucros para fazer o Gráfico ;)
 # https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=WEGE3&period=10
+
+import sys, os
+sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
+
+import fundamentus
+import bovespa
+import backtest
+
+import pandas
+import numpy
+import re
+
+from math import sqrt
+from decimal import Decimal
+
+import http.cookiejar
+import urllib.request
+import json
+import threading
+import time
 
 def populate_shares(sys):
   year = None
@@ -113,7 +113,10 @@ def fill_infos_by_ticket(ticket, opener):
     'dividends_stability': False
   }
 
-  current_year = int(time.strftime("%Y"))
+  if year == None:
+    current_year = int(time.strftime("%Y"))
+  else:
+    current_year = year
 
   lucros = [r for r in company_results if r['description'] == 'Lucro LÃ\xadquido'][0]
   years = [x for x in lucros.keys() if re.match('C_\w{4}$', x)]
