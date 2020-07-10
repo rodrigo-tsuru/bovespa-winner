@@ -53,6 +53,12 @@ from math import sqrt
 from decimal import Decimal
 
 def improve_ratings(shares, year):
+  shares['CAGR Lucros 5 Anos'] = pandas.to_numeric(shares['CAGR Lucros 5 Anos'], errors='coerce')
+  shares['CAGR Lucros 5 Anos'] = shares['CAGR Lucros 5 Anos'].fillna(0)
+  
+  shares['P/L'] = pandas.to_numeric(shares['P/L'], errors='coerce')
+  shares['P/L'] = shares['P/L'].fillna(0)
+  
   improve_score(shares, year)
   improve_score_explanation(shares, year)
 
@@ -64,7 +70,7 @@ def improve_score(shares, year):
     shares['Graham Score'] += ((shares['Dívida Líquida/EBIT']).astype(float) <= 3.0).astype(int)
     shares['Graham Score'] += ((shares['Dívida Líquida/Patrimônio']).astype(float) < 0.5).astype(int)
     shares['Graham Score'] += ((shares['EV/EBITDA'] < 10.0) & (shares['EV/EBITDA'] > 0)).astype(int)
-    shares['Graham Score'] += ((shares['P/L'] >= 0) & (shares['CAGR Lucros 5 Anos'].astype(float) >= 0) & (shares['P/L'].astype(float) <= (shares['CAGR Lucros 5 Anos'].astype(float)))).astype(int)
+    shares['Graham Score'] += ((shares['P/L'] > 0) & (shares['CAGR Lucros 5 Anos'].astype(float) > 0) & ((shares['P/L'] / shares['CAGR Lucros 5 Anos'].astype(float) < 1.0))).astype(int)
 
 # Mostra quais filtros a ação passou para pontuar seu Graham Score
 def improve_score_explanation(shares, year):
@@ -75,7 +81,13 @@ def improve_score_explanation(shares, year):
     shares['Dívida Líquida/EBIT <= 3.0'] = (shares['Dívida Líquida/EBIT']).astype(float) <= 3.0
     shares['Dívida Líquida/Patrimônio < 0.5'] = (shares['Dívida Líquida/Patrimônio']).astype(float) < 0.5
     shares['EV/EBITDA < 10'] = (shares['EV/EBITDA'] < 10.0) & (shares['EV/EBITDA'] > 0)
-    shares['PEG Ratio <= 1'] = (shares['P/L'] >= 0) & (shares['CAGR Lucros 5 Anos'].astype(float) >= 0) & (shares['P/L'].astype(float) <= (shares['CAGR Lucros 5 Anos'].astype(float)))
+    shares['PEG Ratio <= 1'] = (shares['P/L'] > 0) & (shares['CAGR Lucros 5 Anos'].astype(float) > 0) & ((shares['P/L'] / shares['CAGR Lucros 5 Anos'].astype(float) < 1.0))
+    shares['PEG Ratio'] = shares['P/L'] / shares['CAGR Lucros 5 Anos']
+
+# Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
+def reorder_columns(shares):
+  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'PEG Ratio']
+  return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # python3 score.py "{ 'year': 2013 }"
 if __name__ == '__main__':
@@ -88,9 +100,11 @@ if __name__ == '__main__':
   improve_ratings(shares, year)
   
   shares.sort_values(by=['Graham Score', 'Cotação'], ascending=[False, True], inplace=True)
-
+  
   shares['Ranking'] = range(1, len(shares) + 1)
-
+  
+  shares = reorder_columns(shares)
+  
   backtest.display_shares(shares, year)
   
   progress_bar.stop()
