@@ -40,10 +40,11 @@ from decimal import Decimal
 
 def setup(shares, formula, year):
   explain(formula)
+  shares = shares[shares['Cotação'] > 0]
+  shares = shares[shares['Liquidez 2 meses'] > 1000]
   init(shares, formula)
   remove_bad_shares(shares, formula)
   calculate(shares, formula)
-  shares = shares[shares['Cotação'] > 0]
   return reorder_columns(shares, formula)
 
 def explain(formula):
@@ -107,6 +108,7 @@ def reorder_columns(shares, formula):
 # Formula ROIC: Utiliza ROIC e EV/EBIT (EV/EBITDA não tem no fundamentus)
 # ================ Exemplos ================
 # python3 greenblatt.py "{ 'formula': 'ROE', 'year': 2013 }"
+# python3 greenblatt.py "{ 'formula': 'ROIC', 'year': 2020 }"
 if __name__ == '__main__':
   from waitingbar import WaitingBar
   progress_bar = WaitingBar('[*] Calculating...')
