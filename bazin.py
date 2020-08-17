@@ -83,6 +83,7 @@ def fill_dividend_by_ticket(ticket, opener):
   # Dividendo Por Ação
   last_dpas = [fundament['dpa'] for fundament in suno_indicators] # Bazin
   last_payouts = [fundament['payout'] for fundament in suno_indicators] # Bazin
+  last_divYields = [fundament['divYeld'] for fundament in suno_indicators] # Bazin
   # last_lpas = [fundament['lpa'] for fundament in suno_indicators] # Graham
   # last_pls = [fundament['pl'] for fundament in suno_indicators] # Graham
 
@@ -92,7 +93,7 @@ def fill_dividend_by_ticket(ticket, opener):
     'crescente': False,
     'healthy_payout': False
   }
-  dividends[ticket]['good_dividends'] = (sum(last_dpas[:5]) / len(last_dpas[:5])) > 0.5
+  dividends[ticket]['good_dividends'] = (sum(last_divYields[:5]) / len(last_divYields[:5])) > 0.05
   dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
   dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
