@@ -41,7 +41,7 @@ from decimal import Decimal
 def setup(shares, formula, year):
   explain(formula)
   shares = shares[shares['Cotação'] > 0]
-  shares = shares[shares['Liquidez 2 meses'] > 1000]
+  shares = shares[shares['Liquidez 2 meses'] > 10000]
   init(shares, formula)
   remove_bad_shares(shares, formula)
   calculate(shares, formula)
