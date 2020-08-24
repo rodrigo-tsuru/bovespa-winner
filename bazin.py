@@ -88,12 +88,12 @@ def fill_dividend_by_ticket(ticket, opener):
   # last_pls = [fundament['pl'] for fundament in suno_indicators] # Graham
 
   dividends[ticket] = {
-    'good_dividends': False,
+    'ultimos_dy': 0.0,
     'constante': False,
     'crescente': False,
     'healthy_payout': False
   }
-  dividends[ticket]['good_dividends'] = (sum(last_divYields[:5]) / len(last_divYields[:5])) > 0.05
+  dividends[ticket]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
   dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
   dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
@@ -108,6 +108,7 @@ def add_graham_columns(shares):
   shares['Bazin Score'] = Decimal(0)
   shares['Preço Justo'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
   shares['Preço Justo / Cotação'] = shares['Preço Justo'] / shares['Cotação']
+  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0.0)
   shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
   shares['Dividendos Crescentes Ultimos 5 Anos'] = False
@@ -127,8 +128,9 @@ def fill_score_explanation(shares):
 def fill_yield_history(shares):
   for index in range(len(shares)):
     ticker = shares.index[index]
-    shares['Bazin Score'][index] += int(dividends[ticker]['good_dividends'])
-    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = dividends[ticker]['good_dividends']
+    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = dividends[ticker]['ultimos_dy']
+    shares['Bazin Score'][index] += int(dividends[ticker]['ultimos_dy'] > 0.05)
+    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = dividends[ticker]['ultimos_dy'] > 0.05
     shares['Bazin Score'][index] += int(dividends[ticker]['constante'])
     shares['Dividendos Constantes Ultimos 5 Anos'][index] = dividends[ticker]['constante']
     shares['Bazin Score'][index] += int(dividends[ticker]['crescente'])
@@ -139,7 +141,7 @@ def fill_yield_history(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação']
+  columns = ['Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Copia o result no formato Markdown (Git :D)
@@ -159,7 +161,7 @@ if __name__ == '__main__':
   fill_score_explanation(shares)
   shares = reorder_columns(shares)
 
-  shares.sort_values(by=['Bazin Score', 'Preço Justo / Cotação'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
   copy(shares)
   print(shares)
 
