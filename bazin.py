@@ -141,7 +141,7 @@ def fill_yield_history(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
+  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Copia o result no formato Markdown (Git :D)
@@ -159,9 +159,13 @@ if __name__ == '__main__':
 
   shares = filter(shares)
   fill_score_explanation(shares)
-  shares = reorder_columns(shares)
 
   shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
+
+  shares['Ranking'] = range(1, len(shares) + 1)
+
+  shares = reorder_columns(shares)
+
   copy(shares)
   print(shares)
 
