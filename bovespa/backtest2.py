@@ -1,4 +1,5 @@
 # Automatically Execute Backtest with the Bovespa shares with the provided period and tickers
+# This file uses Yahoo Finance API => https://pypi.org/project/yfinance/
 
 # Quick Tutorial: https://www.youtube.com/watch?v=d2qrsCfXung&t=17s
 
@@ -32,6 +33,7 @@ def backtest(period, tickers):
 
   # Bring the daily tickers prices from the provided period until today
   dados_yahoo = yf.download(tickers=tickers, period=period)['Adj Close']
+  # dados_yahoo = yf.download(tickers=tickers, start='2017-01-01', end='2017-04-30')['Adj Close']
 
   # Calculate the percentage of daily return
   retorno = dados_yahoo.pct_change()
