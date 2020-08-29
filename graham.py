@@ -36,6 +36,7 @@ sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)]
 import fundamentus
 import bovespa
 import backtest
+import browser
 
 import pandas
 import numpy
@@ -232,6 +233,10 @@ def reorder_columns(shares):
 if __name__ == '__main__':
   from waitingbar import WaitingBar
   progress_bar = WaitingBar('[*] Calculating...')
+
+  # Opening these URLs to automatically allow this API to receive more requests from local IP
+  browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
+  browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4')
   
   shares = populate_shares(sys)
   

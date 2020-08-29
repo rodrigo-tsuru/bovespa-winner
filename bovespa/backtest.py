@@ -4,6 +4,7 @@ import subprocess
 import webbrowser
 import re
 import fundamentus
+import browser
 
 def display_shares(shares, year):
   copy(shares)
@@ -48,7 +49,4 @@ def open_backtest(shares, date, type):
     url += f'?Capital[]=1000&Cnpj[]=RV-A-{manada[0]}&Capital[]=1000&Cnpj[]=RV-A-{manada[1]}&Capital[]=1000&Cnpj[]=RV-A-{manada[2]}&Capital[]=1000&Cnpj[]=RV-A-{manada[3]}&Capital[]=1000&Cnpj[]=RV-A-{manada[4]}&Capital[]=1000&Cnpj[]=RV-A-{manada[5]}&Capital[]=1000&Cnpj[]=RV-A-{manada[6]}&Capital[]=1000&Cnpj[]=RV-A-{manada[7]}&Capital[]=1000&Cnpj[]=RV-A-{manada[8]}&Capital[]=1000&Cnpj[]=RV-A-{manada[9]}'
   url += f'&Benchmark=IBOV&Periodo={int(date["year"]) + 1}-{date["month"]}-{date["day"]}+{date["year"]}-{date["month"]}-{date["day"]}'
   
-  if sys.platform == 'darwin': # for OS X
-    subprocess.Popen(['open', url])
-  else:
-    webbrowser.open_new_tab(url)
+  browser.open(url)
