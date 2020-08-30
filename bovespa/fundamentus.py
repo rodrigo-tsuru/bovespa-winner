@@ -11,6 +11,10 @@ import pandas
 from lxml.html import fragment_fromstring
 from decimal import Decimal
 
+def start_date(year):
+  date = re.findall(r".*web\/(\w{4})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\/.*", backtest(year))
+  return f"{date[0][0]}-{date[0][1]}-{date[0][2]}"
+
 def shares(year = None):
   url = backtest(year)
   cookie = http.cookiejar.CookieJar()

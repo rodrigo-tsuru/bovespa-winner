@@ -36,6 +36,7 @@ sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)]
 import fundamentus
 import bovespa
 import backtest
+import backtest2
 import browser
 
 import pandas
@@ -50,19 +51,20 @@ import urllib.request
 import json
 import threading
 import time
+import subprocess
 
 # Populate shares panda dataframe with the provided year
 def populate_shares(year):
   globals()['year'] = year
   globals()['infos'] = {}
   
-  if year == None:
+  if year == current_year():
     shares = bovespa.shares()
   else:
     shares = fundamentus.shares(year)
   
   shares = shares[shares['Cotação'] > 0]
-  shares = shares[shares['Liquidez 2 meses'] > 500]
+  # shares = shares[shares['Liquidez 2 meses'] > 500]
   shares['Ranking'] = 0
   
   fill_infos(shares)
@@ -221,29 +223,35 @@ def reorder_columns(shares):
   columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'Preço Justo / Cotação']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
+# Get the current_year integer value, for example: 2020
+def current_year():
+  return int(time.strftime("%Y"))
+
+# Copia o result no formato Markdown (Git :D)
+def copy(shares):
+  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
+
 # Enter on this URL before executing this code
 # https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999
 # https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4
 
 # python3 graham.py "{ 'year': 2015 }"
-if __name__ == '__main__':
-  from waitingbar import WaitingBar
-  progress_bar = WaitingBar('[*] Calculating...')
-  
+if __name__ == '__main__':  
   # Opening these URLs to automatically allow this API to receive more requests from local IP
   browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
   browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4')
   
-  year = None
+  year = current_year()
   if len(sys.argv) > 1:
     year = int(eval(sys.argv[1])['year'])
   
   shares = populate_shares(year)
   
-  shares.sort_values(by=['Graham Score', 'Cotação'], ascending=[False, True], inplace=True)
+  shares.sort_values(by=['Graham Score', 'Preço Justo / Cotação'], ascending=[False, False], inplace=True)
   
   shares['Ranking'] = range(1, len(shares) + 1)
   
-  backtest.display_shares(shares, year)
-  
-  progress_bar.stop()
+  copy(shares)
+
+  backtest2.run_all(fundamentus.start_date(year), list(shares.index[:10]))
+

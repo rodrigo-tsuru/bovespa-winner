@@ -23,7 +23,7 @@ def display_shares(shares, year):
   print("\n==== Date ====")
   print(formatted_date)
   print("==============")
-
+  
   open_backtest(shares, date, 'algorithmn')
   open_backtest(shares, date, 'manada')
 
