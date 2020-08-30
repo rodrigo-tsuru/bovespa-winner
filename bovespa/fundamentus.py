@@ -7,13 +7,21 @@ import urllib.request
 import urllib.parse
 import http.cookiejar
 import pandas
+import time
 
 from lxml.html import fragment_fromstring
 from decimal import Decimal
 
 def start_date(year):
+  if year == current_year():
+    return time.strftime("%Y-%m-%d")
+  
   date = re.findall(r".*web\/(\w{4})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\/.*", backtest(year))
   return f"{date[0][0]}-{date[0][1]}-{date[0][2]}"
+
+# Get the current_year integer value, for example: 2020
+def current_year():
+  return int(time.strftime("%Y"))
 
 def shares(year = None):
   url = backtest(year)
@@ -56,7 +64,8 @@ def backtest(year = None):
     2016: 'https://web.archive.org/web/20160106101916/http://www.fundamentus.com.br/resultado.php',
     2017: 'https://web.archive.org/web/20170505164235/http://www.fundamentus.com.br/resultado.php',
     2018: 'https://web.archive.org/web/20180105120409/http://www.fundamentus.com.br/resultado.php',
-    2019: 'https://web.archive.org/web/20190102202956/http://www.fundamentus.com.br/resultado.php'
+    2019: 'https://web.archive.org/web/20190102202956/http://www.fundamentus.com.br/resultado.php',
+    2020: 'http://www.fundamentus.com.br/resultado.php'
   }
   return urls.get(year, 'http://www.fundamentus.com.br/resultado.php')
 

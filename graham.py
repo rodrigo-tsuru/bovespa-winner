@@ -36,7 +36,6 @@ sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)]
 import fundamentus
 import bovespa
 import backtest
-import backtest2
 import browser
 
 import pandas
@@ -251,7 +250,9 @@ if __name__ == '__main__':
   
   shares['Ranking'] = range(1, len(shares) + 1)
   
+  print(shares)
   copy(shares)
-
-  backtest2.run_all(fundamentus.start_date(year), list(shares.index[:10]))
+  
+  if year != current_year():
+    backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
 

@@ -1,52 +1,74 @@
-import sys
-import os
-import subprocess
-import webbrowser
-import re
-import fundamentus
-import browser
+# Automatically Execute Backtest with the Bovespa shares with the provided period and tickers
+# This file uses Yahoo Finance API => https://pypi.org/project/yfinance/
 
-def display_shares(shares, year):
-  copy(shares)
-  print(shares)
-  if year == None or year >= 2020:
-    return ''
-  date = re.findall(r".*web\/(\w{4})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\/.*", fundamentus.backtest(year))
-  date = dict({ 'year': date[0][0], 'month': date[0][1], 'day': date[0][2], 'hours': date[0][3], 'minutes': date[0][4], 'seconds': date[0][5] })
-  formatted_date = f'Year: {date["year"]}\n'
-  formatted_date += f'Month: {date["month"]}\n'
-  formatted_date += f'Day: {date["day"]}\n'
-  formatted_date += f'Hours: {date["hours"]}\n'
-  formatted_date += f'Minutes: {date["minutes"]}\n'
-  formatted_date += f'Seconds: {date["seconds"]}'
-  
-  print("\n==== Date ====")
-  print(formatted_date)
-  print("==============")
-  
-  open_backtest(shares, date, 'algorithmn')
-  open_backtest(shares, date, 'manada')
+# Quick Tutorial: https://www.youtube.com/watch?v=d2qrsCfXung&t=17s
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
+# How to use this file...
+# 
+# python3
+# 
+# import sys, os
+# sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
+# import backtest
+# 
+# backtest.run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 
-def open_backtest(shares, date, type):
-  url = 'https://simuladordeinvestimentos.com/simulador'
-  if type == 'algorithmn':
-    url += f'?Capital[]=1000&Cnpj[]=RV-A-{shares.index[0]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[1]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[2]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[3]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[4]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[5]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[6]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[7]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[8]}'
-    url += f'&Capital[]=1000&Cnpj[]=RV-A-{shares.index[9]}'
-  elif type == 'manada':
-    manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
-    url += f'?Capital[]=1000&Cnpj[]=RV-A-{manada[0]}&Capital[]=1000&Cnpj[]=RV-A-{manada[1]}&Capital[]=1000&Cnpj[]=RV-A-{manada[2]}&Capital[]=1000&Cnpj[]=RV-A-{manada[3]}&Capital[]=1000&Cnpj[]=RV-A-{manada[4]}&Capital[]=1000&Cnpj[]=RV-A-{manada[5]}&Capital[]=1000&Cnpj[]=RV-A-{manada[6]}&Capital[]=1000&Cnpj[]=RV-A-{manada[7]}&Capital[]=1000&Cnpj[]=RV-A-{manada[8]}&Capital[]=1000&Cnpj[]=RV-A-{manada[9]}'
-  url += f'&Benchmark=IBOV&Periodo={int(date["year"]) + 1}-{date["month"]}-{date["day"]}+{date["year"]}-{date["month"]}-{date["day"]}'
+import yfinance as yf
+import pyfolio as pf
+
+import warnings
+warnings.filterwarnings('ignore')
+
+import click
+import time
+
+# Run all backtests for the provided tickers from the provided year until now
+def run_all(start, tickers):
+  manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
   
-  browser.open(url)
+  click.secho(f"\nRunning Manada Backtest {manada}", fg='black', bg='white', bold=True)
+  run(manada, start)
+  
+  click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
+  run(tickers, start)
+
+# Execute the backtest from the provided start...end range and using the provided tickers
+# The default value for end is the today's date
+# Usage...
+# run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
+def run(tickers, start, end=time.strftime("%Y-%m-%d")): 
+  tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
+  tickers += ['^BVSP'] # Add Ibovespa index to tickers
+  
+  # Bring the daily tickers prices from the provided period until today
+  dados_yahoo = yf.download(tickers=tickers, start=start, end=end)['Adj Close']
+  
+  # Calculate the percentage of DAILY return
+  retorno = dados_yahoo.pct_change()
+  retorno.iloc[0] = 0
+  
+  # Calculate the percentage of ACCUMULATED return
+  retorno_acumulado = (1 + retorno).cumprod()
+  
+  # Execute the Backtest investing R$1.000,00 on each ticker
+  carteira = 1000 * retorno_acumulado.iloc[:, :(len(tickers)-1)] # Take out the Bovespa index column
+  carteira['saldo'] = carteira.sum(axis=1)
+  carteira['retorno'] = carteira['saldo'].pct_change()
+  
+  # Bring how much money would you have today by investing R$1.000,00 on the tickers
+  montante = carteira.tail(1)['saldo'][0]
+  click.secho(f"\nValorizações na Carteira...\n {carteira}", fg='blue', bg='white', bold=True)
+  click.secho(f"Montante Inicial: 10.000,00", fg='red', bold=True)
+  click.secho(f"Montante Final: {commalize(str(montante))}", fg='blue', bold=True)
+  click.secho(f"Valorização: {'{0:.0%}'.format((montante - 10000) / 10000)}", fg='green', bold=True)
+  return montante
+
+  # # Beautifully plots the result on the screen
+  # pf.create_full_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
+
+def commalize(value):
+  return value.replace('.', ',')
+
+# Returns one year after the start date
+def next_year(start):
+  return str(int(start[:4]) + 1) + start[4:]
