@@ -51,12 +51,8 @@ import json
 import threading
 import time
 
-def populate_shares(sys):
-  year = None
-  if len(sys.argv) > 1:
-    arguments = eval(sys.argv[1])
-    year = int(arguments['year'])
-  
+# Populate shares panda dataframe with the provided year
+def populate_shares(year):
   globals()['year'] = year
   globals()['infos'] = {}
   
@@ -68,13 +64,13 @@ def populate_shares(sys):
   shares = shares[shares['Cotação'] > 0]
   shares = shares[shares['Liquidez 2 meses'] > 500]
   shares['Ranking'] = 0
-
+  
   fill_infos(shares)
-
+  
   shares = add_ratings(shares)
   
   shares = reorder_columns(shares)
-
+  
   return shares
 
 # infos = {
@@ -105,7 +101,7 @@ def fill_infos_by_ticket(ticket, opener):
   with opener.open(url) as link:
     company_results = link.read().decode('ISO-8859-1')
   company_results = json.loads(company_results)
-
+  
   infos[ticket] = {
     'survivability': False,
     'earnings_stability': False,
@@ -113,12 +109,12 @@ def fill_infos_by_ticket(ticket, opener):
     'lpa_growth': False,
     'dividends_stability': False
   }
-
+  
   if year == None:
     current_year = int(time.strftime("%Y"))
   else:
     current_year = year
-
+  
   lucros = [r for r in company_results if r['description'] == 'Lucro LÃ\xadquido'][0]
   years = [x for x in lucros.keys() if re.match('C_\w{4}$', x)]
   if(len(years) == 0):
@@ -233,12 +229,16 @@ def reorder_columns(shares):
 if __name__ == '__main__':
   from waitingbar import WaitingBar
   progress_bar = WaitingBar('[*] Calculating...')
-
+  
   # Opening these URLs to automatically allow this API to receive more requests from local IP
   browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
   browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4')
   
-  shares = populate_shares(sys)
+  year = None
+  if len(sys.argv) > 1:
+    year = int(eval(sys.argv[1])['year'])
+  
+  shares = populate_shares(year)
   
   shares.sort_values(by=['Graham Score', 'Cotação'], ascending=[False, True], inplace=True)
   

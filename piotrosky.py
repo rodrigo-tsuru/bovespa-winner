@@ -36,12 +36,7 @@ def print(thing):
   import pprint
   return pprint.PrettyPrinter(indent=4).pprint(thing)
 
-def populate_shares(sys):
-  year = None
-  if len(sys.argv) > 1:
-    arguments = eval(sys.argv[1])
-    year = int(arguments['year'])
-  
+def populate_shares(year):
   globals()['year'] = year
   globals()['infos'] = {}
   
@@ -172,15 +167,19 @@ def reorder_columns(shares):
 if __name__ == '__main__':
   from waitingbar import WaitingBar
   progress_bar = WaitingBar('[*] Calculating...')
-
-  shares = populate_shares(sys)
-
+  
+  year = None
+  if len(sys.argv) > 1:
+    year = int(eval(sys.argv[1])['year'])
+  
+  shares = populate_shares(year)
+  
   shares.sort_values(by=['Piotrosky Score', 'Cotação'], ascending=[False, True], inplace=True)
-
+  
   shares['Ranking'] = range(1, len(shares) + 1)
-
+  
   backtest.display_shares(shares, year)
-
+  
   progress_bar.stop()
 
 # https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4
