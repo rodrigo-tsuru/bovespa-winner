@@ -14,12 +14,8 @@
 # backtest2.backtest(period='5y', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 
 import yfinance as yf
-
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 import pyfolio as pf
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -32,7 +28,7 @@ def backtest(period, tickers):
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
 
   # Bring the daily tickers prices from the provided period until today
-  dados_yahoo = yf.download(tickers=tickers, period=period)['Adj Close']
+  dados_yahoo = yf.download(period=period, tickers=tickers)['Adj Close']
   # dados_yahoo = yf.download(tickers=tickers, start='2017-01-01', end='2017-04-30')['Adj Close']
 
   # Calculate the percentage of daily return
