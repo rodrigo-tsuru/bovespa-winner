@@ -13,6 +13,11 @@
 # 
 # backtest.run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 
+# Reloading changes on this file on python REPL...
+# import importlib
+# importlib.reload(backtest)
+# backtest.run(tickers, start, end=time.strftime("%Y-%m-%d"))
+
 import yfinance as yf
 import pyfolio as pf
 
@@ -25,6 +30,7 @@ import time
 # Run all backtests for the provided tickers from the provided year until now
 def run_all(start, tickers):
   manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
+  # mine = ['BBAS3', 'BBDC3', 'BRSR3', 'CARD3', 'CGRA3', 'PETR4', 'QUAL3', 'SAPR4', 'TRPL4', 'VVAR3']
   
   click.secho(f"\nRunning Manada Backtest {manada}", fg='black', bg='white', bold=True)
   run(manada, start)
@@ -35,8 +41,10 @@ def run_all(start, tickers):
 # Execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
 # Usage...
+# run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 # run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
-def run(tickers, start, end=time.strftime("%Y-%m-%d")): 
+def run(tickers, start, end=time.strftime("%Y-%m-%d")):
+  # end = next_year(start)
   tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
   
