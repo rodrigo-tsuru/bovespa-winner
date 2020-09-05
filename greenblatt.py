@@ -34,6 +34,8 @@ import backtest
 
 import pandas
 import numpy
+import time
+import subprocess
 
 from math import sqrt
 from decimal import Decimal
@@ -103,6 +105,14 @@ def reorder_columns(shares, formula):
 
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
+# Get the current_year integer value, for example: 2020
+def current_year():
+  return int(time.strftime("%Y"))
+
+# Copia o result no formato Markdown (Git :D)
+def copy(shares):
+  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
+
 # Chame a função main de acordo com qual formula você quer aplicar: roe OU roic
 # Formula ROE:  Utiliza ROE  e P/L
 # Formula ROIC: Utiliza ROIC e EV/EBIT (EV/EBITDA não tem no fundamentus)
@@ -110,25 +120,29 @@ def reorder_columns(shares, formula):
 # python3 greenblatt.py "{ 'formula': 'ROE', 'year': 2013 }"
 # python3 greenblatt.py "{ 'formula': 'ROIC', 'year': 2020 }"
 if __name__ == '__main__':
-  from waitingbar import WaitingBar
-  progress_bar = WaitingBar('[*] Calculating...')
-
-  year = None
+  # from waitingbar import WaitingBar
+  # progress_bar = WaitingBar('[*] Calculating...')
+  
+  year = current_year()
   formula = None
   if len(sys.argv) > 1:
     arguments = eval(sys.argv[1])
-    year = int(arguments.get('year', None))
+    year = int(arguments.get('year', current_year()))
     formula = arguments.get('formula', None)
-
-  if year == None:
+  
+  if year == current_year():
     shares = bovespa.shares()
   else:
     shares = fundamentus.shares(year)
-
+  
   shares = setup(shares, formula, year)
-
+  
   shares.sort_values(by=['Magic Formula', 'Cotação'], ascending=[True, True], inplace=True)
+  
+  print(shares)
+  copy(shares)
+  
+  if year != current_year():
+    backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
 
-  backtest.display_shares(shares, year)
-
-  progress_bar.stop()
+  # progress_bar.stop()
