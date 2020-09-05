@@ -89,21 +89,21 @@ def fill_infos(shares):
   opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
-  tickets = list(shares.index)
-  threads = [threading.Thread(target=fill_infos_by_ticket, args=(ticket,opener,)) for ticket in tickets]
+  tickers = list(shares.index)
+  threads = [threading.Thread(target=fill_infos_by_ticket, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
   for thread in threads:
     thread.join()
 
-def fill_infos_by_ticket(ticket, opener):
+def fill_infos_by_ticket(ticker, opener):
   # Fetching Lucro Liquido
-  url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticket}&period=999'
+  url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticker}&period=999'
   with opener.open(url) as link:
     company_results = link.read().decode('ISO-8859-1')
   company_results = json.loads(company_results)
   
-  infos[ticket] = {
+  infos[ticker] = {
     'survivability': False,
     'earnings_stability': False,
     'earnings_growth': False,
@@ -135,12 +135,12 @@ def fill_infos_by_ticket(ticket, opener):
   ultimos_lucros = [mean if v is None else v for v in ultimos_lucros]
   # End of Ugly Fix
   
-  infos[ticket]['survivability'] = f'C_{current_year - 10}' in lucros.keys()
-  infos[ticket]['earnings_stability'] = all(ultimos_lucros[i] > 0 for i in range(len(ultimos_lucros)))
-  infos[ticket]['earnings_growth'] = all(ultimos_lucros[i] <= ultimos_lucros[i+1] for i in range(len(ultimos_lucros)-1)) # Isso aqui deve virar uma função e devemos ver a tendência dessa função!
+  infos[ticker]['survivability'] = f'C_{current_year - 10}' in lucros.keys()
+  infos[ticker]['earnings_stability'] = all(ultimos_lucros[i] > 0 for i in range(len(ultimos_lucros)))
+  infos[ticker]['earnings_growth'] = all(ultimos_lucros[i] <= ultimos_lucros[i+1] for i in range(len(ultimos_lucros)-1)) # Isso aqui deve virar uma função e devemos ver a tendência dessa função!
   
   # Fetching LPA's and DPA's
-  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticket}'
+  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticker}'
   with opener.open(url) as link:
     company_indicators = link.read().decode('ISO-8859-1')
   company_indicators = json.loads(company_indicators)
@@ -148,8 +148,8 @@ def fill_infos_by_ticket(ticket, opener):
   last_lpas = [fundament['lpa'] for fundament in company_indicators]
   last_dpas = [fundament['dpa'] for fundament in company_indicators]
   
-  infos[ticket]['lpa_growth'] = (sum(last_lpas[:3]) / 3) >= (sum(last_lpas[-3:]) / 3)
-  infos[ticket]['dividends_stability'] = all(last_dpas[:10][i] > 0 for i in range(len(last_dpas[:10])))
+  infos[ticker]['lpa_growth'] = (sum(last_lpas[:3]) / 3) >= (sum(last_lpas[-3:]) / 3)
+  infos[ticker]['dividends_stability'] = all(last_dpas[:10][i] > 0 for i in range(len(last_dpas[:10])))
 
 def add_ratings(shares):
   add_graham_columns(shares)
@@ -230,10 +230,6 @@ def current_year():
 def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
-# Enter on this URL before executing this code
-# https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999
-# https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4
-
 # python3 graham.py "{ 'year': 2015 }"
 if __name__ == '__main__':  
   # Opening these URLs to automatically allow this API to receive more requests from local IP
@@ -255,4 +251,3 @@ if __name__ == '__main__':
   
   if year != current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
-
