@@ -145,11 +145,21 @@ def fill_infos_by_ticket(ticker, opener):
     company_indicators = link.read().decode('ISO-8859-1')
   company_indicators = json.loads(company_indicators)
   
-  last_lpas = [fundament['lpa'] for fundament in company_indicators]
-  last_dpas = [fundament['dpa'] for fundament in company_indicators]
+  # Only consider company indicators before the current_year (robust solution for backtesting purposes)
+  company_indicators = [ci for ci in company_indicators if ci['year'] < current_year]
   
-  infos[ticker]['lpa_growth'] = (sum(last_lpas[:3]) / 3) >= (sum(last_lpas[-3:]) / 3)
-  infos[ticker]['dividends_stability'] = all(last_dpas[:10][i] > 0 for i in range(len(last_dpas[:10])))
+  last_dpas = [fundament['dpa'] for fundament in company_indicators]
+  last_lpas = [fundament['lpa'] for fundament in company_indicators]
+  
+  if (len(last_lpas[:10]) == 0):
+    infos[ticker]['lpa_growth'] = False
+  else:
+    infos[ticker]['lpa_growth'] = (sum(last_lpas[:3]) / 3) >= (sum(last_lpas[-3:]) / 3)
+  
+  if (len(last_dpas[:10]) == 0):
+    infos[ticker]['dividends_stability'] = False
+  else:
+    infos[ticker]['dividends_stability'] = all(last_dpas[:10][i] > 0 for i in range(len(last_dpas[:10])))
 
 def add_ratings(shares):
   add_graham_columns(shares)
@@ -187,7 +197,7 @@ def fill_score(shares):
   shares['Graham Score'] += (shares['ROE'] > 0.2).astype(int)
   shares['Graham Score'] += (shares['Dividend Yield'] > 0.045).astype(int)
   shares['Graham Score'] += (shares['Liquidez Corrente'] > 1.5).astype(int)
-  shares['Graham Score'] += (shares['Dívida Bruta/Patrimônio'] < 0.5).astype(int) # Oque significa negativo?
+  shares['Graham Score'] += (shares['Dívida Bruta/Patrimônio'] < 0.5).astype(int)
   shares['Graham Score'] += (shares['Patrimônio Líquido'] > 2000000000).astype(int)
 
 # Mostra quais filtros a ação passou para pontuar seu Score
