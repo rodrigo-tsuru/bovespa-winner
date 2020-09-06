@@ -9,7 +9,7 @@
 # Princípios utilizados:
 
 # - [x] 1. Preço Justo > 1.5 * Preço. Preço Justo => Dividend Yield * 16.67 (Por: Décio Bazin)
-# - [x] 2. Dívida Líquida/Patrimônio < 0.5 (50%)
+# - [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
 # - [x] 3. Dividend Yield > 0.06 (6%)
 # - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
 # - [x] 5. Pagamento constante de dividendos nos últimos 5 anos
@@ -19,21 +19,24 @@
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
+import fundamentus
 import bovespa
+import backtest
+import browser
+
 import pandas
-import subprocess
 import numpy
+import urllib.parse
 
 from math import sqrt
 from decimal import Decimal
 
 import http.cookiejar
 import urllib.request
-import urllib.parse
 import json
 import threading
-
 import time
+import subprocess
 
 # === Parallel fetching... https://stackoverflow.com/questions/16181121/a-very-simple-multithreading-parallel-url-fetching-without-queue
 
@@ -52,11 +55,30 @@ import time
 # Futura análise da análise ()
 # https://statusinvest.com.br/acao/getrevenue?companyName=enauta&type=0&trimestral=false
 
-def print(thing):
-  import pprint
-  return pprint.PrettyPrinter(indent=4).pprint(thing)
+# Populate shares panda dataframe with the provided year
+def populate_shares(year):
+  globals()['year'] = year
+  globals()['dividends'] = {}
+  
+  if year == current_year():
+    shares = bovespa.shares()
+  else:
+    shares = fundamentus.shares(year)
+  
+  shares = shares[shares['Cotação'] > 0]
+  # shares = shares[shares['Liquidez 2 meses'] > 500]
+  shares['Ranking'] = 0
 
-# Captura a situação dos dividendos nos últimos 5 anos. (Captura do site: Status Invest)
+  fill_dividend_yields(shares)
+  
+  shares = add_ratings(shares)
+  
+  shares = reorder_columns(shares)
+
+  return shares
+
+
+# Captura a situação dos dividendos nos últimos 5 anos. (Captura do site: Suno Analitica)
 # dividends = {
 #   'TRPL4': { 'constante': False, 'crescente': False },
 #   'PETR4': { 'constante': False, 'crescente': False }
@@ -67,6 +89,7 @@ def fill_dividend_yields(shares):
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
   tickets = list(shares.index)
+  # import pry; pry()
   threads = [threading.Thread(target=fill_dividend_by_ticket, args=(ticket,opener,)) for ticket in tickets]
   for thread in threads:
     thread.start()
@@ -74,33 +97,52 @@ def fill_dividend_yields(shares):
     thread.join()
 
 def fill_dividend_by_ticket(ticket, opener):
-  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticket}'
-  with opener.open(url) as link:
-    suno_indicators = link.read().decode('ISO-8859-1')
-  suno_indicators = json.loads(suno_indicators)
-  current_year = int(time.strftime("%Y"))
-
-  # Dividendo Por Ação
-  last_dpas = [fundament['dpa'] for fundament in suno_indicators] # Bazin
-  last_payouts = [fundament['payout'] for fundament in suno_indicators] # Bazin
-  last_divYields = [fundament['divYeld'] for fundament in suno_indicators] # Bazin
-  # last_lpas = [fundament['lpa'] for fundament in suno_indicators] # Graham
-  # last_pls = [fundament['pl'] for fundament in suno_indicators] # Graham
-
   dividends[ticket] = {
     'ultimos_dy': 0.0,
     'constante': False,
     'crescente': False,
     'healthy_payout': False
   }
-  dividends[ticket]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
-  dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
-  dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
-  dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
+  
+  if year == None:
+    current_year = int(time.strftime("%Y"))
+  else:
+    current_year = year
+  
+  # Fetching LPA's and DPA's
+  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticket}'
+  with opener.open(url) as link:
+    company_indicators = link.read().decode('ISO-8859-1')
+  company_indicators = json.loads(company_indicators)
+  
+  # Only consider company indicators before the current_year (robust solution for backtesting purposes)
+  company_indicators = [ci for ci in company_indicators if ci['year'] < current_year]
+  
+  last_dpas = [fundament['dpa'] for fundament in company_indicators] # Bazin
+  last_payouts = [fundament['payout'] for fundament in company_indicators] # Bazin
+  last_divYields = [fundament['divYeld'] for fundament in company_indicators] # Bazin
+  
+  if (len(last_divYields[:5]) == 0):
+    dividends[ticket]['ultimos_dy'] = False
+  else:
+    dividends[ticket]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
+  
+  if (len(last_dpas[:5]) == 0):
+    dividends[ticket]['constante'] = False
+    dividends[ticket]['crescente'] = False
+  else:
+    dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
+    dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
+  
+  if (len(last_divYields[:5]) == 0):
+    dividends[ticket]['ultimos_dy'] = False
+  else:
+    dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
 
-def filter(shares):
+def add_ratings(shares):
   add_graham_columns(shares)
   fill_score(shares)
+  fill_score_explanation(shares)
   return fill_yield_history(shares)
 
 # Inicializa os índices
@@ -117,13 +159,13 @@ def add_graham_columns(shares):
 def fill_score(shares):
   shares['Bazin Score'] += (shares['Preço Justo'] > Decimal(1.5) * shares['Cotação']).astype(int)
   shares['Bazin Score'] += (shares['Dividend Yield'] > 0.06).astype(int)
-  shares['Bazin Score'] += ((shares['Dívida Líquida/Patrimônio']).astype(float) < 0.5).astype(int)
+  shares['Bazin Score'] += ((shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5).astype(int)
 
 # Mostra quais filtros a ação passou para pontuar seu Bazin Score
 def fill_score_explanation(shares):
   shares['Preço Justo > 1.5 * Cotação'] = shares['Preço Justo'] > Decimal(1.5) * shares['Cotação']
   shares['Dividend Yield > 0.06'] = shares['Dividend Yield'] > 0.06
-  shares['Dívida Líquida/Patrimônio < 0.5'] = (shares['Dívida Líquida/Patrimônio']).astype(float) < 0.5 # https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
+  shares['Dívida Bruta/Patrimônio < 0.5'] = (shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5 # https://www.investimentonabolsa.com/2015/07/saiba-analisar-divida-das-empresas.html https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 
 def fill_yield_history(shares):
   for index in range(len(shares)):
@@ -144,29 +186,32 @@ def reorder_columns(shares):
   columns = ['Ranking', 'Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
+# Get the current_year integer value, for example: 2020
+def current_year():
+  return int(time.strftime("%Y"))
+
 # Copia o result no formato Markdown (Git :D)
 def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
+# python3 bazin.py "{ 'year': 2015 }"
 if __name__ == '__main__':
-  from waitingbar import WaitingBar
-  progress_bar = WaitingBar('[*] Calculating...')
+  # Opening these URLs to automatically allow this API to receive more requests from local IP
+  browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
+  browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4')
+  
+  year = current_year()
+  if len(sys.argv) > 1:
+    year = int(eval(sys.argv[1])['year'])
 
-  shares = bovespa.shares()
-
-  dividends = {}
-  fill_dividend_yields(shares)
-
-  shares = filter(shares)
-  fill_score_explanation(shares)
+  shares = populate_shares(year)
 
   shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
-
+  
   shares['Ranking'] = range(1, len(shares) + 1)
-
-  shares = reorder_columns(shares)
-
-  copy(shares)
+  
   print(shares)
-
-  progress_bar.stop()
+  copy(shares)
+  
+  if year != current_year():
+    backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
