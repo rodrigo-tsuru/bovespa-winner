@@ -88,16 +88,16 @@ def fill_dividend_yields(shares):
   opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
-  tickets = list(shares.index)
+  tickers = list(shares.index)
   # import pry; pry()
-  threads = [threading.Thread(target=fill_dividend_by_ticket, args=(ticket,opener,)) for ticket in tickets]
+  threads = [threading.Thread(target=fill_dividend_by_ticker, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
   for thread in threads:
     thread.join()
 
-def fill_dividend_by_ticket(ticket, opener):
-  dividends[ticket] = {
+def fill_dividend_by_ticker(ticker, opener):
+  dividends[ticker] = {
     'ultimos_dy': 0.0,
     'constante': False,
     'crescente': False,
@@ -110,7 +110,7 @@ def fill_dividend_by_ticket(ticket, opener):
     current_year = year
   
   # Fetching LPA's and DPA's
-  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticket}'
+  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticker}'
   with opener.open(url) as link:
     company_indicators = link.read().decode('ISO-8859-1')
   company_indicators = json.loads(company_indicators)
@@ -123,21 +123,21 @@ def fill_dividend_by_ticket(ticket, opener):
   last_divYields = [fundament['divYeld'] for fundament in company_indicators] # Bazin
   
   if (len(last_divYields[:5]) == 0):
-    dividends[ticket]['ultimos_dy'] = False
+    dividends[ticker]['ultimos_dy'] = 0.0
   else:
-    dividends[ticket]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
+    dividends[ticker]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
   
   if (len(last_dpas[:5]) == 0):
-    dividends[ticket]['constante'] = False
-    dividends[ticket]['crescente'] = False
+    dividends[ticker]['constante'] = False
+    dividends[ticker]['crescente'] = False
   else:
-    dividends[ticket]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
-    dividends[ticket]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
+    dividends[ticker]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
+    dividends[ticker]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   
   if (len(last_divYields[:5]) == 0):
-    dividends[ticket]['ultimos_dy'] = False
+    dividends[ticker]['ultimos_dy'] = False
   else:
-    dividends[ticket]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
+    dividends[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
 
 def add_ratings(shares):
   add_graham_columns(shares)

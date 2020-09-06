@@ -90,13 +90,13 @@ def fill_infos(shares):
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
   tickers = list(shares.index)
-  threads = [threading.Thread(target=fill_infos_by_ticket, args=(ticker,opener,)) for ticker in tickers]
+  threads = [threading.Thread(target=fill_infos_by_ticker, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
   for thread in threads:
     thread.join()
 
-def fill_infos_by_ticket(ticker, opener):
+def fill_infos_by_ticker(ticker, opener):
   # Fetching Lucro Liquido
   url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticker}&period=999'
   with opener.open(url) as link:
