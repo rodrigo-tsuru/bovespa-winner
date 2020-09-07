@@ -31,19 +31,19 @@ def shares(year = None):
     ('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
     ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')
   ]
-
+  
   # Aqui estão os parâmetros de busca das ações
   # Estão em branco para que retorne todas as disponíveis
   data = {'pl_min': '', 'pl_max': '', 'pvp_min': '', 'pvp_max' : '', 'psr_min': '', 'psr_max': '', 'divy_min': '', 'divy_max': '', 'pativos_min': '', 'pativos_max': '', 'pcapgiro_min': '', 'pcapgiro_max': '', 'pebit_min': '', 'pebit_max': '', 'fgrah_min': '', 'fgrah_max': '', 'firma_ebit_min': '', 'firma_ebit_max': '', 'margemebit_min': '', 'margemebit_max': '', 'margemliq_min': '', 'margemliq_max': '', 'liqcorr_min': '', 'liqcorr_max': '', 'roic_min': '', 'roic_max': '', 'roe_min': '', 'roe_max': '', 'liq_min': '', 'liq_max': '', 'patrim_min': '', 'patrim_max': '', 'divbruta_min': '', 'divbruta_max': '', 'tx_cresc_rec_min': '', 'tx_cresc_rec_max': '', 'setor': '', 'negociada': 'ON', 'ordem': '1', 'x': '28', 'y': '16'}
-
+  
   with request.open(url, urllib.parse.urlencode(data).encode('UTF-8')) as link:
       content = link.read().decode('ISO-8859-1')
-
+  
   pattern = re.compile('<table id="resultado".*</table>', re.DOTALL)
   content = re.findall(pattern, content)[0]
   page = fragment_fromstring(content)
   result = pandas.DataFrame(dataframe_opts(year))
-
+  
   for rows in page.xpath('tbody')[0].findall("tr"):
       new_row = pandas.DataFrame(index=[rows.getchildren()[0][0].getchildren()[0].text],
                                  data=dataframe_data(rows, year))

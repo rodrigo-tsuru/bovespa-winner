@@ -97,12 +97,12 @@ def calculate(shares, formula):
 
 def reorder_columns(shares, formula):
   columns = ['Greenblatt Ranking', 'Cotação', 'Magic Formula']
-
+  
   if formula in ('ROE', None):
     columns.extend(['P/L', 'ROE'])
   if formula in ('ROIC', None):
     columns.extend(['EV/EBIT', 'ROIC'])
-
+  
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020

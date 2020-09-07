@@ -68,7 +68,7 @@ def populate_shares(year):
   shares = shares[shares['Cotação'] > 0]
   # shares = shares[shares['Liquidez 2 meses'] > 500]
   shares['Ranking'] = 0
-
+  
   fill_dividend_yields(shares)
   
   shares = add_ratings(shares)
@@ -203,9 +203,9 @@ if __name__ == '__main__':
   year = current_year()
   if len(sys.argv) > 1:
     year = int(eval(sys.argv[1])['year'])
-
+  
   shares = populate_shares(year)
-
+  
   shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
   
   shares['Ranking'] = range(1, len(shares) + 1)

@@ -74,6 +74,25 @@ def run(tickers, start, end=time.strftime("%Y-%m-%d")):
   # # Beautifully plots the result on the screen
   # pf.create_full_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
 
+# Calculate Ibovespa return with R$ 1,000.00 invested
+def bovespa(start, end=time.strftime("%Y-%m-%d")):
+  end = next_year(start)
+  
+  tickers = ['^BVSP']
+  
+  dados_yahoo = yf.download(tickers=tickers, start=start, end=end)['Adj Close']
+  
+  # Calculate the percentage of DAILY return
+  retorno = dados_yahoo.pct_change()
+  retorno.iloc[0] = 0
+  
+  # Calculate the percentage of ACCUMULATED return
+  retorno_acumulado = (1 + retorno).cumprod()
+  
+  # Execute the Backtest investing R$1.000,00 on each ticker
+  carteira = 10000 * retorno_acumulado
+  return commalize(str(carteira[-1]))
+
 def commalize(value):
   return value.replace('.', ',')
 

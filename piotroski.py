@@ -206,6 +206,6 @@ if __name__ == '__main__':
   
   print(shares)
   copy(shares)
-
+  
   if year != current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
