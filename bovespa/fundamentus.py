@@ -12,6 +12,116 @@ import time
 from lxml.html import fragment_fromstring
 from decimal import Decimal
 
+# Setores das ações da bolsa!
+# http://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/acoes/consultas/classificacao-setorial/
+ticker_categories = {
+  'CSAN': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'DMMO': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'ENAT': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'RPMG': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'PETR': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'BRDT': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'PRIO': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'UGPA': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'UGPA': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Exploração, Refino e Distribuição'
+  },
+  'LUPA': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Equipamentos e Serviços'
+  },
+  'OSXB': {
+    'setor': 'Petróleo, Gás e Biocombustíveis',
+    'subsetor': 'Petróleo, Gás e Biocombustíveis',
+    'segmento': 'Equipamentos e Serviços'
+  },
+  'BRAP': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Mineração',
+    'segmento': 'Minerais Metálicos'
+  },
+  'LTEL': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Mineração',
+    'segmento': 'Minerais Metálicos'
+  },
+  'LTLA': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Mineração',
+    'segmento': 'Minerais Metálicos'
+  },
+  'MMXM': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Mineração',
+    'segmento': 'Minerais Metálicos'
+  },
+  'VALE': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Mineração',
+    'segmento': 'Minerais Metálicos'
+  },
+  'FESA': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Siderurgia e Metalurgia',
+    'segmento': 'Siderurgia'
+  },
+  'GGBR': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Siderurgia e Metalurgia',
+    'segmento': 'Siderurgia'
+  },
+  'GOAU': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Siderurgia e Metalurgia',
+    'segmento': 'Siderurgia'
+  },
+  'CSNA': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Siderurgia e Metalurgia',
+    'segmento': 'Siderurgia'
+  },
+  'USIM': {
+    'setor': 'Materiais Básicos',
+    'subsetor': 'Siderurgia e Metalurgia',
+    'segmento': 'Siderurgia'
+  }
+}
+
 def start_date(year):
   if year == current_year():
     return time.strftime("%Y-%m-%d")
