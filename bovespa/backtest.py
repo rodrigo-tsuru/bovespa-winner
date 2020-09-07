@@ -1,4 +1,7 @@
-# Automatically Execute Backtest with the Bovespa shares with the provided period and tickers
+# Oque é um backtest?
+# => https://www.sunoresearch.com.br/artigos/backtesting/
+
+# Automaticaly Execute Backtest with the Bovespa shares with the provided period and tickers
 # This file uses Yahoo Finance API => https://pypi.org/project/yfinance/
 
 # Quick Tutorial: https://www.youtube.com/watch?v=d2qrsCfXung&t=17s
@@ -76,7 +79,7 @@ def run(tickers, start, end=time.strftime("%Y-%m-%d")):
 
 # Calculate Ibovespa return with R$ 1,000.00 invested
 def bovespa(start, end=time.strftime("%Y-%m-%d")):
-  end = next_year(start)
+  # end = next_year(start)
   
   tickers = ['^BVSP']
   
@@ -89,7 +92,7 @@ def bovespa(start, end=time.strftime("%Y-%m-%d")):
   # Calculate the percentage of ACCUMULATED return
   retorno_acumulado = (1 + retorno).cumprod()
   
-  # Execute the Backtest investing R$1.000,00 on each ticker
+  # Execute the Backtest investing R$10.000,00 on the Bovespa Index
   carteira = 10000 * retorno_acumulado
   return commalize(str(carteira[-1]))
 

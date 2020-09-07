@@ -17,6 +17,8 @@
 # 8. Margem Bruta atual > Margem Bruta ano anterior
 # 9. Giro Ativo atual > Giro Ativo ano anterior
 
+# Referência: https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
