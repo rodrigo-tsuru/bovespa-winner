@@ -39,7 +39,7 @@ def run_all(start, tickers):
   run(manada, start)
   
   click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
-  run(tickers, start)
+  return run(tickers, start)
 
 # Execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
