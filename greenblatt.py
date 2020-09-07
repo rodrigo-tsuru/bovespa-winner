@@ -21,9 +21,9 @@
 
 # Princípios utilizados:
 
-# - [x] 1. > ROE e < P/L
-# - [x] 2. > ROIC e < EV/EBIT
-# - [x] 3. Os dois anteriores
+# - [x] Fórmula Mágica 1): > ROIC e < EV/EBIT e > ROE e < P/L
+# - [x] Fórmula Mágica 2): > ROIC e < EV/EBIT
+# - [x] Fórmula Mágica 3): > ROE e < P/L
 
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
