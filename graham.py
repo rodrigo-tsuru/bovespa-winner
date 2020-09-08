@@ -111,10 +111,7 @@ def fill_infos_by_ticker(ticker, opener):
     'dividends_stability': False
   }
   
-  if year == None:
-    current_year = int(time.strftime("%Y"))
-  else:
-    current_year = year
+  current_year = year
   
   lucros = [r for r in company_results if r['description'] == 'Lucro LÃ\xadquido'][0]
   years = [x for x in lucros.keys() if re.match('C_\w{4}$', x)]
@@ -151,14 +148,10 @@ def fill_infos_by_ticker(ticker, opener):
   last_dpas = [fundament['dpa'] for fundament in company_indicators]
   last_lpas = [fundament['lpa'] for fundament in company_indicators]
   
-  if (len(last_lpas[:10]) == 0):
-    infos[ticker]['lpa_growth'] = False
-  else:
+  if (len(last_lpas[:10]) > 0):
     infos[ticker]['lpa_growth'] = (sum(last_lpas[:3]) / 3) >= (sum(last_lpas[-3:]) / 3)
   
-  if (len(last_dpas[:10]) == 0):
-    infos[ticker]['dividends_stability'] = False
-  else:
+  if (len(last_dpas[:10]) > 0):
     infos[ticker]['dividends_stability'] = all(last_dpas[:10][i] > 0 for i in range(len(last_dpas[:10])))
 
 def add_ratings(shares):

@@ -104,10 +104,7 @@ def fill_dividend_by_ticker(ticker, opener):
     'healthy_payout': False
   }
   
-  if year == None:
-    current_year = int(time.strftime("%Y"))
-  else:
-    current_year = year
+  current_year = year
   
   # Fetching LPA's and DPA's
   url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticker}'
@@ -122,21 +119,14 @@ def fill_dividend_by_ticker(ticker, opener):
   last_payouts = [fundament['payout'] for fundament in company_indicators] # Bazin
   last_divYields = [fundament['divYeld'] for fundament in company_indicators] # Bazin
   
-  if (len(last_divYields[:5]) == 0):
-    dividends[ticker]['ultimos_dy'] = 0.0
-  else:
+  if (len(last_divYields[:5]) > 0):
     dividends[ticker]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
   
-  if (len(last_dpas[:5]) == 0):
-    dividends[ticker]['constante'] = False
-    dividends[ticker]['crescente'] = False
-  else:
+  if (len(last_dpas[:5]) > 0):
     dividends[ticker]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
     dividends[ticker]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   
-  if (len(last_divYields[:5]) == 0):
-    dividends[ticker]['ultimos_dy'] = False
-  else:
+  if (len(last_divYields[:5]) > 0):
     dividends[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
 
 def add_ratings(shares):

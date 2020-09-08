@@ -102,10 +102,7 @@ def fill_infos_by_ticker(ticker, opener):
     'giro_ativo_crescente': False
   }
   
-  if year == None:
-    current_year = int(time.strftime("%Y"))
-  else:
-    current_year = year
+  current_year = year
   
   # Fetching Current Year Indicators
   current_indicators_url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsDashboard?ticker={ticker}'
