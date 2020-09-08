@@ -22,7 +22,6 @@ No momento, estratégias dos seguintes grandes investidores podem ser aplicadas:
   * pyfolio
   * click
   * tabulate
-  * 
 
 # Como usar 🎯
 
