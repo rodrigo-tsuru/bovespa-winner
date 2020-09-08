@@ -64,7 +64,7 @@ def populate_shares(year):
   
   shares = shares[shares['Cotação'] > 0]
   # shares = shares[shares['Liquidez 2 meses'] > 500]
-  shares['Ranking'] = 0
+  shares['Ranking (Graham)'] = 0
   
   fill_infos(shares)
   
@@ -97,12 +97,6 @@ def fill_infos(shares):
     thread.join()
 
 def fill_infos_by_ticker(ticker, opener):
-  # Fetching Lucro Liquido
-  url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticker}&period=999'
-  with opener.open(url) as link:
-    company_results = link.read().decode('ISO-8859-1')
-  company_results = json.loads(company_results)
-  
   infos[ticker] = {
     'survivability': False,
     'earnings_stability': False,
@@ -110,6 +104,12 @@ def fill_infos_by_ticker(ticker, opener):
     'lpa_growth': False,
     'dividends_stability': False
   }
+  
+  # Fetching Lucro Liquido
+  url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticker}&period=999'
+  with opener.open(url) as link:
+    company_results = link.read().decode('ISO-8859-1')
+  company_results = json.loads(company_results)
   
   current_year = year
   
@@ -163,27 +163,27 @@ def add_ratings(shares):
 
 # Inicializa os índices
 def add_graham_columns(shares):
-  shares['Preço Justo'] = 0
+  shares['Preço Justo (Graham)'] = 0
   shares['Graham Score'] = 0
-  shares['Preço Justo / Cotação'] = 0
+  shares['Preço Justo (Graham) / Cotação'] = 0
   shares['10 Anos de Sobrevivencia'] = False
   shares['Lucros Positivos nos Ultimos 10 Anos'] = False
   shares['Lucros Crescentes nos Ultimos 10 Anos'] = False
   shares['LPA atual > 1.33 * LPA 10 anos atrás'] = False
   shares['Dividendos Positivos nos Ultimos 10 Anos'] = False
 
-# Benjamin Graham elaborou a seguinte fórmula para calcular o Valor Intríseco (Preço Justo):
+# Benjamin Graham elaborou a seguinte fórmula para calcular o Valor Intríseco (Preço Justo (Graham)):
 # => sqrt(22.5 * VPA * LPA)
 def fill_fair_price(shares):
   for index in range(len(shares)):
     if ((shares['P/L'][index] > 0) & (shares['P/VP'][index] > 0)):
-      shares['Preço Justo'][index] = sqrt(Decimal(22.5) * (shares['Cotação'][index] / shares['P/L'][index]) * (shares['Cotação'][index] / shares['P/VP'][index]))
+      shares['Preço Justo (Graham)'][index] = sqrt(Decimal(22.5) * (shares['Cotação'][index] / shares['P/L'][index]) * (shares['Cotação'][index] / shares['P/VP'][index]))
     else:
-      shares['Preço Justo'][index] = 0
-  shares['Preço Justo / Cotação'] = shares['Preço Justo'] / shares['Cotação'] # Ideal > 1. Quanto maior, melhor! Significa que a ação deveria estar valendo 1 vezes mais, 2 vezes mais, 3 vezes mais, etc.
+      shares['Preço Justo (Graham)'][index] = 0
+  shares['Preço Justo (Graham) / Cotação'] = shares['Preço Justo (Graham)'] / shares['Cotação'] # Ideal > 1. Quanto maior, melhor! Significa que a ação deveria estar valendo 1 vezes mais, 2 vezes mais, 3 vezes mais, etc.
 
 def fill_score(shares):
-  shares['Graham Score'] += (shares['Preço Justo / Cotação'] > Decimal(1.5)).astype(int)
+  shares['Graham Score'] += (shares['Preço Justo (Graham) / Cotação'] > Decimal(1.5)).astype(int)
   shares['Graham Score'] += ((shares['P/L'] < 15) & (shares['P/L'] >= 0)).astype(int)
   shares['Graham Score'] += ((shares['P/VP'] < 1.5) & (shares['P/VP'] >= 0)).astype(int)
   shares['Graham Score'] += (shares['Crescimento em 5 anos'] > 0.05).astype(int)
@@ -195,7 +195,7 @@ def fill_score(shares):
 
 # Mostra quais filtros a ação passou para pontuar seu Score
 def fill_score_explanation(shares):
-  shares['Margem de Segurança: Preço Justo > 1.5 * Cotação'] = shares['Preço Justo / Cotação'] > Decimal(1.5)
+  shares['Margem de Segurança: Preço Justo (Graham) > 1.5 * Cotação'] = shares['Preço Justo (Graham) / Cotação'] > Decimal(1.5)
   shares['P/L < 15 (E não negativo)'] = (shares['P/L'] < 15) & (shares['P/L'] >= 0)
   shares['P/VP < 1.5 (E não negativo)'] = (shares['P/VP'] < 1.5) & (shares['P/VP'] >= 0)
   shares['Crescimento em 5 anos > 0.05'] = shares['Crescimento em 5 anos'] > 0.05
@@ -222,7 +222,7 @@ def fill_special_infos(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'Preço Justo / Cotação']
+  columns = ['Ranking (Graham)', 'Cotação', 'Preço Justo (Graham)', 'Graham Score', 'Preço Justo (Graham) / Cotação']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020
@@ -245,9 +245,9 @@ if __name__ == '__main__':
   
   shares = populate_shares(year)
   
-  shares.sort_values(by=['Graham Score', 'Preço Justo / Cotação'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Graham Score', 'Preço Justo (Graham) / Cotação'], ascending=[False, False], inplace=True)
   
-  shares['Ranking'] = range(1, len(shares) + 1)
+  shares['Ranking (Graham)'] = range(1, len(shares) + 1)
   
   print(shares)
   copy(shares)

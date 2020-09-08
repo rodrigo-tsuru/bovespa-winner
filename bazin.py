@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# A idéia é calcular o ranking das ações analisando os dados fundamentalistas de todas as empresas da bolsa B3
+# A idéia é calcular o ranking (Bazin) das ações analisando os dados fundamentalistas de todas as empresas da bolsa B3
 
 # Para a análise, são utilizados princípios do Décio Bazin
 # Ele é autor do livro: "Faça Fortuna Com Ações", que é tido como literatura indicada
@@ -8,7 +8,7 @@
 
 # Princípios utilizados:
 
-# - [x] 1. Preço Justo > 1.5 * Preço. Preço Justo => Dividend Yield * 16.67 (Por: Décio Bazin)
+# - [x] 1. Preço Justo (Bazin) > 1.5 * Preço. Preço Justo (Bazin) => Dividend Yield * 16.67 (Por: Décio Bazin)
 # - [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
 # - [x] 3. Dividend Yield > 0.06 (6%)
 # - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
@@ -67,7 +67,7 @@ def populate_shares(year):
   
   shares = shares[shares['Cotação'] > 0]
   # shares = shares[shares['Liquidez 2 meses'] > 500]
-  shares['Ranking'] = 0
+  shares['Ranking (Bazin)'] = 0
   
   fill_infos(shares)
   
@@ -89,7 +89,6 @@ def fill_infos(shares):
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
   tickers = list(shares.index)
-  # import pry; pry()
   threads = [threading.Thread(target=fill_infos_by_ticker, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
@@ -127,19 +126,19 @@ def fill_infos_by_ticker(ticker, opener):
     infos[ticker]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   
   if (len(last_divYields[:5]) > 0):
-    infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
+    infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
 
 def add_ratings(shares):
-  add_graham_columns(shares)
+  add_bazin_columns(shares)
   fill_score(shares)
   fill_score_explanation(shares)
-  return fill_yield_history(shares)
+  return fill_special_infos(shares)
 
 # Inicializa os índices
-def add_graham_columns(shares):
+def add_bazin_columns(shares):
   shares['Bazin Score'] = Decimal(0)
-  shares['Preço Justo'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
-  shares['Preço Justo / Cotação'] = shares['Preço Justo'] / shares['Cotação']
+  shares['Preço Justo (Bazin)'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
+  shares['Preço Justo (Bazin) / Cotação'] = shares['Preço Justo (Bazin)'] / shares['Cotação']
   shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0.0)
   shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
@@ -147,17 +146,17 @@ def add_graham_columns(shares):
   shares['Payout Saudavel nos Ultimos 5 Anos'] = False
 
 def fill_score(shares):
-  shares['Bazin Score'] += (shares['Preço Justo'] > Decimal(1.5) * shares['Cotação']).astype(int)
+  shares['Bazin Score'] += (shares['Preço Justo (Bazin)'] > Decimal(1.5) * shares['Cotação']).astype(int)
   shares['Bazin Score'] += (shares['Dividend Yield'] > 0.06).astype(int)
   shares['Bazin Score'] += ((shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5).astype(int)
 
 # Mostra quais filtros a ação passou para pontuar seu Bazin Score
 def fill_score_explanation(shares):
-  shares['Preço Justo > 1.5 * Cotação'] = shares['Preço Justo'] > Decimal(1.5) * shares['Cotação']
+  shares['Preço Justo (Bazin) > 1.5 * Cotação'] = shares['Preço Justo (Bazin)'] > Decimal(1.5) * shares['Cotação']
   shares['Dividend Yield > 0.06'] = shares['Dividend Yield'] > 0.06
   shares['Dívida Bruta/Patrimônio < 0.5'] = (shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5 # https://www.investimentonabolsa.com/2015/07/saiba-analisar-divida-das-empresas.html https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 
-def fill_yield_history(shares):
+def fill_special_infos(shares):
   for index in range(len(shares)):
     ticker = shares.index[index]
     shares['Media de Dividend Yield dos Últimos 5 anos'][index] = infos[ticker]['ultimos_dy']
@@ -173,7 +172,7 @@ def fill_yield_history(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Bazin Score', 'Preço Justo / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
+  columns = ['Ranking (Bazin)', 'Cotação', 'Preço Justo (Bazin)', 'Bazin Score', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020
@@ -198,7 +197,7 @@ if __name__ == '__main__':
   
   shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
   
-  shares['Ranking'] = range(1, len(shares) + 1)
+  shares['Ranking (Bazin)'] = range(1, len(shares) + 1)
   
   print(shares)
   copy(shares)
