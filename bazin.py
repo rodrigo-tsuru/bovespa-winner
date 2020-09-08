@@ -58,7 +58,7 @@ import subprocess
 # Populate shares panda dataframe with the provided year
 def populate_shares(year):
   globals()['year'] = year
-  globals()['dividends'] = {}
+  globals()['infos'] = {}
   
   if year == current_year():
     shares = bovespa.shares()
@@ -69,35 +69,35 @@ def populate_shares(year):
   # shares = shares[shares['Liquidez 2 meses'] > 500]
   shares['Ranking'] = 0
   
-  fill_dividend_yields(shares)
+  fill_infos(shares)
   
   shares = add_ratings(shares)
   
   shares = reorder_columns(shares)
-
+  
   return shares
 
 
 # Captura a situação dos dividendos nos últimos 5 anos. (Captura do site: Suno Analitica)
-# dividends = {
+# infos = {
 #   'TRPL4': { 'constante': False, 'crescente': False },
 #   'PETR4': { 'constante': False, 'crescente': False }
 # }
-def fill_dividend_yields(shares):
+def fill_infos(shares):
   cookie_jar = http.cookiejar.CookieJar()
   opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
   tickers = list(shares.index)
   # import pry; pry()
-  threads = [threading.Thread(target=fill_dividend_by_ticker, args=(ticker,opener,)) for ticker in tickers]
+  threads = [threading.Thread(target=fill_infos_by_ticker, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
   for thread in threads:
     thread.join()
 
-def fill_dividend_by_ticker(ticker, opener):
-  dividends[ticker] = {
+def fill_infos_by_ticker(ticker, opener):
+  infos[ticker] = {
     'ultimos_dy': 0.0,
     'constante': False,
     'crescente': False,
@@ -120,14 +120,14 @@ def fill_dividend_by_ticker(ticker, opener):
   last_divYields = [fundament['divYeld'] for fundament in company_indicators] # Bazin
   
   if (len(last_divYields[:5]) > 0):
-    dividends[ticker]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
+    infos[ticker]['ultimos_dy'] = (sum(last_divYields[:5]) / len(last_divYields[:5]))
   
   if (len(last_dpas[:5]) > 0):
-    dividends[ticker]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
-    dividends[ticker]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
+    infos[ticker]['constante'] = all(last_dpas[:5][i] > 0 for i in range(len(last_dpas[:5])))
+    infos[ticker]['crescente'] = all(last_dpas[:5][i] >= last_dpas[:5][i+1] for i in range(len(last_dpas[:5])-1))
   
   if (len(last_divYields[:5]) > 0):
-    dividends[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
+    infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))  
 
 def add_ratings(shares):
   add_graham_columns(shares)
@@ -160,15 +160,15 @@ def fill_score_explanation(shares):
 def fill_yield_history(shares):
   for index in range(len(shares)):
     ticker = shares.index[index]
-    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = dividends[ticker]['ultimos_dy']
-    shares['Bazin Score'][index] += int(dividends[ticker]['ultimos_dy'] > 0.05)
-    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = dividends[ticker]['ultimos_dy'] > 0.05
-    shares['Bazin Score'][index] += int(dividends[ticker]['constante'])
-    shares['Dividendos Constantes Ultimos 5 Anos'][index] = dividends[ticker]['constante']
-    shares['Bazin Score'][index] += int(dividends[ticker]['crescente'])
-    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = dividends[ticker]['crescente']
-    shares['Bazin Score'][index] += int(dividends[ticker]['healthy_payout'])
-    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = dividends[ticker]['healthy_payout']
+    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = infos[ticker]['ultimos_dy']
+    shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
+    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
+    shares['Bazin Score'][index] += int(infos[ticker]['constante'])
+    shares['Dividendos Constantes Ultimos 5 Anos'][index] = infos[ticker]['constante']
+    shares['Bazin Score'][index] += int(infos[ticker]['crescente'])
+    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
+    shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
+    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
   return shares
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
