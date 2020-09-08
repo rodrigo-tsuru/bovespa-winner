@@ -13,6 +13,16 @@ No momento, estratégias dos seguintes grandes investidores podem ser aplicadas:
 4. **Joseph D. Piotroski**
 5. **Kenneth Fisher**
 
+# Pré-requisitos 🎓
+* Python 3
+* Libs (`pip3 install them`)
+  * pandas
+  * lxml
+  * yfinance
+  * pyfolio
+  * click
+  * tabulate
+  * 
 
 # Como usar 🎯
 
