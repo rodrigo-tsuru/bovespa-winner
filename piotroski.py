@@ -37,9 +37,9 @@ import threading
 import time
 import subprocess
 
-def print(thing):
-  import pprint
-  return pprint.PrettyPrinter(indent=4).pprint(thing)
+# def print(thing):
+#   import pprint
+#   return pprint.PrettyPrinter(indent=4).pprint(thing)
 
 def populate_shares(year):
   globals()['year'] = year

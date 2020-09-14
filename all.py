@@ -2,6 +2,7 @@
 
 # Princípios utilizados:
 
+# Graham:
 # - [x] 1.  Sobrevivência: Sobreviveu nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
 # - [x] 2.  Estabilidade ds Lucros: Lucro > 0 nos últimos 10 anos. https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
 # - [x] 3.  Crescimento dos Lucros: Lucros crescentes nos últimos 10 anos https://www.estrategista.net/o-fracasso-de-benjamin-graham-na-bolsa-atual/
@@ -17,15 +18,14 @@
 # - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
 # - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 
-#### Graham ####
-# ===== Próximos =====
-# * Valor de Mercado maior que 2.000.000 . # Benjamin Graham # https://edisciplinas.usp.br/pluginfile.php/3821144/mod_resource/content/4/245.pdf
-#   => https://www.fundamentus.com.br/detalhes.php?papel=PETR4
-# * Valor médio de negociações superior a R$ 1 milhão. # Benjamin Graham # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
-#   ~> Vol $ méd (2m) > 1.000.000
-#   => https://www.fundamentus.com.br/detalhes.php?papel=PETR4
-# * Endividamento de longo prazo < Capital de Giro # Benjamin Graham # https://www.sunoresearch.com.br/artigos/o-investidor-inteligente-entenda-a-obra-de-benjamin-graham/
-# * Possui bom nível de governança corporativa # Benjamin Graham # https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
+# Bazin:
+# - [x] 1. Preço Justo (Bazin) > 1.5 * Preço. Preço Justo (Bazin) => Dividend Yield * 16.67 (Por: Décio Bazin)
+# - [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
+# - [x] 3. Dividend Yield > 0.06 (6%)
+# - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
+# - [x] 5. Pagamento constante de dividendos nos últimos 5 anos
+# - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
+# - [x] 7. 0 < Payout < 1
 
 # Lucros para fazer o Gráfico ;)
 # https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=WEGE3&period=10
