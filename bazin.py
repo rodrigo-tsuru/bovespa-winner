@@ -66,7 +66,7 @@ def populate_shares(year):
     shares = fundamentus.shares(year)
   
   shares = shares[shares['Cotação'] > 0]
-  # shares = shares[shares['Liquidez 2 meses'] > 500]
+  shares = shares[shares['Liquidez 2 meses'] > 0]
   shares['Ranking (Bazin)'] = 0
   
   fill_infos(shares)
