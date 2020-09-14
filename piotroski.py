@@ -201,10 +201,10 @@ if __name__ == '__main__':
   
   shares.sort_values(by=['Piotroski Score', 'Cotação'], ascending=[False, True], inplace=True)
   
-  shares['Ranking'] = range(1, len(shares) + 1)
+  shares['Ranking (Piotrotski)'] = range(1, len(shares) + 1)
   
   print(shares)
   copy(shares)
   
   if year != current_year():
-    backtest.run_all(fundamentus.start_date(year), list(shares.index[:10]))
+    backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))

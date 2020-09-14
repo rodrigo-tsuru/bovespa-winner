@@ -30,10 +30,38 @@ warnings.filterwarnings('ignore')
 import click
 import time
 
+def replace_outdateds(tickers):
+  replacements = {
+    'VVAR11': 'VVAR3',
+    'GETI4': 'TIET4',
+    'GETI3': 'TIET3',
+    'TRNA11': 'TAEE11',
+    'TRFO4': 'WEGE3',
+    'AVIL3': 'GGBR4',
+    'TMGC7': 'VIVT4',
+    'ESTC3': 'YDUQ3',
+    'TLPP3': 'VIVT3',
+    'TLPP4': 'VIVT4',
+    'SMLE3': 'SMLS3'
+  }
+  return [replacements.get(x, x) for x in tickers]
+
+def remove_delisteds(tickers):
+  delisteds = ['TRPN3', 'MPLU3', 'ELPL3', 'ELPL4', 'ELPL5', 'ELPL6', 'AFLU3', 'AFLU5', 'PNOR5', 'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4']
+  return [ticker for ticker in tickers if ticker not in delisteds]
+
+# Replace outdated tickers
+def prepare(tickers):
+  tickers = replace_outdateds(tickers)
+  tickers = remove_delisteds(tickers)
+  return tickers[:10]
+
 # Run all backtests for the provided tickers from the provided year until now
 def run_all(start, tickers):
   manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
+  # manada2 = ['GRND3', 'WEGE3', 'B3SA3', 'EZTC3', 'RADL3', 'EGIE3', 'ODPV3', 'BBSE3', 'PSSA3', 'ABEV3']
   # mine = ['BBAS3', 'BBDC3', 'BRSR3', 'CARD3', 'CGRA3', 'PETR4', 'QUAL3', 'SAPR4', 'TRPL4', 'VVAR3']
+  tickers = prepare(tickers)
   
   click.secho(f"\nRunning Manada Backtest {manada}", fg='black', bg='white', bold=True)
   run(manada, start)
