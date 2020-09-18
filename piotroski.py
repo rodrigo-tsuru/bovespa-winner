@@ -18,6 +18,7 @@
 # 9. Giro Ativo atual > Giro Ativo ano anterior
 
 # Referência: https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+# Backtesting on USA: https://www.quant-investing.com/blogs/backtests/2018/11/06/piotroski-f-score-back-test
 
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
