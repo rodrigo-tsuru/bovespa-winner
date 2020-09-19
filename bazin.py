@@ -134,7 +134,6 @@ def add_ratings(shares):
   fill_score_explanation(shares)
   return fill_special_infos(shares)
 
-# Inicializa os índices
 def add_bazin_columns(shares):
   shares['Bazin Score'] = Decimal(0)
   shares['Preço Justo (Bazin)'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
