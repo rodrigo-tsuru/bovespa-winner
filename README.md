@@ -119,7 +119,7 @@ Aplica-se ensinamentos de [Décio Bazin](https://www.sunoresearch.com.br/artigos
 
 Para a análise, são utilizados ensinamentos do livro "*Faça Fortuna Com Ações*" de **Décio Bazin**, que é tido como literatura indicada até mesmo por **Luis Barsi**, o maior investidor na bolsa brasileira de todos os tempos.
 
-Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio Bazin para cada ação.
+Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio Bazin para cada ação. Décio propõe o valor intrínsseco a partir do Dividend Yield atual da ação, mas no algoritmo utilizo a média do Dividend Yield histórico dos últimos 5 anos.
 
 No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
 
