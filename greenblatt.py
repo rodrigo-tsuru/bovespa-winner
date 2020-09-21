@@ -5,7 +5,7 @@
 # Breve Explicação: https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
 
 # Em sua fórmula mágica ele se utiliza dos seguintes indicadores: ROE e a relação P/L.
-# Através desses 2 indicadores ele monta um Greenblatt ranking com as empresas de maior ROE (mais rentáveis) e de menor P/L (mais baratas).
+# Através desses 2 indicadores ele monta um ranking (Greenblatt) com as empresas de maior ROE (mais rentáveis) e de menor P/L (mais baratas).
 # Fazendo os 2 rankings, ele soma a posição de cada uma delas nos rankings.
 # As empresas de menor soma são aquelas escolhidas para montar a carteira pois seriam as mais baratas e mais rentáveis.
 
@@ -40,10 +40,22 @@ import subprocess
 from math import sqrt
 from decimal import Decimal
 
-def setup(shares, formula, year):
-  explain(formula)
+def populate_shares(year):
+  globals()['year'] = year
+  globals()['infos'] = {}
+  
+  if year == current_year():
+    shares = bovespa.shares()
+  else:
+    shares = fundamentus.shares(year)
+  
   shares = shares[shares['Cotação'] > 0]
   shares = shares[shares['Liquidez 2 meses'] > 10000]
+
+  return setup(shares, formula, year)
+
+def setup(shares, formula, year):
+  explain(formula)
   init(shares, formula)
   remove_bad_shares(shares, formula)
   calculate(shares, formula)
@@ -57,6 +69,15 @@ def explain(formula):
     print("ROIC and EV/EBIT")
   print('')
 
+def init(shares, formula):
+  shares['Ranking (Greenblatt)'] = 0
+  if formula in ('ROE', None):
+    shares['ROE placement'] = 0
+    shares['P/L placement'] = 0
+  if formula in ('ROIC', None):
+    shares['ROIC placement'] = 0
+    shares['EV/EBIT placement'] = 0
+
 def remove_bad_shares(shares, formula):
   if formula in ('ROE', None):
     shares.drop(shares[shares['P/L'] <= 0].index, inplace=True)
@@ -64,15 +85,6 @@ def remove_bad_shares(shares, formula):
   if formula in ('ROIC', None):
     shares.drop(shares[shares['EV/EBIT'] <= 0].index, inplace=True)
     shares.drop(shares[shares['ROIC'] <= 0].index, inplace=True)
-
-def init(shares, formula):
-  shares['Greenblatt Ranking'] = 0
-  if formula in ('ROE', None):
-    shares['ROE placement'] = 0
-    shares['P/L placement'] = 0
-  if formula in ('ROIC', None):
-    shares['ROIC placement'] = 0
-    shares['EV/EBIT placement'] = 0
 
 def calculate(shares, formula):
   shares['Magic Formula'] = 0
@@ -90,13 +102,10 @@ def calculate(shares, formula):
     shares['EV/EBIT placement'] = range(0, len(shares))
     shares['Magic Formula'] += shares['ROIC placement'] + shares['EV/EBIT placement']
   
-  shares.sort_values(by=['Magic Formula', 'Cotação'], ascending=[True, True], inplace=True)
-  shares['Greenblatt Ranking'] = range(1, len(shares) + 1)
-  
   return shares
 
 def reorder_columns(shares, formula):
-  columns = ['Greenblatt Ranking', 'Cotação', 'Magic Formula']
+  columns = ['Ranking (Greenblatt)', 'Cotação', 'Magic Formula']
   
   if formula in ('ROE', None):
     columns.extend(['P/L', 'ROE'])
@@ -131,14 +140,10 @@ if __name__ == '__main__':
     year = int(arguments.get('year', current_year()))
     formula = arguments.get('formula', None)
   
-  if year == current_year():
-    shares = bovespa.shares()
-  else:
-    shares = fundamentus.shares(year)
-  
-  shares = setup(shares, formula, year)
+  shares = populate_shares(year)
   
   shares.sort_values(by=['Magic Formula', 'Cotação'], ascending=[True, True], inplace=True)
+  shares['Ranking (Greenblatt)'] = range(1, len(shares) + 1)
   
   print(shares)
   copy(shares)

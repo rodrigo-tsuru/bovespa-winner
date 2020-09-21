@@ -47,7 +47,7 @@ def replace_outdateds(tickers):
   return [replacements.get(x, x) for x in tickers]
 
 def remove_delisteds(tickers):
-  delisteds = ['TRPN3', 'MPLU3', 'ELPL3', 'ELPL4', 'ELPL5', 'ELPL6', 'AFLU3', 'AFLU5', 'PNOR5', 'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4', 'TIBR5', 'BMTO4', 'BMTO3', 'MRSL4', 'MRSL3', 'DXTG4']
+  delisteds = ['TRPN3', 'MPLU3', 'ELPL3', 'ELPL4', 'ELPL5', 'ELPL6', 'AFLU3', 'AFLU5', 'PNOR5', 'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4', 'TIBR5', 'BMTO4', 'BMTO3', 'MRSL4', 'MRSL3', 'DXTG4', 'CELP7']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers
