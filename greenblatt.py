@@ -105,7 +105,7 @@ def calculate(shares, formula):
   return shares
 
 def reorder_columns(shares, formula):
-  columns = ['Ranking (Greenblatt)', 'Cotação', 'Magic Formula']
+  columns = ['Ranking (Greenblatt)', 'Cotação', 'Magic Formula', 'Setor', 'Subsetor', 'Segmento']
   
   if formula in ('ROE', None):
     columns.extend(['P/L', 'ROE'])

@@ -65,7 +65,7 @@ def fill_score_explanation(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking', 'Cotação', 'Fisher Score']
+  columns = ['Ranking', 'Cotação', 'Fisher Score', 'Setor', 'Subsetor', 'Segmento']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 if __name__ == '__main__':

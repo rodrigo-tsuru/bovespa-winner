@@ -175,7 +175,7 @@ def fill_score_explanation(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking (Bazin)', 'Cotação', 'Preço Justo (Bazin)', 'Bazin Score', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
+  columns = ['Ranking (Bazin)', 'Cotação', 'Preço Justo (Bazin)', 'Bazin Score', 'Setor', 'Subsetor', 'Segmento', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020

@@ -86,7 +86,7 @@ def improve_score_explanation(shares, year):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'PEG Ratio']
+  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'Setor', 'Subsetor', 'Segmento', 'PEG Ratio']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # python3 score.py "{ 'year': 2013 }"
