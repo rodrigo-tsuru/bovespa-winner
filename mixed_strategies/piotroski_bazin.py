@@ -31,7 +31,7 @@
 # Backtesting on USA: https://www.quant-investing.com/blogs/backtests/2018/11/06/piotroski-f-score-back-test
 
 import sys, os
-sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
+sys.path.extend([f'../{name}' for name in os.listdir("..") if os.path.isdir(f'../{name}')])
 
 import fundamentus
 import bovespa

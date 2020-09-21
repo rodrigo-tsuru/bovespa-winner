@@ -17,7 +17,7 @@
 # - [x] 7. 0 < Payout < 1
 
 import sys, os
-sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
+sys.path.extend([f'../{name}' for name in os.listdir("..") if os.path.isdir(f'../{name}')])
 
 import fundamentus
 import bovespa

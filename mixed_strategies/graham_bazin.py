@@ -31,7 +31,7 @@
 # https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=WEGE3&period=10
 
 import sys, os
-sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
+sys.path.extend([f'../{name}' for name in os.listdir("..") if os.path.isdir(f'../{name}')])
 
 import fundamentus
 import bovespa
