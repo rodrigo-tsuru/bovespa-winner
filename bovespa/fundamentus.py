@@ -15,7 +15,7 @@ from decimal import Decimal
 # Setores das ações da bolsa!
 # Preenchidos a partir da lista oficial da B3!
 # http://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/acoes/consultas/classificacao-setorial/
-ticker_categories = {
+categories = {
   'CSAN': {
     'setor': 'Petróleo, Gás e Biocombustíveis',
     'subsetor': 'Petróleo, Gás e Biocombustíveis',
@@ -2135,7 +2135,26 @@ def shares(year = None):
                                  data=dataframe_data(rows, year))
       result = result.append(new_row)
   
-  return result[result['Cotação'] > 0]
+  result = result[result['Cotação'] > 0]
+
+  result = add_sector(result)
+  
+  return result
+
+def add_sector(shares):
+  shares['Setor'] = ''
+  shares['Subsetor'] = ''
+  shares['Segmento'] = ''
+  
+  missing = {'setor': 'Faltante', 'subsetor': 'Faltante', 'segmento': 'Faltante'}
+  
+  for index in range(len(shares)):
+    ticker = shares.index[index]
+    shares['Setor'][index] = categories.get(ticker[:4], missing)['setor']
+    shares['Subsetor'][index] = categories.get(ticker[:4], missing)['subsetor']
+    shares['Segmento'][index] = categories.get(ticker[:4], missing)['segmento']
+
+  return shares
 
 def backtest(year = None):
   urls = {
