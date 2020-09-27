@@ -86,6 +86,46 @@ backtest.run_all(fundamentus.start_date(2019), a12)
 
 
 
+###############################
+## Benjamin Graham Valuation ##
+###############################
+a1 = ['MEND5', 'MEND6', 'SULT3', 'SULT4', 'CEBR5', 'CEBR6', 'MERC4', 'BRGE7', 'BRGE8', 'BRGE12']
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = ['MEND6', 'MEND5', 'INEP4', 'SULT3', 'ECPR3', 'CEBR6', 'ECPR4', 'CEBR3', 'SULT4', 'CEBR5']
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = ['MEND6', 'MEND5', 'EUCA3', 'INEP3', 'EUCA4', 'EMAE4', 'CTSA4', 'CTSA3', 'CRIV4', 'IGUA5']
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = ['MEND6', 'MEND5', 'CEED3', 'SULT3', 'SULT4', 'BAHI3', 'ECPR3', 'ECPR4', 'BMKS3', 'MSPA4']
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = ['MEND5', 'MEND6', 'ECPR3', 'SULT3', 'SULT4', 'ECPR4', 'HBTS5', 'BRGE8', 'MERC4', 'BRGE12']
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = ['ELET3', 'TCNO3', 'MEND5', 'MEND6', 'TCNO4', 'SPRI6', 'SPRI3', 'SPRI5', 'ELET6', 'BRGE12']
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = ['JBDU4', 'JBDU3', 'SOND6', 'SOND5', 'CEBR3', 'CEBR6', 'BRGE8', 'BRGE11', 'CEDO4', 'BRGE12']
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = ['GFSA3', 'OIBR4', 'OIBR3', 'EMAE4', 'BRGE11', 'BRGE3', 'TCSA3', 'POSI3', 'JHSF3', 'CLSC4']
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = ['CLSC4', 'BRGE12', 'EMAE4', 'VVAR3', 'SGPS3', 'BRSR6', 'ITSA4', 'CMIG4', 'HBOR3', 'CLSC3']
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['MSPA3', 'EEEL3', 'MSPA4', 'LOGN3', 'BRGE12', 'EEEL4', 'GSHP3', 'BRGE8', 'BRGE11', 'PRIO3']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['LUPA3', 'CEBR6', 'BRGE12', 'CEBR3', 'CEBR5', 'BTTL4', 'BTTL3', 'BRGE3', 'MERC4', 'BRGE11']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['JBDU4', 'JBDU3', 'OIBR3', 'OIBR4', 'TPIS3', 'GPCP3', 'BRGE5', 'CEDO4', 'CEDO3', 'BRGE12']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
 #################
 ## Décio Bazin ##
 #################
