@@ -27,8 +27,22 @@
 # - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
 # - [x] 7. 0 < Payout < 1
 
-# Lucros para fazer o Gráfico ;)
-# https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=WEGE3&period=10
+# Greenblatt:
+# - [x] Fórmula Mágica 1): > ROIC e < EV/EBIT e > ROE e < P/L
+# - [x] Fórmula Mágica 2): > ROIC e < EV/EBIT
+# - [x] Fórmula Mágica 3): > ROE e < P/L
+
+# Piotroski:
+# 1. ROA > 0 (ano corrente)
+# 2. FCO > 0 (ano corrente)
+# 3. FCO > Lucro Líquido (ano corrente)
+# 4. ROA atual > ROA ano anterior
+# 5. Alavancagem atual < ano passado (Dívida Líquida / Patrimônio Líquido)
+# 6. Liquidez Corrente atual > Liquidez Corrente ano anterior
+# 7. Nro. Ações atual = Nro. Ações ano anterior
+# 8. Margem Bruta atual > Margem Bruta ano anterior
+# 9. Giro Ativo atual > Giro Ativo ano anterior
+
 
 import sys, os
 sys.path.extend([f'../{name}' for name in os.listdir("..") if os.path.isdir(f'../{name}')])
@@ -67,6 +81,8 @@ def populate_shares(year):
   
   shares['Ranking (Graham)'] = 0
   shares['Ranking (Bazin)'] = 0
+  shares['Ranking (Greenblatt)'] = 0
+  shares['Ranking (Piotroski)'] = 0
   shares['Ranking (Sum)'] = 0
   shares['Ranking (Final)'] = 0
   
@@ -178,15 +194,17 @@ def fill_infos_by_ticker(ticker, opener):
 
 def add_ratings(shares):
   add_graham_bazin_columns(shares)
+  shares = fill_special_infos(shares)
+  add_bazin_valuation(shares)
   fill_fair_price(shares)
   fill_score(shares)
   fill_score_explanation(shares)
-  return fill_special_infos(shares)
+  return shares
 
 # Inicializa os índices
 def add_graham_bazin_columns(shares):
   shares['Preço Justo (Graham)'] = 0
-  shares['Graham Score'] = 0
+  shares['Graham Score'] = Decimal(0)
   shares['Preço Justo (Graham) / Cotação'] = 0
   shares['10 Anos de Sobrevivencia'] = False
   shares['Lucros Positivos nos Ultimos 10 Anos'] = False
@@ -194,13 +212,39 @@ def add_graham_bazin_columns(shares):
   shares['LPA atual > 1.33 * LPA 10 anos atrás'] = False
   shares['Dividendos Positivos nos Ultimos 10 Anos'] = False
   shares['Bazin Score'] = Decimal(0)
-  shares['Preço Justo (Bazin)'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
-  shares['Preço Justo (Bazin) / Cotação'] = shares['Preço Justo (Bazin)'] / shares['Cotação']
-  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0.0)
   shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
   shares['Dividendos Crescentes Ultimos 5 Anos'] = False
   shares['Payout Saudavel nos Ultimos 5 Anos'] = False
+  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0)
+
+def fill_special_infos(shares):
+  for index in range(len(shares)):
+    ticker = shares.index[index]
+    shares['Graham Score'][index] += int(infos[ticker]['survivability'])
+    shares['10 Anos de Sobrevivencia'][index] = infos[ticker]['survivability']
+    shares['Graham Score'][index] += int(infos[ticker]['earnings_stability'])
+    shares['Lucros Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_stability']
+    shares['Graham Score'][index] += int(infos[ticker]['earnings_growth'])
+    shares['Lucros Crescentes nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_growth']
+    shares['Graham Score'][index] += int(infos[ticker]['lpa_growth'])
+    shares['LPA atual > 1.33 * LPA 10 anos atrás'][index] = infos[ticker]['lpa_growth']
+    shares['Graham Score'][index] += int(infos[ticker]['dividends_stability'])
+    shares['Dividendos Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['dividends_stability']
+    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = Decimal(infos[ticker]['ultimos_dy'])
+    shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
+    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
+    shares['Bazin Score'][index] += int(infos[ticker]['constante'])
+    shares['Dividendos Constantes Ultimos 5 Anos'][index] = infos[ticker]['constante']
+    shares['Bazin Score'][index] += int(infos[ticker]['crescente'])
+    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
+    shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
+    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
+  return shares
+
+def add_bazin_valuation(shares):
+  shares['Preço Justo (Bazin)'] = shares['Media de Dividend Yield dos Últimos 5 anos'] * 100 * Decimal(16.67)
+  shares['Preço Justo (Bazin) / Cotação'] = shares['Preço Justo (Bazin)'] / shares['Cotação']
 
 # Benjamin Graham elaborou a seguinte fórmula para calcular o Valor Intríseco (Preço Justo (Graham)):
 # => sqrt(22.5 * VPA * LPA)
@@ -241,30 +285,6 @@ def fill_score_explanation(shares):
   shares['Dividend Yield > 0.06'] = shares['Dividend Yield'] > 0.06
   shares['Dívida Bruta/Patrimônio < 0.5'] = (shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5 # https://www.investimentonabolsa.com/2015/07/saiba-analisar-divida-das-empresas.html https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 
-def fill_special_infos(shares):
-  for index in range(len(shares)):
-    ticker = shares.index[index]
-    shares['Graham Score'][index] += int(infos[ticker]['survivability'])
-    shares['10 Anos de Sobrevivencia'][index] = infos[ticker]['survivability']
-    shares['Graham Score'][index] += int(infos[ticker]['earnings_stability'])
-    shares['Lucros Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_stability']
-    shares['Graham Score'][index] += int(infos[ticker]['earnings_growth'])
-    shares['Lucros Crescentes nos Ultimos 10 Anos'][index] = infos[ticker]['earnings_growth']
-    shares['Graham Score'][index] += int(infos[ticker]['lpa_growth'])
-    shares['LPA atual > 1.33 * LPA 10 anos atrás'][index] = infos[ticker]['lpa_growth']
-    shares['Graham Score'][index] += int(infos[ticker]['dividends_stability'])
-    shares['Dividendos Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['dividends_stability']
-    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = infos[ticker]['ultimos_dy']
-    shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
-    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
-    shares['Bazin Score'][index] += int(infos[ticker]['constante'])
-    shares['Dividendos Constantes Ultimos 5 Anos'][index] = infos[ticker]['constante']
-    shares['Bazin Score'][index] += int(infos[ticker]['crescente'])
-    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
-    shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
-    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
-  return shares
-
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
   columns = ['Ranking (Final)', 'Ranking (Graham)', 'Ranking (Bazin)', 'Ranking (Sum)', 'Cotação', 'Preço Justo (Graham)', 'Preço Justo (Bazin)', 'Graham Score', 'Bazin Score', 'Preço Justo (Graham) / Cotação', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
@@ -293,7 +313,7 @@ if __name__ == '__main__':
   shares.sort_values(by=['Graham Score', 'Preço Justo (Graham) / Cotação'], ascending=[False, False], inplace=True)
   shares['Ranking (Graham)'] = range(1, len(shares) + 1)
   
-  shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Bazin Score', 'Preço Justo (Bazin) / Cotação'], ascending=[False, False], inplace=True)
   shares['Ranking (Bazin)'] = range(1, len(shares) + 1)
   
   shares['Ranking (Sum)'] = shares['Ranking (Graham)'] + shares['Ranking (Bazin)']

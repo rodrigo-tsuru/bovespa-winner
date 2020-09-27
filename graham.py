@@ -115,7 +115,7 @@ def fill_infos_by_ticker(ticker, opener):
   
   lucros = [r for r in company_results if r['description'] == 'Lucro LÃ\xadquido'][0]
   years = [x for x in lucros.keys() if re.match('C_\w{4}$', x)]
-  if(len(years) == 0):
+  if (len(years) == 0):
     return
   years = [x for x in years if int(re.findall('C_(\w{4})$', x)[0]) < current_year]
   list.sort(years)

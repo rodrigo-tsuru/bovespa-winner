@@ -142,7 +142,7 @@ def init_bazin_columns(shares):
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
   shares['Dividendos Crescentes Ultimos 5 Anos'] = False
   shares['Payout Saudavel nos Ultimos 5 Anos'] = False
-  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0.0)
+  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0)
 
 def fill_special_infos(shares):
   for index in range(len(shares)):
