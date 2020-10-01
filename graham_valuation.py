@@ -233,7 +233,7 @@ def current_year():
 def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
-# python3 graham.py "{ 'year': 2015 }"
+# python3 graham_valuation.py "{ 'year': 2015 }"
 if __name__ == '__main__':  
   # Opening these URLs to automatically allow this API to receive more requests from local IP
   browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
@@ -245,7 +245,7 @@ if __name__ == '__main__':
   
   shares = populate_shares(year)
   
-  shares.sort_values(by=['Preço Justo (Graham) / Cotação', 'Graham Score'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Graham Score', 'Preço Justo (Graham) / Cotação'], ascending=[False, False], inplace=True)
   
   shares['Ranking (Graham)'] = range(1, len(shares) + 1)
   

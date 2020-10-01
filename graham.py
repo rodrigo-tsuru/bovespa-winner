@@ -245,7 +245,7 @@ if __name__ == '__main__':
   
   shares = populate_shares(year)
   
-  shares.sort_values(by=['Graham Score', 'Preço Justo (Graham) / Cotação'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Preço Justo (Graham) / Cotação', 'Graham Score'], ascending=[False, False], inplace=True)
   
   shares['Ranking (Graham)'] = range(1, len(shares) + 1)
   

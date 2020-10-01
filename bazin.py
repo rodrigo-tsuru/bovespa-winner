@@ -12,7 +12,7 @@
 # - [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
 # - [x] 3. Dividend Yield > 0.06 (6%)
 # - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
-# - [x] 5. Pagamento constante de dividendos nos últimos 5 anos
+# - [x] 5. Pagamento positivo de dividendos nos últimos 5 anos
 # - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
 # - [x] 7. 0 < Payout < 1
 

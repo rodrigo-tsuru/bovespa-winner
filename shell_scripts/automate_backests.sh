@@ -126,6 +126,46 @@ a12 = ['JBDU4', 'JBDU3', 'OIBR3', 'OIBR4', 'TPIS3', 'GPCP3', 'BRGE5', 'CEDO4', '
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
+###############################
+## Benjamin Graham Valuation ##
+###############################
+a1 = 
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = 
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = 
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = 
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = 
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = 
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = 
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = 
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = 
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['TRPL3', 'TRPL4', 'BNBR3', 'BSLI4', 'CGRA3', 'CGRA4', 'BMIN4', 'SAPR3', 'BEES3', 'BEES4']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['BNBR3', 'TRPL3', 'TRPL4', 'ABCB4', 'BEES3', 'BEES4', 'CCPR3', 'SAPR4', 'CPLE3', 'EEEL4']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['FESA4', 'TRPL3', 'TRPL4', 'BNBR3', 'FESA3', 'MRVE3', 'VIVT3', 'BRSR3', 'BGIP4', 'VIVT4']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
 #################
 ## Décio Bazin ##
 #################
