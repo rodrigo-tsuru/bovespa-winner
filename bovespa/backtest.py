@@ -46,6 +46,7 @@ def replace_outdateds(tickers):
     'ITEC3': 'ITSA4',
     'IENG3': 'INEP3',
     'IENG4': 'INEP4',
+    'BNBR4': 'BNBR3'
   }
   return [replacements.get(x, x) for x in tickers]
 

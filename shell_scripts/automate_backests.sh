@@ -126,43 +126,43 @@ a12 = ['JBDU4', 'JBDU3', 'OIBR3', 'OIBR4', 'TPIS3', 'GPCP3', 'BRGE5', 'CEDO4', '
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
-###############################
-## Benjamin Graham Valuation ##
-###############################
-a1 = 
+#######################################
+## Benjamin Graham Valuation + Score ##
+#######################################
+a1 = ['BRGE7', 'BRGE8', 'BRGE12', 'BRGE3', 'SAPR4', 'BRGE11', 'BRGE6', 'CRIV4', 'ELET6', 'RPAD5']
 backtest.run_all(fundamentus.start_date(2008), a1)
 
-a2 = 
+a2 = ['INEP4', 'ECPR3', 'CEBR6', 'ECPR4', 'CEBR3', 'CEBR5', 'PEAB3', 'IDVL4', 'PEAB4', 'SAPR4']
 backtest.run_all(fundamentus.start_date(2009), a2)
 
-a3 = 
+a3 = ['MEND6', 'MEND5', 'EUCA3', 'EUCA4', 'CTSA4', 'CTSA3', 'CRIV4', 'SBSP3', 'BRIV4', 'TUPY3']
 backtest.run_all(fundamentus.start_date(2010), a3)
 
-a4 = 
+a4 = ['MEND6', 'MEND5', 'BAHI3', 'ECPR3', 'ECPR4', 'BMKS3', 'BMEB4', 'ELET3', 'CEDO4', 'BDLL4']
 backtest.run_all(fundamentus.start_date(2011), a4)
 
-a5 = 
+a5 = ['MEND5', 'MEND6', 'ECPR3', 'ECPR4', 'HBTS5', 'MERC4', 'ELET3', 'CEDO3', 'BRPR3', 'CTSA3']
 backtest.run_all(fundamentus.start_date(2012), a5)
 
-a6 = 
+a6 = ['SPRI6', 'SPRI3', 'SPRI5', 'MERC4', 'BRIV4', 'CPLE3', 'CRIV4', 'DOHL4', 'RPAD3', 'CTSA4']
 backtest.run_all(fundamentus.start_date(2013), a6)
 
-a7 = 
+a7 = ['SOND6', 'SOND5', 'BRGE8', 'BRGE11', 'CEDO4', 'CEDO3', 'MERC3', 'MERC4', 'CPLE3', 'BNBR3']
 backtest.run_all(fundamentus.start_date(2014), a7)
 
-a8 = 
+a8 = ['BRGE11', 'JHSF3', 'CLSC4', 'RDNI3', 'EVEN3', 'PETR3', 'PETR4', 'GOAU3', 'JOPA3', 'CPLE3']
 backtest.run_all(fundamentus.start_date(2015), a8)
 
-a9 = 
+a9 = ['CLSC4', 'BRSR6', 'CMIG4', 'HBOR3', 'CLSC3', 'DIRR3', 'CPLE3', 'CMIG3', 'LIGT3', 'SAPR4']
 backtest.run_all(fundamentus.start_date(2016), a9)
 
-a10 = ['TRPL3', 'TRPL4', 'BNBR3', 'BSLI4', 'CGRA3', 'CGRA4', 'BMIN4', 'SAPR3', 'BEES3', 'BEES4']
+a10 = ['MSPA3', 'EEEL3', 'MSPA4', 'EEEL4', 'PRIO3', 'TRPL3', 'TRPL4', 'BNBR3', 'CPLE3', 'BRIV4']
 backtest.run_all(fundamentus.start_date(2017), a10)
 
-a11 = ['BNBR3', 'TRPL3', 'TRPL4', 'ABCB4', 'BEES3', 'BEES4', 'CCPR3', 'SAPR4', 'CPLE3', 'EEEL4']
+a11 = ['MERC4', 'BRGE11', 'CPLE3', 'EEEL4', 'CRPG6', 'EEEL3', 'BAZA3', 'BRIV3', 'CRPG5', 'BNBR3']
 backtest.run_all(fundamentus.start_date(2018), a11)
 
-a12 = ['FESA4', 'TRPL3', 'TRPL4', 'BNBR3', 'FESA3', 'MRVE3', 'VIVT3', 'BRSR3', 'BGIP4', 'VIVT4']
+a12 = ['OIBR3', 'OIBR4', 'BRGE7', 'BRGE8', 'LLIS3', 'PATI3', 'BMEB4', 'BRIV3', 'JOPA3', 'AGRO3']
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
