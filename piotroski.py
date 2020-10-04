@@ -201,7 +201,6 @@ if __name__ == '__main__':
   shares = populate_shares(year)
   
   shares.sort_values(by=['Piotroski Score', 'Cotação'], ascending=[False, True], inplace=True)
-  
   shares['Ranking (Piotrotski)'] = range(1, len(shares) + 1)
   
   print(shares)

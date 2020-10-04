@@ -130,9 +130,6 @@ def copy(shares):
 # python3 greenblatt.py "{ 'formula': 'ROIC', 'year': 2020 }"
 # python3 greenblatt.py "{ 'year': 2019 }"
 if __name__ == '__main__':
-  # from waitingbar import WaitingBar
-  # progress_bar = WaitingBar('[*] Calculating...')
-  
   year = current_year()
   formula = None
   if len(sys.argv) > 1:

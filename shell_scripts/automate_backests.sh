@@ -741,9 +741,50 @@ a12 = ['WIZS3', 'UNIP6', 'AGRO3', 'SMLS3', 'CIEL3', 'BAUH4', 'FESA4', 'BRKM3', '
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
-###############
-## All Ones! ##
-###############
+#############################
+## Graham Bazin Greenblatt ##
+#############################
+
+a1 = ['CEBR5', 'CEBR6', 'TRPL3', 'CEBR3', 'VIVT4', 'TRPL4', 'CPLE3', 'CPLE6', 'CLSC3', 'ENGI4']
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = ['FESA4', 'FESA3', 'PATI4', 'USIM3', 'TKNO4', 'CGRA3', 'LREN3', 'JHSF3', 'CGRA4', 'TGMA3']
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = ['EQTL3', 'ETER3', 'CTSA4', 'SOND3', 'GRND3', 'CTSA3', 'WHRL3', 'WHRL4', 'BALM4', 'TRPL4']
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = ['WHRL3', 'WHRL4', 'SOND3', 'ETER3', 'POSI3', 'COCE3', 'TKNO4', 'CTSA3', 'CTSA4', 'CEDO4']
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = ['VALE3', 'CTSA3', 'CTSA4', 'CMIG3', 'COCE3', 'RAPT3', 'ETER3', 'CGRA3', 'BALM4', 'CGRA4']
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = ['ETER3', 'WHRL3', 'WHRL4', 'CMIG3', 'CMIG4', 'CTSA4', 'CTSA3', 'TRPL4', 'BALM4', 'GRND3']
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = ['WHRL3', 'WHRL4', 'ETER3', 'CTSA3', 'CMIG4', 'CMIG3', 'CTSA4', 'CGRA3', 'CGRA4', 'GRND3']
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = ['ETER3', 'CMIG4', 'CMIG3', 'DOHL4', 'HBOR3', 'SAPR4', 'EZTC3', 'CGRA4', 'CGRA3', 'PSSA3']
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = ['CMIG4', 'CMIG3', 'FESA4', 'CGRA4', 'CGRA3', 'EZTC3', 'FESA3', 'HGTX3', 'SAPR4', 'GRND3']
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['SAPR3', 'TRPL4', 'CGRA3', 'CGRA4', 'TRPL3', 'SAPR4', 'CGAS3', 'GRND3', 'PEAB4', 'EEEL3']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['FESA3', 'FESA4', 'SAPR4', 'UNIP3', 'GRND3', 'EZTC3', 'TRPL4', 'PEAB4', 'SAPR3', 'PEAB3']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['FESA4', 'FESA3', 'TRPL4', 'SAPR4', 'CARD3', 'CIEL3', 'PSSA3', 'TRPL3', 'WIZS3', 'NAFG4']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
+#######################################
+## Graham Bazin Greenblatt Piotroski ##
+#######################################
 
 a1 = 
 backtest.run_all(fundamentus.start_date(2008), a1)
@@ -780,4 +821,3 @@ backtest.run_all(fundamentus.start_date(2018), a11)
 
 a12 = 
 backtest.run_all(fundamentus.start_date(2019), a12)
-
