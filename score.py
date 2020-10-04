@@ -39,6 +39,12 @@
 #    => https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TGMA3
 ### Buffet: “Nós fomos mudando para este enfoque ao longo dos anos. Não é muito difícil ficar observando negócios por 50 anos e aprender aonde se faz dinheiro de verdade.”
 
+# MacOS related Error...
+# socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+# 
+# How to fix...
+# System Preference > Sharing > Enable all sharings!
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
