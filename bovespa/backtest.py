@@ -46,12 +46,16 @@ def replace_outdateds(tickers):
     'ITEC3': 'ITSA4',
     'IENG3': 'INEP3',
     'IENG4': 'INEP4',
-    'BNBR4': 'BNBR3'
+    'BNBR4': 'BNBR3',
+    'SSBR3': 'ALSO3'
   }
   return [replacements.get(x, x) for x in tickers]
 
 def remove_delisteds(tickers):
-  delisteds = ['TRPN3', 'MPLU3', 'ELPL3', 'ELPL4', 'ELPL5', 'ELPL6', 'AFLU3', 'AFLU5', 'PNOR5', 'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4', 'TIBR5', 'BMTO4', 'BMTO3', 'MRSL4', 'MRSL3', 'DXTG4', 'CELP7', 'BRIN3', 'MILK11', 'MLFT4', 'MLFT3', 'VINE5', 'TARP11', 'CMGR4', 'CMGR3', 'IENG5', 'CELP5', 'IGUA6', 'ABYA3']
+  delisteds = ['TRPN3', 'MPLU3', 'ELPL3', 'ELPL4', 'ELPL5', 'ELPL6', 'AFLU3', 'AFLU5', 'PNOR5',
+               'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4', 'TIBR5', 'BMTO4', 'BMTO3', 'LEVE4',
+               'MRSL4', 'MRSL3', 'DXTG4', 'CELP7', 'BRIN3', 'MILK11', 'MLFT4', 'MLFT3', 'VINE5',
+               'TARP11', 'CMGR4', 'CMGR3', 'IENG5', 'CELP5', 'IGUA6', 'ABYA3', 'STBP11', 'FRAS4']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers

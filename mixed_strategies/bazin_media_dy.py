@@ -183,11 +183,7 @@ def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
 # python3 bazin.py "{ 'year': 2015 }"
-if __name__ == '__main__':
-  # Opening these URLs to automatically allow this API to receive more requests from local IP
-  browser.open('https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker=TRPL4&period=999')
-  browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=TRPL4')
-  
+if __name__ == '__main__':  
   year = current_year()
   if len(sys.argv) > 1:
     year = int(eval(sys.argv[1])['year'])
