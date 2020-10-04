@@ -69,9 +69,6 @@ def reorder_columns(shares):
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 if __name__ == '__main__':
-  from waitingbar import WaitingBar
-  progress_bar = WaitingBar('[*] Calculating...')
-  
   year = None
   if len(sys.argv) > 1:
     year = int(eval(sys.argv[1])['year'])
@@ -83,8 +80,6 @@ if __name__ == '__main__':
   shares['Ranking'] = range(1, len(shares) + 1)
   
   backtest.display_shares(shares, year)
-  
-  progress_bar.stop()
 
 # Outros ensinamentos de Kenneth Fisher
 
