@@ -40,7 +40,7 @@ import subprocess
 from math import sqrt
 from decimal import Decimal
 
-def populate_shares(year):
+def populate_shares(year, formula):
   globals()['year'] = year
   globals()['infos'] = {}
   
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     year = int(arguments.get('year', current_year()))
     formula = arguments.get('formula', None)
   
-  shares = populate_shares(year)
+  shares = populate_shares(year, formula)
   
   shares.sort_values(by=['Magic Formula', 'Cotação'], ascending=[True, True], inplace=True)
   shares['Ranking (Greenblatt)'] = range(1, len(shares) + 1)
