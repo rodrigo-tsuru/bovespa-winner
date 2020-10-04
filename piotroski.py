@@ -83,7 +83,6 @@ def fill_infos(shares):
   opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                        ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
   tickers = list(shares.index)
-  # import pry; pry()
   threads = [threading.Thread(target=fill_infos_by_ticker, args=(ticker,opener,)) for ticker in tickers]
   for thread in threads:
     thread.start()
@@ -190,10 +189,6 @@ def copy(shares):
 
 # python3 piotroski.py "{ 'year': 2015 }"
 if __name__ == '__main__':
-  # Opening these URLs to automatically allow this API to receive more requests from local IP
-  browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsDashboard?ticker=BBAS3')
-  browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker=BBAS3')
-  
   year = current_year()
   if len(sys.argv) > 1:
     year = int(eval(sys.argv[1])['year'])
