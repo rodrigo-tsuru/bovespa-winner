@@ -259,7 +259,7 @@ def current_year():
 def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
-# python3 piotroski_bazin.py "{ 'year': 2015 }"
+# python3 piotroski_ranking.py "{ 'year': 2015 }"
 if __name__ == '__main__':
   # Opening these URLs to automatically allow this API to receive more requests from local IP
   browser.open('https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsDashboard?ticker=BBAS3')

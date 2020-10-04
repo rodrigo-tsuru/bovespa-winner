@@ -129,14 +129,14 @@ def fill_infos_by_ticker(ticker, opener):
     infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
 
 def add_ratings(shares):
-  init_bazin_columns(shares)
+  init(shares)
   shares = fill_special_infos(shares)
   add_bazin_valuation(shares)
   fill_score(shares)
   fill_score_explanation(shares)
   return shares
 
-def init_bazin_columns(shares):
+def init(shares):
   shares['Bazin Score'] = Decimal(0)
   shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
