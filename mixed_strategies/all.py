@@ -31,6 +31,9 @@
 # - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
 # - [x] 7. 0 < Payout < 1
 
+# Greenblatt:
+# - [x] Fórmula Mágica 1): > ROIC e < EV/EBIT e > ROE e < P/L
+
 # Piotroski:
 # - [x] 1. ROA > 0 (ano corrente)
 # - [x] 2. FCO > 0 (ano corrente)
@@ -41,9 +44,6 @@
 # - [x] 7. Nro. Ações atual = Nro. Ações ano anterior
 # - [x] 8. Margem Bruta atual > Margem Bruta ano anterior
 # - [x] 9. Giro Ativo atual > Giro Ativo ano anterior
-
-# Greenblatt:
-# - [x] Fórmula Mágica 1): > ROIC e < EV/EBIT e > ROE e < P/L
 
 
 import sys, os
@@ -121,17 +121,29 @@ def fill_infos(shares):
 
 def fill_infos_by_ticker(ticker, opener):
   infos[ticker] = {
+    # Graham
     'survivability': False,
     'earnings_stability': False,
     'earnings_growth': False,
     'lpa_growth': False,
     'dividends_stability': False,
+    # Bazin
     'ultimos_dy': 0.0,
     'constante': False,
     'crescente': False,
-    'healthy_payout': False
+    'healthy_payout': False,
+    # Piotroski
+    'roa_positivo': False,
+    'fco_positivo': False,
+    'fco_saudavel': False,
+    'roa_crescente': False,
+    'alavancagem_decrescente': False,
+    'liquidez_crescente': False,
+    'no_acoes_constante': False,
+    'margem_bruta_crescente': False,
+    'giro_ativo_crescente': False
   }
-
+  
   # Fetching Lucro Liquido
   url = f'https://api-analitica.sunoresearch.com.br/api/Statement/GetStatementResultsReportByTicker?type=y&ticker={ticker}&period=999'
   with opener.open(url) as link:
@@ -163,19 +175,19 @@ def fill_infos_by_ticker(ticker, opener):
   infos[ticker]['earnings_stability'] = all(ultimos_lucros[i] > 0 for i in range(len(ultimos_lucros)))
   infos[ticker]['earnings_growth'] = all(ultimos_lucros[i] <= ultimos_lucros[i+1] for i in range(len(ultimos_lucros)-1)) # Isso aqui deve virar uma função e devemos ver a tendência dessa função!
   
-  # Fetching LPA's and DPA's
-  url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticker}'
-  with opener.open(url) as link:
-    company_indicators = link.read().decode('ISO-8859-1')
-  company_indicators = json.loads(company_indicators)
+  # Fetching Previous Years Indicators
+  yearly_indicators_url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsYear?ticker={ticker}'
+  with opener.open(yearly_indicators_url) as link:
+    yearly_indicators = link.read().decode('ISO-8859-1')
+  yearly_indicators = json.loads(yearly_indicators)
   
   # Only consider company indicators before the current_year (robust solution for backtesting purposes)
-  company_indicators = [ci for ci in company_indicators if ci['year'] < current_year]
+  yearly_filtered_indicators = [ci for ci in yearly_indicators if ci['year'] < current_year]
   
-  last_dpas = [fundament['dpa'] for fundament in company_indicators] # Graham
-  last_lpas = [fundament['lpa'] for fundament in company_indicators] # Graham
-  last_payouts = [fundament['payout'] for fundament in company_indicators] # Bazin
-  last_divYields = [fundament['divYeld'] for fundament in company_indicators] # Bazin
+  last_dpas = [fundament['dpa'] for fundament in yearly_filtered_indicators] # Graham
+  last_lpas = [fundament['lpa'] for fundament in yearly_filtered_indicators] # Graham
+  last_payouts = [fundament['payout'] for fundament in yearly_filtered_indicators] # Bazin
+  last_divYields = [fundament['divYeld'] for fundament in yearly_filtered_indicators] # Bazin
   
   # Graham
   if (len(last_lpas[:10]) > 0):
@@ -194,6 +206,31 @@ def fill_infos_by_ticker(ticker, opener):
   
   if (len(last_divYields[:5]) > 0):
     infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
+  
+  # Fetching Current Year Indicators
+  current_indicators_url = f'https://api-analitica.sunoresearch.com.br/api/Indicator/GetIndicatorsDashboard?ticker={ticker}'
+  with opener.open(current_indicators_url) as link:
+    company_indicators = link.read().decode('ISO-8859-1')
+  company_indicators = json.loads(company_indicators)
+  
+  company_indicators.extend(yearly_indicators)
+  
+  # Only consider company indicators before OR EQUAL to the current_year (robust solution for backtesting purposes)
+  company_filtered_indicators = [ci for ci in company_indicators if ci['year'] <= current_year]
+  
+  # Piotroski
+  if (len(company_filtered_indicators) > 0):
+    infos[ticker]['roa_positivo'] = company_filtered_indicators[0]['roa'] > 0
+    infos[ticker]['fco_positivo'] = company_filtered_indicators[0]['fco'] > 0
+    infos[ticker]['fco_saudavel'] = company_filtered_indicators[0]['fco'] > company_filtered_indicators[0]['lucroLiquido']
+  
+  if (len(company_filtered_indicators) > 1):
+    infos[ticker]['roa_crescente'] = company_filtered_indicators[0]['roa'] > company_filtered_indicators[1]['roa']
+    infos[ticker]['alavancagem_decrescente'] = company_filtered_indicators[0]['dlpl'] < company_filtered_indicators[1]['dlpl']
+    infos[ticker]['liquidez_crescente'] = company_filtered_indicators[0]['liqCorrent'] > company_filtered_indicators[1]['liqCorrent']
+    infos[ticker]['no_acoes_constante'] = company_filtered_indicators[0]['qntAcoes'] == company_filtered_indicators[1]['qntAcoes']
+    infos[ticker]['margem_bruta_crescente'] = company_filtered_indicators[0]['margBruta'] > company_filtered_indicators[1]['margBruta']
+    infos[ticker]['giro_ativo_crescente'] = company_filtered_indicators[0]['giroAtivos'] > company_filtered_indicators[1]['giroAtivos']
 
 def add_ratings(shares):
   init(shares)
@@ -230,6 +267,17 @@ def init(shares):
   shares['ROIC placement'] = 0
   shares['EV/EBIT placement'] = 0
   shares['Magic Formula'] = 0
+  # Piotroski
+  shares['Piotroski Score'] = 0
+  shares['ROA positivo'] = False
+  shares['FCO positivo'] = False
+  shares['FCO > Lucro Líquido'] = False
+  shares['ROA crescente'] = False
+  shares['Alavancagem decrescente'] = False
+  shares['Liquidez Corrente crescente'] = False
+  shares['No Ações constante'] = False
+  shares['Margem Bruta crescente'] = False
+  shares['Giro Ativo crescente'] = False
 
 def remove_bad_shares(shares):
   shares.drop(shares[shares['P/L'] <= 0].index, inplace=True)
@@ -252,6 +300,7 @@ def calculate_greenblatt(shares):
 def fill_special_infos(shares):
   for index in range(len(shares)):
     ticker = shares.index[index]
+    # Graham
     shares['Graham Score'][index] += int(infos[ticker]['survivability'])
     shares['10 Anos de Sobrevivencia'][index] = infos[ticker]['survivability']
     shares['Graham Score'][index] += int(infos[ticker]['earnings_stability'])
@@ -262,6 +311,7 @@ def fill_special_infos(shares):
     shares['LPA atual > 1.33 * LPA 10 anos atrás'][index] = infos[ticker]['lpa_growth']
     shares['Graham Score'][index] += int(infos[ticker]['dividends_stability'])
     shares['Dividendos Positivos nos Ultimos 10 Anos'][index] = infos[ticker]['dividends_stability']
+    # Bazin
     shares['Media de Dividend Yield dos Últimos 5 anos'][index] = Decimal(infos[ticker]['ultimos_dy'])
     shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
     shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
@@ -271,6 +321,25 @@ def fill_special_infos(shares):
     shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
     shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
     shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
+    # Piotroski
+    shares['Piotroski Score'][index] += int(infos[ticker]['roa_positivo'])
+    shares['ROA positivo'][index] = infos[ticker]['roa_positivo']
+    shares['Piotroski Score'][index] += int(infos[ticker]['fco_positivo'])
+    shares['FCO positivo'][index] = infos[ticker]['fco_positivo']
+    shares['Piotroski Score'][index] += int(infos[ticker]['fco_saudavel'])
+    shares['FCO > Lucro Líquido'][index] = infos[ticker]['fco_saudavel']
+    shares['Piotroski Score'][index] += int(infos[ticker]['roa_crescente'])
+    shares['ROA crescente'][index] = infos[ticker]['roa_crescente']
+    shares['Piotroski Score'][index] += int(infos[ticker]['alavancagem_decrescente'])
+    shares['Alavancagem decrescente'][index] = infos[ticker]['alavancagem_decrescente']
+    shares['Piotroski Score'][index] += int(infos[ticker]['liquidez_crescente'])
+    shares['Liquidez Corrente crescente'][index] = infos[ticker]['liquidez_crescente']
+    shares['Piotroski Score'][index] += int(infos[ticker]['no_acoes_constante'])
+    shares['No Ações constante'][index] = infos[ticker]['no_acoes_constante']
+    shares['Piotroski Score'][index] += int(infos[ticker]['margem_bruta_crescente'])
+    shares['Margem Bruta crescente'][index] = infos[ticker]['margem_bruta_crescente']
+    shares['Piotroski Score'][index] += int(infos[ticker]['giro_ativo_crescente'])
+    shares['Giro Ativo crescente'][index] = infos[ticker]['giro_ativo_crescente']
   return shares
 
 def add_bazin_valuation(shares):
@@ -318,7 +387,7 @@ def fill_score_explanation(shares):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking (Final)', 'Cotação', 'Setor', 'Subsetor', 'Segmento', 'Ranking (Graham)', 'Ranking (Bazin)', 'Ranking (Greenblatt)', 'Ranking (Piotroski)', 'Ranking (Sum)', 'Preço Justo (Graham)', 'Preço Justo (Bazin)', 'Graham Score', 'Bazin Score', 'Preço Justo (Graham) / Cotação', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
+  columns = ['Ranking (Final)', 'Cotação', 'Setor', 'Subsetor', 'Segmento', 'Ranking (Graham)', 'Ranking (Bazin)', 'Ranking (Greenblatt)', 'Ranking (Piotroski)', 'Ranking (Sum)', 'Preço Justo (Graham)', 'Preço Justo (Bazin)', 'Graham Score', 'Bazin Score', 'Piotroski Score', 'Preço Justo (Graham) / Cotação', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020
@@ -346,10 +415,10 @@ if __name__ == '__main__':
   shares.sort_values(by=['Magic Formula', 'Cotação'], ascending=[True, True], inplace=True)
   shares['Ranking (Greenblatt)'] = range(1, len(shares) + 1)
   
-  # shares.sort_values(by=['Piotroski Score', 'Cotação'], ascending=[False, True], inplace=True)
-  # shares['Ranking (Piotrotski)'] = range(1, len(shares) + 1)
+  shares.sort_values(by=['Piotroski Score', 'Cotação'], ascending=[False, True], inplace=True)
+  shares['Ranking (Piotroski)'] = range(1, len(shares) + 1)
   
-  shares['Ranking (Sum)'] = shares['Ranking (Graham)'] + shares['Ranking (Bazin)'] + shares['Ranking (Greenblatt)'] # + shares['Ranking (Piotrotski)']
+  shares['Ranking (Sum)'] = shares['Ranking (Graham)'] + shares['Ranking (Bazin)'] + shares['Ranking (Greenblatt)'] + shares['Ranking (Piotroski)']
   shares.sort_values(by=['Ranking (Sum)', 'Preço Justo (Graham) / Cotação'], ascending=[True, False], inplace=True)
   shares['Ranking (Final)'] = range(1, len(shares) + 1)
   
