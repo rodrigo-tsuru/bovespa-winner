@@ -47,7 +47,8 @@ def replace_outdateds(tickers):
     'IENG3': 'INEP3',
     'IENG4': 'INEP4',
     'BNBR4': 'BNBR3',
-    'SSBR3': 'ALSO3'
+    'SSBR3': 'ALSO3',
+    'SNSL3': 'SQIA3'
   }
   return [replacements.get(x, x) for x in tickers]
 
@@ -56,7 +57,10 @@ def remove_delisteds(tickers):
                'PNOR6', 'CNFB4', 'TEMP3', 'CTAX3', 'CTAX4', 'TIBR5', 'BMTO4', 'BMTO3', 'LEVE4',
                'MRSL4', 'MRSL3', 'DXTG4', 'CELP7', 'BRIN3', 'MILK11', 'MLFT4', 'MLFT3', 'VINE5',
                'TARP11', 'CMGR4', 'CMGR3', 'IENG5', 'CELP5', 'IGUA6', 'ABYA3', 'STBP11', 'FRAS4',
-               'TMGC13']
+               'TMGC13', 'KROT3', 'MAGG3', 'QGEP3', 'NATU3', 'VVAR4', 'GUAR4', 'FJTA4', 'FJTA3',
+               'BTTL4', 'BVMF3', 'PRML3', 'SUZB5', 'PARC3', 'CTIP3', 'BBTG11', 'PRBC4', 'TBLE3',
+               'PTPA4', 'SUZB6', 'CRUZ3', 'SGAS4', 'AMBV4', 'AMBV3', 'ABRE11', 'SGAS3', 'NETC4',
+               'ARTR3', 'IMCH3', 'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers
