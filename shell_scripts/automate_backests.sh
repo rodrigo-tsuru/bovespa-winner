@@ -506,6 +506,46 @@ a12 = ['BRIV4', 'CRIV4', 'ITSA4', 'ITSA3', 'BBSE3', 'ITUB3', 'PTNT4', 'BEES3', '
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
+###################################
+## Décio Bazin com Mediana Média ##
+###################################
+a1 = ['CSAB3', 'CSAB4', 'SULT3', 'SULT4', 'TRPL3', 'TRPL4', 'VIVT3', 'VIVT4', 'GRND3', 'SANB4']
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = ['GRND3', 'FESA4', 'LREN3', 'PATI4', 'POSI3', 'ETER3', 'SOND3', 'IGTA3', 'TKNO4', 'POMO3']
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = ['CTSA4', 'JHSF3', 'PEAB4', 'PEAB3', 'WHRL4', 'WHRL3', 'CRIV4', 'CTSA3', 'BGIP4', 'EKTR4']
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = ['WHRL3', 'WHRL4', 'ODPV3', 'SOND3', 'ELET3', 'BGIP4', 'PATI4', 'ETER3', 'CSAB3', 'CSAB4']
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = ['PATI4', 'GRND3', 'MERC4', 'ETER3', 'CGRA3', 'CGRA4', 'BGIP4', 'BGIP3', 'NAFG4', 'BBAS3']
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = ['PATI4', 'BGIP3', 'BGIP4', 'BEES4', 'WHRL4', 'WHRL3', 'GRND3', 'CMIG3', 'BRIV4', 'CMIG4']
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = ['BRIV4', 'PINE4', 'BBAS3', 'GUAR3', 'WHRL4', 'ELET3', 'WHRL3', 'ENGI4', 'ENGI3', 'CRIV4']
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = ['CRIV4', 'PINE4', 'SAPR4', 'BBAS3', 'BEES4', 'BEES3', 'DOHL4', 'WHRL4', 'WHRL3', 'BMEB4']
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = ['BBSE3', 'CRIV4', 'ITSA4', 'BRIV4', 'ITSA3', 'BBAS3', 'CGRA4', 'EZTC3', 'BBDC4', 'ITUB3']
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['CRIV4', 'BRIV4', 'ITSA4', 'CGRA4', 'BMEB4', 'AFLT3', 'MERC4', 'LCAM3', 'CESP3', 'ITSA3']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['CRIV4', 'BRIV4', 'HGTX3', 'CGRA4', 'CGRA3', 'CSAB4', 'CSAB3', 'BMEB4', 'AFLT3', 'TRIS3']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['CRIV4', 'BRIV4', 'ITSA4', 'ITSA3', 'ITUB3', 'BBSE3', 'BMEB4', 'PTNT4', 'TRIS3', 'GRND3']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
 ############################
 #### Piotroski Advanced ####
 ############################
@@ -838,3 +878,57 @@ backtest.run_all(fundamentus.start_date(2018), a11)
 
 a12 = ['SAPR4', 'SAPR3', 'EALT3', 'CSNA3', 'QUAL3', 'EALT4', 'CARD3', 'CGAS3', 'YDUQ3', 'FESA4']
 backtest.run_all(fundamentus.start_date(2019), a12)
+
+
+
+
+###################################
+###################################
+###################################
+####### TOP10 Worst Stocks ########
+###################################
+###################################
+###################################
+
+
+
+####################
+#### Piotrotski ####
+####################
+a1 = 
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = 
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = 
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = 
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = 
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = 
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = ['DAGB33', 'SMLS3', 'VALE5', 'CZLT33', 'FBMC4', 'FIBR3', 'BNBR3', 'TIET4', 'AUTM3', 'TIET3']
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = ['DAGB33', 'SMLS3', 'FIBR3', 'VVAR3', 'VALE5', 'CZLT33', 'BHGR3', 'TIET4', 'CREM3', 'TIET3']
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = ['DAGB33', 'TERI3', 'FIBR3', 'SMLS3', 'CREM3', 'TIET4', 'TIET3', 'CZLT33', 'IDNT3', 'VALE5']
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['DAGB33', 'SMLS3', 'FIBR3', 'VALE5', 'CZLT33', 'SQIA3', 'VVAR3', 'SANB4', 'IDNT3', 'CREM3']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['DAGB33', 'FIBR3', 'VALE5', 'CZLT33', 'SQIA3', 'VVAR3', 'CREM3', 'IDNT3', 'AELP3', 'OGXP3']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['FIBR3', 'SQIA3', 'VVAR3', 'IDNT3', 'FBMC4', 'TXRX4', 'OGXP3', 'BGIP3', 'BGIP4', 'CRPG5']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
