@@ -12,7 +12,7 @@
 # - [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
 # - [x] 3. Dividend Yield > 0.06 (6%)
 # - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
-# - [x] 5. Pagamento constante de dividendos nos últimos 5 anos
+# - [x] 5. Pagamento positivo de dividendos nos últimos 5 anos
 # - [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
 # - [x] 7. 0 < Payout < 1
 
@@ -37,6 +37,8 @@ import json
 import threading
 import time
 import subprocess
+
+import portfolios
 
 # === Parallel fetching... https://stackoverflow.com/questions/16181121/a-very-simple-multithreading-parallel-url-fetching-without-queue
 
@@ -129,20 +131,38 @@ def fill_infos_by_ticker(ticker, opener):
     infos[ticker]['healthy_payout'] = all((last_payouts[:5][i] > 0) & (last_payouts[:5][i] < 1) for i in range(len(last_payouts[:5])))
 
 def add_ratings(shares):
-  add_bazin_columns(shares)
+  init(shares)
+  shares = fill_special_infos(shares)
+  add_bazin_valuation(shares)
   fill_score(shares)
   fill_score_explanation(shares)
-  return fill_special_infos(shares)
+  return shares
 
-def add_bazin_columns(shares):
+def init(shares):
   shares['Bazin Score'] = Decimal(0)
-  shares['Preço Justo (Bazin)'] = shares['Dividend Yield'] * 100 * Decimal(16.67)
-  shares['Preço Justo (Bazin) / Cotação'] = shares['Preço Justo (Bazin)'] / shares['Cotação']
-  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0.0)
   shares['Dividendos > 5% na média dos últimos 5 anos'] = False
   shares['Dividendos Constantes Ultimos 5 Anos'] = False
   shares['Dividendos Crescentes Ultimos 5 Anos'] = False
   shares['Payout Saudavel nos Ultimos 5 Anos'] = False
+  shares['Media de Dividend Yield dos Últimos 5 anos'] = Decimal(0)
+
+def fill_special_infos(shares):
+  for index in range(len(shares)):
+    ticker = shares.index[index]
+    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = Decimal(infos[ticker]['ultimos_dy'])
+    shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
+    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
+    shares['Bazin Score'][index] += int(infos[ticker]['constante'])
+    shares['Dividendos Constantes Ultimos 5 Anos'][index] = infos[ticker]['constante']
+    shares['Bazin Score'][index] += int(infos[ticker]['crescente'])
+    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
+    shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
+    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
+  return shares
+
+def add_bazin_valuation(shares):
+  shares['Preço Justo (Bazin)'] = shares['Media de Dividend Yield dos Últimos 5 anos'] * 100 * Decimal(16.67)
+  shares['Preço Justo (Bazin) / Cotação'] = shares['Preço Justo (Bazin)'] / shares['Cotação']
 
 def fill_score(shares):
   shares['Bazin Score'] += (shares['Preço Justo (Bazin)'] > Decimal(1.5) * shares['Cotação']).astype(int)
@@ -155,23 +175,9 @@ def fill_score_explanation(shares):
   shares['Dividend Yield > 0.06'] = shares['Dividend Yield'] > 0.06
   shares['Dívida Bruta/Patrimônio < 0.5'] = (shares['Dívida Bruta/Patrimônio']).astype(float) < 0.5 # https://www.investimentonabolsa.com/2015/07/saiba-analisar-divida-das-empresas.html https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 
-def fill_special_infos(shares):
-  for index in range(len(shares)):
-    ticker = shares.index[index]
-    shares['Media de Dividend Yield dos Últimos 5 anos'][index] = infos[ticker]['ultimos_dy']
-    shares['Bazin Score'][index] += int(infos[ticker]['ultimos_dy'] > 0.05)
-    shares['Dividendos > 5% na média dos últimos 5 anos'][index] = infos[ticker]['ultimos_dy'] > 0.05
-    shares['Bazin Score'][index] += int(infos[ticker]['constante'])
-    shares['Dividendos Constantes Ultimos 5 Anos'][index] = infos[ticker]['constante']
-    shares['Bazin Score'][index] += int(infos[ticker]['crescente'])
-    shares['Dividendos Crescentes Ultimos 5 Anos'][index] = infos[ticker]['crescente']
-    shares['Bazin Score'][index] += int(infos[ticker]['healthy_payout'])
-    shares['Payout Saudavel nos Ultimos 5 Anos'][index] = infos[ticker]['healthy_payout']
-  return shares
-
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Bazin Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking (Bazin)', 'Cotação', 'Preço Justo (Bazin)', 'Bazin Score', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
+  columns = ['Ranking (Bazin)', 'Cotação', 'Preço Justo (Bazin)', 'Bazin Score', 'Setor', 'Subsetor', 'Segmento', 'Preço Justo (Bazin) / Cotação', 'Media de Dividend Yield dos Últimos 5 anos', 'Dividend Yield']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # Get the current_year integer value, for example: 2020
@@ -183,17 +189,23 @@ def copy(shares):
   subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
 
 # python3 bazin.py "{ 'year': 2015 }"
-# python3 bazin.py "{ 'year': 2015, 'portfolio': 'victor' }"
-if __name__ == '__main__':  
+# python3 bazin.py "{ 'portfolio': 'victor' }"
+if __name__ == '__main__':
   year = current_year()
+  portfolio = None
   if len(sys.argv) > 1:
-    year = int(eval(sys.argv[1])['year'])
+    arguments = eval(sys.argv[1])
+    year = int(arguments.get('year', current_year()))
+    portfolio = arguments.get('portfolio', None)
   
   shares = populate_shares(year)
   
-  shares.sort_values(by=['Bazin Score', 'Media de Dividend Yield dos Últimos 5 anos'], ascending=[False, False], inplace=True)
+  shares.sort_values(by=['Bazin Score', 'Preço Justo (Bazin) / Cotação'], ascending=[False, False], inplace=True)
   
   shares['Ranking (Bazin)'] = range(1, len(shares) + 1)
+  
+  if portfolio != None:
+    shares = portfolios.filter(shares, portfolio)
   
   print(shares)
   copy(shares)
