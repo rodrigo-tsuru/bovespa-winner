@@ -895,22 +895,22 @@ backtest.run_all(fundamentus.start_date(2019), a12)
 ####################
 #### Piotrotski ####
 ####################
-a1 = 
+a1 = ['VIVT4', 'BDLL4', 'RSUL4', 'ALPA3', 'MOAR3', 'ALPA4', 'FBMC3', 'GOAU4', 'GOAU3', 'FBMC4']
 backtest.run_all(fundamentus.start_date(2008), a1)
 
-a2 = 
+a2 = ['VIVT4', 'OGXP3', 'FBMC3', 'VIVT4', 'BNBR3', 'FBMC4', 'VIVT3', 'VALE5', 'RDCD3', 'PTNT3']
 backtest.run_all(fundamentus.start_date(2009), a2)
 
-a3 = 
+a3 = ['FBMC4', 'FBMC3', 'VALE5', 'AELP3', 'VIVT4', 'TAEE11', 'VIVT3', 'FIBR3', 'BNBR3', 'TNCP4']
 backtest.run_all(fundamentus.start_date(2010), a3)
 
-a4 = 
+a4 = ['FBMC4', 'VALE5', 'BNBR3', 'AELP3', 'VIVT4', 'VIVT3', 'TNCP4', 'TAEE11', 'FIBR3', 'TIET4']
 backtest.run_all(fundamentus.start_date(2011), a4)
 
-a5 = 
+a5 = ['FBMC4', 'TNCP4', 'AELP3', 'VALE5', 'BNBR3', 'TAEE11', 'RDCD3', 'CESP3', 'TIET4', 'TIET3']
 backtest.run_all(fundamentus.start_date(2012), a5)
 
-a6 = 
+a6 = ['TNCP4', 'FBMC3', 'VALE5', 'FBMC4', 'FIBR3', 'TIET4', 'AUTM3', 'TIET3', 'BNBR3', 'BHGR3']
 backtest.run_all(fundamentus.start_date(2013), a6)
 
 a7 = ['DAGB33', 'SMLS3', 'VALE5', 'CZLT33', 'FBMC4', 'FIBR3', 'BNBR3', 'TIET4', 'AUTM3', 'TIET3']
@@ -922,7 +922,7 @@ backtest.run_all(fundamentus.start_date(2015), a8)
 a9 = ['DAGB33', 'TERI3', 'FIBR3', 'SMLS3', 'CREM3', 'TIET4', 'TIET3', 'CZLT33', 'IDNT3', 'VALE5']
 backtest.run_all(fundamentus.start_date(2016), a9)
 
-a10 = ['DAGB33', 'SMLS3', 'FIBR3', 'VALE5', 'CZLT33', 'SQIA3', 'VVAR3', 'SANB4', 'IDNT3', 'CREM3']
+a10 = ['DAGB33', 'SMLS3', 'FIBR3', 'VALE5', 'CZLT33', 'SQIA3', 'VVAR3', 'IDNT3', 'CREM3', 'OGXP3']
 backtest.run_all(fundamentus.start_date(2017), a10)
 
 a11 = ['DAGB33', 'FIBR3', 'VALE5', 'CZLT33', 'SQIA3', 'VVAR3', 'CREM3', 'IDNT3', 'AELP3', 'OGXP3']

@@ -60,7 +60,13 @@ def remove_delisteds(tickers):
                'TMGC13', 'KROT3', 'MAGG3', 'QGEP3', 'NATU3', 'VVAR4', 'GUAR4', 'FJTA4', 'FJTA3',
                'BTTL4', 'BVMF3', 'PRML3', 'SUZB5', 'PARC3', 'CTIP3', 'BBTG11', 'PRBC4', 'TBLE3',
                'PTPA4', 'SUZB6', 'CRUZ3', 'SGAS4', 'AMBV4', 'AMBV3', 'ABRE11', 'SGAS3', 'NETC4',
-               'ARTR3', 'IMCH3', 'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4']
+               'ARTR3', 'IMCH3', 'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4', 'AEDU3',
+               'AMIL3', 'NETC3', 'WSON11', 'AMPI3', 'OHLB3', 'TMAR5', 'TMAR3', 'MPXE3', 'HRTP3',
+               'TAMM4', 'TAMM3', 'RAIA3', 'CLSC6', 'ILMD4', 'FFTL4', 'FFTL3', 'TNLP3', 'UGPA4', 'DOCA4',
+               'PCAR5', 'VIVO4', 'TMAR6', 'VIVO3', 'TEFC11', 'ILMD3', 'AEDU11', 'CLSC5', 'ARTR3', 'IMCH3',
+               'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4', 'DOCA3', 'SEBB11', 'TNLP4',
+               'DUQE4', 'GVTT3', 'BRTP3', 'BNCA3', 'LCSA4', 'DROG3', 'BAHI4', 'IVTT3', 'BRTO3', 'TMGC11',
+               'TMGC12', 'PRGA3', 'TMCP4', 'TMCP3', 'RNPT4', 'PTPA3', 'RNPT3', 'TMGC3']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers
