@@ -18,6 +18,7 @@
 
 # Cases de sucesso dessas fórmula...
 # https://investidoringles.com/2019/01/formula-magica-de-joel-greenblatt.html
+# http://bibliotecadigital.fgv.br/dspace/bitstream/handle/10438/15280/Tese%20-%20Leonardo%20Milane%20-%20Magic%20Formula.pdf?sequence=1
 
 # Princípios utilizados:
 

@@ -1,6 +1,6 @@
 # Bovespa Winner 🥇
 
-Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações.
+Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações. 🥋
 
 Ao escolher a estratégia, é construído um sistema de rankeamento onde mostra das *melhores ações* para as *piores ações* considerando a estratégia escolhida.
 
@@ -15,7 +15,9 @@ No momento, estratégias dos seguintes grandes investidores podem ser aplicadas:
 
 Também existem pequenas adaptações nestas estratégias. Elas estão presentes na pasta `/mixed_strategies`.
 
+
 # Pré-requisitos 🎓
+
 * Python 3
 * Libs (`pip3 install them`)
   * pandas
@@ -24,6 +26,7 @@ Também existem pequenas adaptações nestas estratégias. Elas estão presentes
   * pyfolio
   * click
   * tabulate
+
 
 # Como usar 🎯
 
@@ -86,8 +89,16 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
 - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 
-* Livro: https://www.amazon.com/Intelligent-Investor-Definitive-Investing-Essentials/dp/0060555661
-* Breve Explicação: https://www.bluechipinvest.com.br/educacional-det/benjamin-graham/7
+[<img src="https://i.imgur.com/kE1DLOp.png" width="500"/>](GrahamBacktest)
+
+#### Links 🌐
+
+* https://www.amazon.com/Intelligent-Investor-Definitive-Investing-Essentials/dp/0060555661
+* https://www.bluechipinvest.com.br/educacional-det/benjamin-graham/7
+
+#### Artigos Científicos 🔬
+
+1. http://dspace.insper.edu.br/xmlui/bitstream/handle/11224/2244/Rafael%20Domingues%20dos%20Santos_Trabalho.pdf?sequence=1
 
 
 ## Joel Greenblatt 📈 
@@ -109,8 +120,18 @@ Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indica
 - [x] 1. maior ROE e menor P/L
 - [x] 2. maior ROIC e menor EV/EBIT
 
-* Livro: https://www.amazon.com/Little-Book-That-Beats-Market/dp/0471733067
-* Breve Explicação: https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
+[<img src="https://i.imgur.com/YqMCGwi.png" width="500"/>](GreenblattBacktest)
+
+#### Links 🌐
+
+* https://www.amazon.com/Little-Book-That-Beats-Market/dp/0471733067
+* https://comoinvestir.thecap.com.br/joel-greenblatt-estrategia-investimentos/
+
+#### Artigos Científicos 🔬
+
+1. http://bibliotecadigital.fgv.br/dspace/bitstream/handle/10438/15280/Tese%20-%20Leonardo%20Milane%20-%20Magic%20Formula.pdf?sequence=1
+2. http://bibliotecadigital.fgv.br/dspace/bitstream/handle/10438/12099/Disserta%C3%A7%C3%A3o_RodolfoZeidler_MPFE_27.09.2014.pdf?sequence=1&isAllowed=y
+3. http://dspace.insper.edu.br/xmlui/bitstream/handle/11224/2244/Rafael%20Domingues%20dos%20Santos_Trabalho.pdf?sequence=1
 
 
 ## Décio Bazin 📈 
@@ -121,20 +142,33 @@ Aplica-se ensinamentos de [Décio Bazin](https://www.sunoresearch.com.br/artigos
 
 Para a análise, são utilizados ensinamentos do livro "*Faça Fortuna Com Ações*" de **Décio Bazin**, que é tido como literatura indicada até mesmo por **Luis Barsi**, o maior investidor na bolsa brasileira de todos os tempos.
 
-Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio Bazin para cada ação. Décio propõe o valor intrínsseco a partir do Dividend Yield atual da ação, mas no algoritmo utilizo a média do Dividend Yield histórico dos últimos 5 anos.
+Também é calculado o **Valor Intrínseco (Preço Justo)** definido por Décio Bazin para cada ação.
 
-No algoritmo, cada ação recebe uma nota que vai de 0 a 6, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
+No algoritmo, cada ação recebe uma nota que vai de 0 a 8, considerando se ela se adequou a cada uma dessas características abaixo estipuladas por Décio Bazin.
 
-- [x] 1. Preço Justo > 1.5 * Preço. Preço Justo => Dividend Yield * 16.67 (Por: Décio Bazin)
-- [x] 2. Dívida Líquida/Patrimônio < 0.5 (50%)
+- [x] 1. Preço Justo (Bazin) > 1.5 * Preço. Preço Justo (Bazin) é o Dividend Yield Médio * 16.67 (Por: Décio Bazin)
+- [x] 2. Dívida Bruta/Patrimônio < 0.5 (50%)
 - [x] 3. Dividend Yield > 0.06 (6%)
 - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
-- [x] 5. Pagamento constante de dividendos nos últimos 5 anos
-- [x] 6. Pagamento crescente de dividendos nos últimos 5 anos
-- [x] 7. 0 < Payout < 1
+- [x] 5. Mediana do Dividend Yield nos últimos 5 anos > 0.05 (5%)
+- [x] 6. Pagamento constante de dividendos nos últimos 5 anos
+- [x] 7. Pagamento crescente de dividendos nos últimos 5 anos
+- [x] 8. 0 < Payout < 1
 
-* Livro: https://www.amazon.com/Faca-Fortuna-com-Acoes-Antes/dp/8585454164
-* Breve Explicação: https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/
+[<img src="https://i.imgur.com/qdkmnG4.png" width="500"/>](BazinBacktest)
+
+[<img src="https://i.imgur.com/duKM0mN.png" width="500"/>](BazinBacktest)
+
+#### Links 🌐
+
+* https://www.amazon.com/Faca-Fortuna-com-Acoes-Antes/dp/8585454164
+* https://www.sunoresearch.com.br/artigos/entenda-estrategia-de-decio-bazin/
+* https://clubedovalor.com.br/blog/decio-bazin/
+* https://medium.com/@lucastrcalixto/o-m%C3%A9todo-bazin-e-o-progresso-da-bolsa-ccd7ec7a144b
+
+#### Artigos Científicos 🔬
+
+1. Se alguém achar algum artigo de backtest, eu agradeço. No mais, nos backtests que fiz aqui, se mostrou uma estratégia extremamente eficiente.
 
 
 ## Joseph D. Piotroski 📈
@@ -157,10 +191,25 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela 
 - [x] 8. Margem Bruta atual > Margem Bruta ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
 - [x] 9. Giro Ativo atual > Giro Ativo ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
 
-* Paper: https://www.researchgate.net/publication/228316791_Value_Investing_The_Use_of_Historical_Financial_Statement_Information_to_Separate_Winners_from_Losers
+[<img src="https://i.imgur.com/dIiK0Va.png" width="500"/>](PiotroskiBacktest)
+
+#### Links 🌐
+
+* https://www.ivey.uwo.ca/cmsmedia/3775523/value_investing_the_use_of_historical_financial_statement_information.pdf
+* https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+* https://www.equitieslab.com/piotroski-f-score-faq/
+* https://areademembros.dicadehoje7.com/wp-content/uploads/2019/09/F-Score-de-Piotroski-1.pdf
+
+
+#### Artigos Científicos 🔬
+
+1. http://dspace.insper.edu.br/xmlui/bitstream/handle/11224/1724/Felippe%20Naccarato%20Baldo_Trabalho.pdf?sequence=1
+2. https://www.quant-investing.com/blogs/backtests/2018/11/06/piotroski-f-score-back-test
 
 
 ## Kenneth Fisher 📈
+
+#### Está ainda em fase de desenvolvimento.
 
 * Arquivo: `fisher.py`
 
@@ -174,6 +223,8 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 4, considerando se ela 
 - [x] 2. PSR < 1 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
 - [x] 3. PSR < 0.75 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
 - [x] 4. Taxa de Rentabilidade alta: L/P > Selic http://investidoremvalor.com/filosofia-ken-fisher/
+
+#### Links
 
 * https://comoinvestir.thecap.com.br/quem-e-kenneth-fisher-o-jeito-ken-investir/
 * http://investidoremvalor.com/filosofia-ken-fisher/
@@ -196,7 +247,6 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada u
 - [x] 5. Dívida Líquida/Patrimônio => Quanto menor, melhor (ideal < 50%) https://www.sunoresearch.com.br/artigos/5-indicadores-para-avaliar-solidez-de-uma-empresa/
 - [x] 6. EV/EBITDA (Enterprise Value / EBITDA) => Quanto menor melhor (ideal, < 10) https://www.investopedia.com/ask/answers/072715/what-considered-healthy-evebitda.asp
 - [x] 7. Peg Ratio (P/L / CAGRLucros5Anos) => Quanto menor melhor (ideal <= 1) https://bugg.com.br/2018/01/24/buggpedia-o-que-e-o-peg-ratio/
-
 
 
 # Contato ✉️ 📞
