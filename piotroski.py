@@ -18,6 +18,7 @@
 # 9. Giro Ativo atual > Giro Ativo ano anterior
 
 # Referência: https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
+# Explicação: https://areademembros.dicadehoje7.com/wp-content/uploads/2019/09/F-Score-de-Piotroski-1.pdf
 # Backtesting on USA: https://www.quant-investing.com/blogs/backtests/2018/11/06/piotroski-f-score-back-test
 
 import sys, os
