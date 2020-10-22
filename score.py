@@ -45,6 +45,19 @@
 # How to fix...
 # System Preference > Sharing > Enable all sharings!
 
+# More Strategies right below
+# Altman Z Score
+# Ohlson's O Score
+# Montier C Score
+# Declining Wedge
+# Ascending Triangle
+# Quality Minus Junk
+# Book Value
+# Stock Idiosyncratic Risk
+# Leverage Ratio
+# Weighted Average Cost of Capital
+# Interest Coverage Ratio
+
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 

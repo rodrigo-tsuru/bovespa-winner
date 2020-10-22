@@ -9,8 +9,8 @@ import operator
 def filter(shares, name):
   return shares[shares.index.isin(get(name))]
 
-# Calls the right portfolio method.
-# For e.g. if portfolio = 'victor', it calls the victor() method
+# Calls the right portfolio method based on it's name.
+# For e.g. if name = 'victor', it calls the victor() method
 def get(name):
   return eval(name)()
 
