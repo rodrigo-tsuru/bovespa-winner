@@ -168,7 +168,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 8, considerando se ela 
 
 #### Artigos Científicos 🔬
 
-1. Se alguém achar algum artigo de backtest, eu agradeço. No mais, nos backtests que fiz aqui, se mostrou uma estratégia extremamente eficiente.
+1. Se alguém achar algum artigo de backtest, eu agradeço. No mais, essa estratégia se mostrou uma estratégia extremamente eficiente através dos backtests que eu fiz neste programa.
 
 
 ## Joseph D. Piotroski 📈
@@ -209,7 +209,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela 
 
 ## Kenneth Fisher 📈
 
-#### Está ainda em fase de desenvolvimento.
+#### Está ainda em fase de desenvolvimento. 🚧
 
 * Arquivo: `fisher.py`
 
@@ -224,10 +224,14 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 4, considerando se ela 
 - [x] 3. PSR < 0.75 https://www.fundamentus.com.br/pagina_do_ser/kenneth_Fisher.htm
 - [x] 4. Taxa de Rentabilidade alta: L/P > Selic http://investidoremvalor.com/filosofia-ken-fisher/
 
-#### Links
+#### Links 🌐
 
 * https://comoinvestir.thecap.com.br/quem-e-kenneth-fisher-o-jeito-ken-investir/
 * http://investidoremvalor.com/filosofia-ken-fisher/
+
+#### Artigos Científicos 🔬
+
+1. Se alguém achar algum artigo de backtest, eu agradeço.
 
 
 ## Score 📈 
