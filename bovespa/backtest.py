@@ -21,11 +21,11 @@
 # importlib.reload(backtest)
 # backtest.run(tickers, start, end=time.strftime("%Y-%m-%d"))
 
-import yfinance as yf
-import pyfolio as pf
-
 import warnings
 warnings.filterwarnings('ignore')
+
+import yfinance as yf
+import pyfolio as pf
 
 import click
 import time
@@ -86,14 +86,14 @@ def run_all(start, tickers):
   run(manada, start)
   
   click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
-  return run(tickers, start)
+  run(tickers, start)
 
 # Execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
 # Usage...
 # run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 # run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
-def run(tickers, start, end=time.strftime("%Y-%m-%d")):
+def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
   # end = next_year(start)
   tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
@@ -119,10 +119,10 @@ def run(tickers, start, end=time.strftime("%Y-%m-%d")):
   click.secho(f"Montante Inicial: 10.000,00", fg='red', bold=True)
   click.secho(f"Montante Final: {commalize(str(montante))}", fg='blue', bold=True)
   click.secho(f"Valorização: {'{0:.0%}'.format((montante - 10000) / 10000)}", fg='green', bold=True)
-  return montante
+  if (not display): return
 
-  # # Beautifully plots the result on the screen
-  # pf.create_full_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
+  # Beautifully plots the result on the screen
+  pf.create_returns_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
 
 # Calculate Ibovespa return with R$ 1,000.00 invested
 def bovespa(start, end=time.strftime("%Y-%m-%d")):
