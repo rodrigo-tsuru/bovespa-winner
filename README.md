@@ -26,6 +26,7 @@ Também existem pequenas adaptações nestas estratégias. Elas estão presentes
   * pyfolio
   * click
   * tabulate
+  * matplotlib
 
 
 # Como usar 🎯

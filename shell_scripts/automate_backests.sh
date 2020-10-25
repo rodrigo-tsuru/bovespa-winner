@@ -1,3 +1,6 @@
+# This file is intended to automate the back test and...
+# * Get the final result of the backtest
+
 # Run backtests on Brazilian Bovespa Stocks
 run_backtests() {
   ttab {cd /Users/victor/Desktop/python/bovespa-winner; python3 graham.py '{ "year": 2008 }'}
