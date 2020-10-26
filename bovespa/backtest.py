@@ -21,6 +21,22 @@
 # importlib.reload(backtest)
 # backtest.run(tickers, start, end=time.strftime("%Y-%m-%d"))
 
+
+# year = {
+#   2008: '2008-06-13', # https://web.archive.org/web/20080613050801/http://www.fundamentus.com.br/resultado.php 
+#   2009: '2009-01-23', # https://web.archive.org/web/20090123022224/http://www.fundamentus.com.br/resultado.php 
+#   2010: '2010-01-15', # https://web.archive.org/web/20100115191626/http://www.fundamentus.com.br/resultado.php 
+#   2011: '2011-01-13', # https://web.archive.org/web/20110113192117/http://www.fundamentus.com.br/resultado.php 
+#   2012: '2012-01-06', # https://web.archive.org/web/20120106023830/http://www.fundamentus.com.br/resultado.php 
+#   2013: '2013-01-05', # https://web.archive.org/web/20130105004012/http://www.fundamentus.com.br/resultado.php 
+#   2014: '2014-01-08', # https://web.archive.org/web/20140108164618/http://www.fundamentus.com.br/resultado.php 
+#   2015: '2015-01-19', # https://web.archive.org/web/20150119231047/http://www.fundamentus.com.br/resultado.php 
+#   2016: '2016-01-06', # https://web.archive.org/web/20160106101916/http://www.fundamentus.com.br/resultado.php 
+#   2017: '2017-05-05', # https://web.archive.org/web/20170505164235/http://www.fundamentus.com.br/resultado.php 
+#   2018: '2018-01-05', # https://web.archive.org/web/20180105120409/http://www.fundamentus.com.br/resultado.php 
+#   2019: '2019-01-02'  # https://web.archive.org/web/20190102202956/http://www.fundamentus.com.br/resultado.php
+# }
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -88,13 +104,13 @@ def run_all(start, tickers):
   click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
   run(tickers, start)
 
-# Execute the backtest from the provided start...end range and using the provided tickers
+# Core method to execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
 # Usage...
 # run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 # run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
-  # end = next_year(start)
+  # end = next_year(start) # Used to execute 1-year backtest
   tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
   
@@ -143,6 +159,7 @@ def bovespa(start, end=time.strftime("%Y-%m-%d")):
   carteira = 10000 * retorno_acumulado
   return commalize(str(carteira[-1]))
 
+# Replace dots to commas in a string R$4000.00 => R$4000,00
 def commalize(value):
   return value.replace('.', ',')
 
