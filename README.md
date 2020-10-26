@@ -96,7 +96,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 1. Literature
 [<img src="https://i.imgur.com/kE1DLOp.png" width="500"/>](GrahamBacktest)
 
-2. 2009 until 2020
+2. 2009 to 2020
 [<img src="https://i.imgur.com/z8Migg0.png" width="500"/>](GrahamBacktest)
 
 
@@ -134,7 +134,7 @@ Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indica
 1. Literature
 [<img src="https://i.imgur.com/YqMCGwi.png" width="500"/>](GreenblattBacktest)
 
-2. 2009 until 2020
+2. 2009 to 2020
 [<img src="https://i.imgur.com/zzwikwW.png" width="500"/>](GreenblattBacktest)
 
 #### Links 🌐
@@ -176,7 +176,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 8, considerando se ela 
 [<img src="https://i.imgur.com/qdkmnG4.png" width="500"/>](BazinBacktest)
 [<img src="https://i.imgur.com/duKM0mN.png" width="500"/>](BazinBacktest)
 
-2. 2009 until 2020
+2. 2009 to 2020
 [<img src="https://i.imgur.com/ImIuH86.png" width="500"/>](BazinBacktest)
 
 #### Links 🌐
@@ -216,7 +216,7 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela 
 1. Literature
 [<img src="https://i.imgur.com/dIiK0Va.png" width="500"/>](PiotroskiBacktest)
 
-2. 2009 until 2020
+2. 2009 to 2020
 [<img src="https://i.imgur.com/TaPNJbh.png" width="500"/>](PiotroskiBacktest)
 
 #### Links 🌐
