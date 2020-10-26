@@ -90,7 +90,16 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 14, considerando se ela
 - [x] 13. Dívida Bruta/Patrimônio => Quanto menor, melhor (ideal < 50%) https://daxinvestimentos.com/analise-fundamentalista-mais-de-200-de-rentabilidade-em-2-anos/
 - [x] 14. Patrimônio Líquido => Quanto maior, melhor (ideal > 2000000000)
 
+
+#### Backtests 🧐
+
+* Literature
 [<img src="https://i.imgur.com/kE1DLOp.png" width="500"/>](GrahamBacktest)
+
+* 2009 until 2020
+[<img src="https://i.imgur.com/z8Migg0.png" width="500"/>](GrahamBacktest)
+
+
 
 #### Links 🌐
 
@@ -121,7 +130,13 @@ Uma outra abordagem dessa fórmula é utilizar os indicadores: **ROIC** (*indica
 - [x] 1. maior ROE e menor P/L
 - [x] 2. maior ROIC e menor EV/EBIT
 
+#### Backtests 🧐
+
+* Literature
 [<img src="https://i.imgur.com/YqMCGwi.png" width="500"/>](GreenblattBacktest)
+
+* 2009 until 2020
+[<img src="https://i.imgur.com/zzwikwW.png" width="500"/>](GreenblattBacktest)
 
 #### Links 🌐
 
@@ -156,9 +171,14 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 8, considerando se ela 
 - [x] 7. Pagamento crescente de dividendos nos últimos 5 anos
 - [x] 8. 0 < Payout < 1
 
-[<img src="https://i.imgur.com/qdkmnG4.png" width="500"/>](BazinBacktest)
+#### Backtests 🧐
 
+* Literature
+[<img src="https://i.imgur.com/qdkmnG4.png" width="500"/>](BazinBacktest)
 [<img src="https://i.imgur.com/duKM0mN.png" width="500"/>](BazinBacktest)
+
+* 2009 until 2020
+[<img src="https://i.imgur.com/ImIuH86.png" width="500"/>](BazinBacktest)
 
 #### Links 🌐
 
@@ -192,7 +212,13 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela 
 - [x] 8. Margem Bruta atual > Margem Bruta ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
 - [x] 9. Giro Ativo atual > Giro Ativo ano anterior https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
 
+#### Backtests 🧐
+
+* Literature
 [<img src="https://i.imgur.com/dIiK0Va.png" width="500"/>](PiotroskiBacktest)
+
+* 2009 until 2020
+[<img src="https://i.imgur.com/TaPNJbh.png" width="500"/>](PiotroskiBacktest)
 
 #### Links 🌐
 
@@ -200,7 +226,6 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 9, considerando se ela 
 * https://medium.com/@gutenbergn/piotroski-d9a722b8ef9a
 * https://www.equitieslab.com/piotroski-f-score-faq/
 * https://areademembros.dicadehoje7.com/wp-content/uploads/2019/09/F-Score-de-Piotroski-1.pdf
-
 
 #### Artigos Científicos 🔬
 
@@ -255,5 +280,6 @@ No algoritmo, cada ação recebe uma nota que vai de 0 a 21, avaliando se cada u
 
 
 # Contato ✉️ 📞
+* nome: Victor Cordeiro Costa
 * victorcorcos@gmail.com
 * victor.costa@oxeanbits.com
