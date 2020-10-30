@@ -13,7 +13,7 @@
 # - [x] 3. Dividend Yield > 0.06 (6%)
 # - [x] 4. Média do Dividend Yield nos últimos 5 anos > 0.05 (5%)
 # - [x] 5. Mediana do Dividend Yield nos últimos 5 anos > 0.05 (5%)
-# - [x] 6. Pagamento constante de dividendos nos últimos 5 anos
+# - [x] 6. Pagamento positivo de dividendos nos últimos 5 anos
 # - [x] 7. Pagamento crescente de dividendos nos últimos 5 anos
 # - [x] 8. 0 < Payout < 1
 
