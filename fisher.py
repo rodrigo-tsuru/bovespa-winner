@@ -16,6 +16,9 @@
 import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
+import time
+import subprocess
+
 import fundamentus
 import bovespa
 import backtest
@@ -68,18 +71,38 @@ def reorder_columns(shares):
   columns = ['Ranking', 'Cotação', 'Fisher Score', 'Setor', 'Subsetor', 'Segmento']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
+# Get the current_year integer value, for example: 2020
+def current_year():
+  return int(time.strftime("%Y"))
+
+# Copia o result no formato Markdown (Git :D)
+def copy(shares):
+  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
+
 if __name__ == '__main__':
-  year = None
+  year = current_year()
+  portfolio = None
   if len(sys.argv) > 1:
-    year = int(eval(sys.argv[1])['year'])
+    arguments = eval(sys.argv[1])
+    year = int(arguments.get('year', current_year()))
+    portfolio = arguments.get('portfolio', None)
   
   shares = populate_shares(year)
   
   shares.sort_values(by=['Fisher Score', 'Cotação'], ascending=[False, True], inplace=True)
   
   shares['Ranking'] = range(1, len(shares) + 1)
+
+  if portfolio != None:
+    shares = portfolios.filter(shares, portfolio)
   
-  backtest.display_shares(shares, year)
+  print(shares)
+  copy(shares)
+  
+  # backtest.display_shares(shares, year)
+
+  if year != current_year():
+    backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))
 
 # Outros ensinamentos de Kenneth Fisher
 
