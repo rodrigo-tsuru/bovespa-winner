@@ -17,7 +17,7 @@ import sys, os
 sys.path.extend([f'./{name}' for name in os.listdir(".") if os.path.isdir(name)])
 
 import time
-import subprocess
+import pyperclip
 
 import fundamentus
 import bovespa
@@ -75,10 +75,6 @@ def reorder_columns(shares):
 def current_year():
   return int(time.strftime("%Y"))
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
-
 if __name__ == '__main__':
   year = current_year()
   portfolio = None
@@ -97,7 +93,7 @@ if __name__ == '__main__':
     shares = portfolios.filter(shares, portfolio)
   
   print(shares)
-  copy(shares)
+  pyperclip.copy(shares.to_markdown())
   
   # backtest.display_shares(shares, year)
 

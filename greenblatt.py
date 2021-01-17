@@ -36,7 +36,7 @@ import backtest
 import pandas
 import numpy
 import time
-import subprocess
+import pyperclip
 
 from math import sqrt
 from decimal import Decimal
@@ -119,10 +119,6 @@ def reorder_columns(shares, formula):
 def current_year():
   return int(time.strftime("%Y"))
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
-
 # Chame a função main de acordo com qual formula você quer aplicar: roe OU roic
 # Formula ROE:  Utiliza ROE  e P/L
 # Formula ROIC: Utiliza ROIC e EV/EBIT (EV/EBITDA não tem no fundamentus)
@@ -144,7 +140,7 @@ if __name__ == '__main__':
   shares['Ranking (Greenblatt)'] = range(1, len(shares) + 1)
   
   print(shares)
-  copy(shares)
+  pyperclip.copy(shares.to_markdown())
   
   if year != current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))

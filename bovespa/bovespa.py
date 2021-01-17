@@ -11,7 +11,7 @@ sys.path.extend(['../waiting_bar'])
 import fundamentus
 
 import pandas
-import subprocess
+import pyperclip
 import numpy
 
 from math import sqrt
@@ -127,16 +127,12 @@ def add_invest_columns(shares, new_status):
 def reorder_columns(shares):
   return shares[['Cotação'] + [col for col in shares.columns if col not in ('Cotação')]]
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
-
 if __name__ == '__main__':
   from waitingbar import WaitingBar
   progress_bar = WaitingBar('[*] Calculating...')
   shares = shares()
   shares = reorder_columns(shares)
   shares = shares.sort_values(by=['Cotação'], ascending=[True])
-  copy(shares)
+  pyperclip.copy(shares.to_markdown())
   print(shares)
   progress_bar.stop()
