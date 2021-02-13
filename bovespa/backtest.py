@@ -64,7 +64,9 @@ def replace_outdateds(tickers):
     'IENG4': 'INEP4',
     'BNBR4': 'BNBR3',
     'SSBR3': 'ALSO3',
-    'SNSL3': 'SQIA3'
+    'SNSL3': 'SQIA3',
+    'SOND3': 'SOND5',
+    'BIOM4': 'BIOM3'
   }
   return [replacements.get(x, x) for x in tickers]
 
@@ -82,7 +84,7 @@ def remove_delisteds(tickers):
                'PCAR5', 'VIVO4', 'TMAR6', 'VIVO3', 'TEFC11', 'ILMD3', 'AEDU11', 'CLSC5', 'ARTR3', 'IMCH3',
                'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4', 'DOCA3', 'SEBB11', 'TNLP4',
                'DUQE4', 'GVTT3', 'BRTP3', 'BNCA3', 'LCSA4', 'DROG3', 'BAHI4', 'IVTT3', 'BRTO3', 'TMGC11',
-               'TMGC12', 'PRGA3', 'TMCP4', 'TMCP3', 'RNPT4', 'PTPA3', 'RNPT3', 'TMGC3']
+               'TMGC12', 'PRGA3', 'TMCP4', 'TMCP3', 'RNPT4', 'PTPA3', 'RNPT3', 'TMGC3', 'SULT4']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers

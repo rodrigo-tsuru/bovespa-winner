@@ -549,6 +549,47 @@ a12 = ['CRIV4', 'BRIV4', 'ITSA4', 'ITSA3', 'ITUB3', 'BBSE3', 'BMEB4', 'PTNT4', '
 backtest.run_all(fundamentus.start_date(2019), a12)
 
 
+###############################
+## Décio Bazin com ROE > 20% ##
+###############################
+a1 = 
+backtest.run_all(fundamentus.start_date(2008), a1)
+
+a2 = ['FESA4', 'LREN3', 'GRND3', 'BGIP4', 'TRPL4', 'PATI4', 'ITSA4', 'POSI3', 'FESA3', 'ETER3']
+backtest.run_all(fundamentus.start_date(2009), a2)
+
+a3 = ['WHRL4', 'WHRL3', 'CTSA4', 'BGIP4', 'EKTR4', 'JHSF3', 'ODPV3', 'BGIP3', 'ETER3', 'PEAB4']
+backtest.run_all(fundamentus.start_date(2010), a3)
+
+a4 = ['WHRL3', 'WHRL4', 'BGIP4', 'ETER3', 'HGTX3', 'POMO3', 'ODPV3', 'POMO4', 'SOND5', 'BMEB4']
+backtest.run_all(fundamentus.start_date(2011), a4)
+
+a5 = ['PATI4', 'ETER3', 'BGIP4', 'BGIP3', 'BBAS3', 'GRND3', 'CMIG3', 'MERC4', 'CMIG4', 'EKTR4']
+backtest.run_all(fundamentus.start_date(2012), a5)
+
+a6 = ['PATI4', 'BGIP3', 'BGIP4', 'WHRL4', 'WHRL3', 'GRND3', 'CMIG3', 'CMIG4', 'ETER3', 'TOTS3']
+backtest.run_all(fundamentus.start_date(2013), a6)
+
+a7 = ['BBAS3', 'WHRL4', 'WHRL3', 'BRIV4', 'GRND3', 'PINE4', 'BNBR3', 'BGIP3', 'BGIP4', 'HGTX3']
+backtest.run_all(fundamentus.start_date(2014), a7)
+
+a8 = ['WHRL4', 'WHRL3', 'CRIV4', 'PINE4', 'GRND3', 'SAPR4', 'BBAS3', 'PSSA3', 'BEES4', 'BEES3']
+backtest.run_all(fundamentus.start_date(2015), a8)
+
+a9 = ['ITSA4', 'ITSA3', 'BBAS3', 'ITUB3', 'HGTX3', 'BBSE3', 'CRIV4', 'GRND3', 'BRIV4', 'CGRA4']
+backtest.run_all(fundamentus.start_date(2016), a9)
+
+a10 = ['CRIV4', 'BRIV4', 'ITSA4', 'GRND3', 'BNBR3', 'CGRA4', 'BMEB4', 'KLBN4', 'AFLT3', 'MERC4']
+backtest.run_all(fundamentus.start_date(2017), a10)
+
+a11 = ['CRIV4', 'AFLT3', 'BRIV4', 'GRND3', 'UNIP3', 'BNBR3', 'HGTX3', 'BGIP4', 'CGRA4', 'CGRA3']
+backtest.run_all(fundamentus.start_date(2018), a11)
+
+a12 = ['CRIV4', 'BRIV4', 'ITSA4', 'ITSA3', 'FESA4', 'ITUB3', 'BBSE3', 'FESA3', 'EALT4', 'EALT3']
+backtest.run_all(fundamentus.start_date(2019), a12)
+
+
+
 ############################
 #### Piotroski Advanced ####
 ############################

@@ -27,6 +27,7 @@ Também existem pequenas adaptações nestas estratégias. Elas estão presentes
   * click
   * tabulate
   * matplotlib
+  * pyperclip
 
 
 # Como usar 🎯
