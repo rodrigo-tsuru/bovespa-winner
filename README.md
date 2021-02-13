@@ -1,6 +1,6 @@
 # Bovespa Winner 🥇
 
-Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações. 🥋
+Este é um Sistema em Python que aplica no Bovespa as estratégias e técnicas desenvolvidas pelos maiores investidores em ações para fins de comparação. 🥋
 
 Ao escolher a estratégia, é construído um sistema de rankeamento onde mostra das *melhores ações* para as *piores ações* considerando a estratégia escolhida.
 
