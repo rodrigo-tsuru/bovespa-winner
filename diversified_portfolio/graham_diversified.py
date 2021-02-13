@@ -41,6 +41,8 @@ import sys, os
 sys.path.extend([f'../{name}' for name in os.listdir("..") if os.path.isdir(f'../{name}')])
 sys.path.extend(['..'])
 
+import pyperclip
+
 import graham
 import fundamentus
 import backtest
@@ -61,7 +63,7 @@ if __name__ == '__main__':
   shares['Ranking (Graham)'] = range(1, len(shares) + 1)
   
   print(shares)
-  graham.copy(shares)
+  pyperclip.copy(shares.to_markdown())
   
   if year != graham.current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))

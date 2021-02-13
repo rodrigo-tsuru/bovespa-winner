@@ -1,0 +1,20 @@
+**/*.pyc
+*.pyc
+
+# folders
+.pytest_cache/
+__pycache__/
+blob_storage/
+webrtc_event_logs/
+build/
+dist/
+tests/__pycache__/
+
+# virtualenv
+env/
+venv/
+
+# vscode
+.vscode/
+
+# individual files

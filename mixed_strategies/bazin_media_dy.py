@@ -36,7 +36,7 @@ import urllib.request
 import json
 import threading
 import time
-import subprocess
+import pyperclip
 
 # === Parallel fetching... https://stackoverflow.com/questions/16181121/a-very-simple-multithreading-parallel-url-fetching-without-queue
 
@@ -178,10 +178,6 @@ def reorder_columns(shares):
 def current_year():
   return int(time.strftime("%Y"))
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
-
 # python3 bazin.py "{ 'year': 2015 }"
 # python3 bazin.py "{ 'year': 2015, 'portfolio': 'victor' }"
 if __name__ == '__main__':  
@@ -196,7 +192,7 @@ if __name__ == '__main__':
   shares['Ranking (Bazin)'] = range(1, len(shares) + 1)
   
   print(shares)
-  copy(shares)
+  pyperclip.copy(shares.to_markdown())
   
   if year != current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))

@@ -65,7 +65,7 @@ import graham
 import backtest
 
 import pandas
-import subprocess
+import pyperclip
 import numpy
 
 from math import sqrt
