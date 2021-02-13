@@ -43,7 +43,7 @@ import urllib.request
 import json
 import threading
 import time
-import subprocess
+import pyperclip
 
 # def print(thing):
 #   import pprint
@@ -221,10 +221,6 @@ def reorder_columns(shares):
 def current_year():
   return int(time.strftime("%Y"))
 
-# Copia o result no formato Markdown (Git :D)
-def copy(shares):
-  subprocess.run('pbcopy', universal_newlines=True, input=shares.to_markdown())
-
 # python3 piotroski_greenblatt_more_piotroski.py "{ 'year': 2015 }"
 if __name__ == '__main__':
   # Opening these URLs to automatically allow this API to receive more requests from local IP
@@ -247,7 +243,7 @@ if __name__ == '__main__':
   shares['Ranking (Final)'] = range(1, len(shares) + 1)
   
   print(shares)
-  copy(shares)
+  pyperclip.copy(shares.to_markdown())
   
   if year != current_year():
     backtest.run_all(fundamentus.start_date(year), list(shares.index[:20]))
