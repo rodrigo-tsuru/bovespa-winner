@@ -46,6 +46,8 @@ import pyfolio as pf
 import click
 import time
 
+from pipe import *
+
 def replace_outdateds(tickers):
   replacements = {
     'VVAR11': 'VVAR3',
@@ -146,7 +148,7 @@ def run_all(start, tickers, end=time.strftime("%Y-%m-%d")):
 def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
   if (end == 'next_year'):
     end = next_year(start)
-  tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
+  tickers = list(tickers | select(lambda t: t + '.SA')) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
   
   # Bring the daily tickers prices from the provided period until today
