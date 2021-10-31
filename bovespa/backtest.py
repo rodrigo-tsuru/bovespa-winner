@@ -125,17 +125,18 @@ def prepare(tickers):
   return tickers[:10]
 
 # Run all backtests for the provided tickers from the provided year until now
-def run_all(start, tickers):
+# backtest.run_all(start=year[2008], tickers=graham_2008)
+def run_all(start, tickers, end=time.strftime("%Y-%m-%d")):
   manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
   # manada2 = ['GRND3', 'WEGE3', 'B3SA3', 'EZTC3', 'RADL3', 'EGIE3', 'ODPV3', 'BBSE3', 'PSSA3', 'ABEV3']
   # mine = ['BBAS3', 'BBDC3', 'BRSR3', 'CARD3', 'CGRA3', 'PETR4', 'QUAL3', 'SAPR4', 'TRPL4', 'VVAR3']
   tickers = prepare(tickers)
   
   click.secho(f"\nRunning Manada Backtest {manada}", fg='black', bg='white', bold=True)
-  run(manada, start)
+  run(manada, start, end)
   
   click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
-  run(tickers, start)
+  return run(tickers, start, end)
 
 # Core method to execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
@@ -143,7 +144,8 @@ def run_all(start, tickers):
 # run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 # run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
-  # end = next_year(start) # Used to execute 1-year backtest
+  if (end == 'next_year'):
+    end = next_year(start)
   tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
   
@@ -168,14 +170,15 @@ def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
   click.secho(f"Montante Inicial: 10.000,00", fg='red', bold=True)
   click.secho(f"Montante Final: {commalize(str(montante))}", fg='blue', bold=True)
   click.secho(f"Valorização: {'{0:.0%}'.format((montante - 10000) / 10000)}", fg='green', bold=True)
-  if (not display): return
+  if (not display): return commalize(str(montante))
 
   # Beautifully plots the result on the screen
   pf.create_returns_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
 
-# Calculate Ibovespa return with R$ 1,000.00 invested
+# Calculate Ibovespa return with R$ 10,000.00 invested
 def bovespa(start, end=time.strftime("%Y-%m-%d")):
-  # end = next_year(start)
+  if (end == 'next_year'):
+    end = next_year(start)
   
   tickers = ['^BVSP']
   
