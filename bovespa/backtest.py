@@ -66,7 +66,28 @@ def replace_outdateds(tickers):
     'SSBR3': 'ALSO3',
     'SNSL3': 'SQIA3',
     'SOND3': 'SOND5',
-    'BIOM4': 'BIOM3'
+    'BIOM4': 'BIOM3',
+    'GPIV11': 'GPIV33',
+    'CZLT11': 'CZLT33',
+    'BBTG12': 'BBTG35',
+    'BBTG13': 'BBTG36',
+    'DAGB11': 'DAGB33',
+    'LATM11': 'LATM33',
+    'VIVT4': 'VIVT3',
+    'VALE5': 'VALE3',
+    'WEGE4': 'WEGE3',
+    'VIVO3': 'VIVT3',
+    'VIVO4': 'VIVT3',
+    'TSPP4': 'VIVT3',
+    'TSPP3': 'VIVT3',
+    'ITAU3': 'ITUB3',
+    'PTBL4': 'PTBL3',
+    'BEMA3': 'TOTS3',
+    'FLCL3': 'ENGI3',
+    'FLCL5': 'ENGI3',
+    'SDIA4': 'BRFS3',
+    'CTAX11': 'ATMP3',
+    'TIET11': 'AESB3'
   }
   return [replacements.get(x, x) for x in tickers]
 
@@ -81,10 +102,20 @@ def remove_delisteds(tickers):
                'ARTR3', 'IMCH3', 'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4', 'AEDU3',
                'AMIL3', 'NETC3', 'WSON11', 'AMPI3', 'OHLB3', 'TMAR5', 'TMAR3', 'MPXE3', 'HRTP3',
                'TAMM4', 'TAMM3', 'RAIA3', 'CLSC6', 'ILMD4', 'FFTL4', 'FFTL3', 'TNLP3', 'UGPA4', 'DOCA4',
-               'PCAR5', 'VIVO4', 'TMAR6', 'VIVO3', 'TEFC11', 'ILMD3', 'AEDU11', 'CLSC5', 'ARTR3', 'IMCH3',
+               'PCAR5', 'TMAR6', 'TEFC11', 'ILMD3', 'AEDU11', 'CLSC5', 'ARTR3', 'IMCH3',
                'CZLT11', 'DAGB11', 'TNCP3', 'BPAT11', 'KROT11', 'TUPY4', 'DOCA3', 'SEBB11', 'TNLP4',
                'DUQE4', 'GVTT3', 'BRTP3', 'BNCA3', 'LCSA4', 'DROG3', 'BAHI4', 'IVTT3', 'BRTO3', 'TMGC11',
-               'TMGC12', 'PRGA3', 'TMCP4', 'TMCP3', 'RNPT4', 'PTPA3', 'RNPT3', 'TMGC3', 'SULT4']
+               'TMGC12', 'PRGA3', 'TMCP4', 'TMCP3', 'RNPT4', 'PTPA3', 'RNPT3', 'TMGC3', 'SULT4', 'CORR4',
+               'IDNT3', 'MILK33', 'MARI3', 'UOLL4', 'HGTX4', 'ETER4', 'ESTC11', 'DAYC4', 'CYRE4', 'BPNM4',
+               'ITAU4', 'BICB3', 'CTSA8', 'IDVL4', 'BICB4', 'MEND5', 'SFSA4', 'BPAR3', 'TIET4', 'TIET3',
+               'RCTB33', 'NUTR3M', 'RCTB31', 'RCTB41', 'TANC4', 'SUZA4', 'RCTB42', 'LLXL3', 'NAFG3',
+               'UBBR3', 'PMET5', 'PMET3', 'CIQU3', 'CIQU4', 'BRGE7', 'SDIA3', 'LFFE4', 'SGEN4', 'SJOS3',
+               'DAGB33', 'LIXC3', 'LIXC4', 'SPRI3', 'SPRI5', 'SPRI6', 'TIBR6', 'GBIO33', 'LIQO3', 'FBMC4',
+               'TRFO3', 'AELP3', 'ELEK3', 'CZLT33', 'MNDL4', 'VCPA4', 'RANI4', 'STLB3', 'TBLE6', 'TIBR3',
+               'RDCD3', 'MYPK4', 'PRGA4', 'ESCE3', 'RHDS3', 'CESP4', 'ROMI4', 'RHDS4', 'NAFG4', 'PALF11',
+               'ALLL4', 'ALLL11', 'ALLL3', 'PALF3', 'CPFP4', 'LIGH3', 'EBTP4', 'EBTP3', 'IDVL3', 'AGEN11',
+               'FIBR3', 'TERI3', 'EBEN4', 'PTBL4', 'TBLE5', 'BISA3', 'SGEN3', 'APTI4', 'BAHI11', 'CCIM3',
+               'ELEK4', 'ALSC3', 'OGXP3']
   return [ticker for ticker in tickers if ticker not in delisteds]
 
 # Replace outdated tickers
@@ -94,17 +125,18 @@ def prepare(tickers):
   return tickers[:10]
 
 # Run all backtests for the provided tickers from the provided year until now
-def run_all(start, tickers):
+# backtest.run_all(start=year[2008], tickers=graham_2008)
+def run_all(start, tickers, end=time.strftime("%Y-%m-%d")):
   manada = ['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3']
   # manada2 = ['GRND3', 'WEGE3', 'B3SA3', 'EZTC3', 'RADL3', 'EGIE3', 'ODPV3', 'BBSE3', 'PSSA3', 'ABEV3']
   # mine = ['BBAS3', 'BBDC3', 'BRSR3', 'CARD3', 'CGRA3', 'PETR4', 'QUAL3', 'SAPR4', 'TRPL4', 'VVAR3']
   tickers = prepare(tickers)
   
   click.secho(f"\nRunning Manada Backtest {manada}", fg='black', bg='white', bold=True)
-  run(manada, start)
+  run(manada, start, end)
   
   click.secho(f"\nRunning Chosen Backtest {tickers}", fg='black', bg='white', bold=True)
-  run(tickers, start)
+  return run(tickers, start, end)
 
 # Core method to execute the backtest from the provided start...end range and using the provided tickers
 # The default value for end is the today's date
@@ -112,7 +144,8 @@ def run_all(start, tickers):
 # run(start='2015-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 # run(start='2015-04-05', end='2016-04-05', tickers=['ABEV3', 'EGIE3', 'WEGE3', 'ITUB3', 'MDIA3', 'GRND3', 'ODPV3', 'ENBR3', 'PSSA3', 'FLRY3'])
 def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
-  # end = next_year(start) # Used to execute 1-year backtest
+  if (end == 'next_year'):
+    end = next_year(start)
   tickers = list(map(lambda t: t + '.SA', tickers)) # Add '.SA' on the ending of the tickers
   tickers += ['^BVSP'] # Add Ibovespa index to tickers
   
@@ -137,14 +170,15 @@ def run(tickers, start, end=time.strftime("%Y-%m-%d"), display=False):
   click.secho(f"Montante Inicial: 10.000,00", fg='red', bold=True)
   click.secho(f"Montante Final: {commalize(str(montante))}", fg='blue', bold=True)
   click.secho(f"Valorização: {'{0:.0%}'.format((montante - 10000) / 10000)}", fg='green', bold=True)
-  if (not display): return
+  if (not display): return commalize(str(montante))
 
   # Beautifully plots the result on the screen
   pf.create_returns_tear_sheet(carteira['retorno'], benchmark_rets=retorno['^BVSP'])
 
-# Calculate Ibovespa return with R$ 1,000.00 invested
+# Calculate Ibovespa return with R$ 10,000.00 invested
 def bovespa(start, end=time.strftime("%Y-%m-%d")):
-  # end = next_year(start)
+  if (end == 'next_year'):
+    end = next_year(start)
   
   tickers = ['^BVSP']
   
