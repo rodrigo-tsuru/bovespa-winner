@@ -54,6 +54,7 @@ import pyperclip
 
 # Populate shares panda dataframe with the provided year
 def populate_shares(year):
+  print("Populating {}".format(year))
   globals()['year'] = year
   globals()['infos'] = {}
   
@@ -66,7 +67,7 @@ def populate_shares(year):
   shares = shares[shares['Liquidez 2 meses'] > 0]
   shares['Ranking (Graham)'] = 0
   
-  fill_infos(shares)
+  #fill_infos(shares)
   
   shares = add_ratings(shares)
   
@@ -159,7 +160,8 @@ def add_ratings(shares):
   fill_fair_price(shares)
   fill_score(shares)
   fill_score_explanation(shares)
-  return fill_special_infos(shares)
+  #return fill_special_infos(shares)
+  return shares
 
 # Inicializa os índices
 def add_graham_columns(shares):
@@ -177,6 +179,7 @@ def add_graham_columns(shares):
 def fill_fair_price(shares):
   for index in range(len(shares)):
     if ((shares['P/L'][index] > 0) & (shares['P/VP'][index] > 0)):
+      print(shares)
       shares['Preço Justo (Graham)'][index] = sqrt(Decimal(22.5) * (shares['Cotação'][index] / shares['P/L'][index]) * (shares['Cotação'][index] / shares['P/VP'][index]))
     else:
       shares['Preço Justo (Graham)'][index] = 0

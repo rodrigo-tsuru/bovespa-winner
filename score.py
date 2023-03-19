@@ -105,15 +105,17 @@ def improve_score_explanation(shares, year):
 
 # Reordena a tabela para mostrar a Cotação, o Valor Intríseco e o Graham Score como primeiras colunass
 def reorder_columns(shares):
-  columns = ['Ranking', 'Cotação', 'Preço Justo', 'Graham Score', 'Setor', 'Subsetor', 'Segmento', 'PEG Ratio']
+  columns = ['Ranking', 'Cotação', 'Preço Justo (Graham)', 'Graham Score', 'Setor', 'Subsetor', 'Segmento', 'PEG Ratio']
   return shares[columns + [col for col in shares.columns if col not in tuple(columns)]]
 
 # python3 score.py "{ 'year': 2013 }"
 if __name__ == '__main__':
   from waitingbar import WaitingBar
+  df = pandas.DataFrame()
+  df.to_excel("teste.xlsx")
   progress_bar = WaitingBar('[*] Calculating...')
   
-  shares = graham.populate_shares(sys)
+  shares = graham.populate_shares(2023)
   year = graham.year
   
   improve_ratings(shares, year)
@@ -124,6 +126,7 @@ if __name__ == '__main__':
   
   shares = reorder_columns(shares)
   
-  backtest.display_shares(shares, year)
+  #backtest.display_shares(shares, year)
+  shares.to_excel("score.xlsx")
   
   progress_bar.stop()
